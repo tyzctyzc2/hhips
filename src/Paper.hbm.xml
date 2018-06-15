@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 27, 2018 2:37:27 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="db.Paper" table="PAPER">
+        <id name="idpaper" type="java.lang.Integer">
+            <column name="IDPAPER" />
+            <generator class="assigned" />
+        </id>
+        <property name="papername" type="java.lang.String">
+            <column name="PAPERNAME" />
+        </property>
+        <property name="paperdate" type="java.util.Date">
+            <column name="PAPERDATE" />
+        </property>
+        <property name="isactive" type="java.lang.Integer">
+            <column name="ISACTIVE" />
+        </property>
+    </class>
+</hibernate-mapping>

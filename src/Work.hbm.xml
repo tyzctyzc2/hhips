@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "db.Work" table = "work">
+      
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      
+      <id name = "idwork" type = "int" column = "idwork">
+         <generator class="native"/>
+      </id>
+      
+      <property name = "workdate" column = "workdate" type = "java.util.Date"/>
+      <property name = "idproblem" column = "idproblem" type = "int"/>
+      <property name = "usedtime" column = "usedtime" type = "int"/>
+      <property name = "workdetail" column = "workdetail" type = "string"/>
+      <property name = "workmark" column = "workmark" type = "int"/>
+      <property name = "reason" column = "reason" type = "int"/>
+      
+   </class>
+</hibernate-mapping>

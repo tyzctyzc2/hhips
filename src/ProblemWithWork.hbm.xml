@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+  <class name = "db.ProblemWithWork" table = "v_problem">
+     
+     <meta attribute = "class-description">
+        This class contains the problem detail. 
+     </meta>
+     
+     <id name = "idproblem" type = "int" column = "idproblem">
+        <generator class="native"/>
+     </id>
+     
+     <property name = "problemlevel" column = "problemlevel" type = "int"/>
+     <property name = "problemchapterid" column = "problemchapterid" type = "int"/>
+     <property name = "problemindex" column = "problemindex" type = "string"/>
+     <property name = "problemmodule" column = "problemmodule" type = "int"/>
+     <property name = "problemcisactive" column = "problemcisactive" type = "int"/>
+     <property name = "problemanswerstring" column = "problemanswerstring" type = "string"/>
+     <property name = "problemdetail" column = "problemdetail" type = "string"/>
+     <property name = "problemanswerdetail" column = "problemanswerdetail" type = "string"/>
+     <property name = "modulename" column = "modulename" type = "string"/>
+     
+     
+     <set name="myWork" table="work" order-by="idwork desc" cascade="all">
+           <key>
+               <column name="idproblem" />
+           </key>
+           <one-to-many class="db.Work" />
+	 </set>
+     
+  </class>
+</hibernate-mapping>
