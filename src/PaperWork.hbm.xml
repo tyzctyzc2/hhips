@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 17, 2018 8:01:45 AM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="db.PaperWork" table="PAPERWORK">
+        <id name="idpaperwork" type="int">
+            <column name="IDPAPERWORK" />
+            <generator class="native" />
+        </id>
+        <property name="idpaper" type="int">
+            <column name="IDPAPER" />
+        </property>
+        <property name="idwork" type="int">
+            <column name="IDWORK" />
+        </property>
+        <property name="idproblem" type="int">
+            <column name="idproblem" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

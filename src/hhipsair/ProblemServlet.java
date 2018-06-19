@@ -79,10 +79,14 @@ public class ProblemServlet extends HttpServlet {
 			int showA = 0;
 			if (showAnswer != null)
 				showA = 1;
-			if (paperID.indexOf("-1") >-1)
+			if (paperID.indexOf("-1") >-1) {
+				System.out.println("get all paper list");
 				getPaperList(response);
-			else
+			}
+			else {
+				System.out.println("get paper list of " + request.getParameter("paperid"));
 				getPaperProblemList(response, request.getParameter("paperid"), showA);
+			}
 		} else {
 			response.getWriter().append("don't know how to process your request!");
 		}

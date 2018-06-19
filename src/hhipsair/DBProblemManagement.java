@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import db.Chapter;
 import db.Module;
 import db.Paper;
+import db.PaperWork;
 import db.Paperproblem;
 import db.Source;
 import db.SourceChapter;
@@ -92,6 +93,28 @@ public class DBProblemManagement {
 		return results;
 	}
 	
+	boolean insertPaperWork(int idwork, int idpaper, int idproblem) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+
+		PaperWork pw = new PaperWork();
+		pw.setIdpaper(idpaper);
+		pw.setIdwork(idwork);
+		pw.setIdproblem(idproblem);
+		try {
+			tx = session.beginTransaction();
+			session.save(pw);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return true;
+	}
+	
 	public boolean UpdatePaperProblemAfterWork(int workid, String workJSON) {
 		int problemid=0;
 		int paperproblemid=0;
@@ -113,7 +136,6 @@ public class DBProblemManagement {
 		Session session = factory.openSession();
 
 		Criteria cr = session.createCriteria(db.Paperproblem.class);
-		//cr.add(Restrictions.eq("paperproblemid", paperproblemid));
 		cr.add(Restrictions.eq("problemid", problemid));
 		List<Paperproblem> results = cr.list();
 		if(results.size() == 0) {
@@ -136,7 +158,8 @@ public class DBProblemManagement {
 		} finally {
 			session.close();
 		}
-		return true;
+		
+		return insertPaperWork(workid, pp.getPaperid(), pp.getProblemid());
 	}
 	
 	public boolean ChangeProblemPaperStatus(int problemid, int paperproblemid, int problemstatus) {
@@ -170,6 +193,7 @@ public class DBProblemManagement {
 		Session session = factory.openSession();
 
 		Paperproblem pp = new Paperproblem();
+		pp.setProblemstatus(1);
 		pp.setPaperid(paperID);
 		pp.setProblemid(problemID);
 		

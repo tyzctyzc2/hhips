@@ -12,13 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import db.Work.WorkColumnName;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import freemarker.template.Configuration;
 
 /**
  * Servlet implementation class WorkServlet
  */
-@WebServlet("/Work")
+@WebServlet({"/Work","/Work/Mark"})
 public class WorkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Configuration configuration = null;
@@ -63,22 +65,53 @@ public class WorkServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
+	
+	void processMarkWork(String requestJSON, HttpServletResponse response) {
+		System.out.println(requestJSON);
+		JSONObject jsonObject;
+		int idwork = 0;
+		int workmark = -1;
+		try {
+			jsonObject = new JSONObject(requestJSON);
+			idwork = jsonObject.getInt("idwork");
+			workmark = jsonObject.getInt("workmark");
+
+			DBProblemManagement dbm = new DBProblemManagement();
+			if (workmark == 1) {//wrong case
+				dbm.ChangeProblemPaperStatus(jsonObject.getInt("idproblem"), jsonObject.getInt("paperproblemid"), 1);
+			}
+			else if (workmark == 0) {//correct case
+				dbm.ChangeProblemPaperStatus(jsonObject.getInt("idproblem"), jsonObject.getInt("paperproblemid"), 3);
+			}
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		 DBWork dbWork = new DBWork();
+		 if (dbWork.updateWorkMark(idwork, workmark)==true)
+			try {
+				response.getWriter().append("{\"Success\":1} ");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+			try {
+				response.getWriter().append("{\"Success\":0} ");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return;
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("idwork") != null) {
-			System.out.println("get mark request");
+		
+		System.out.println("get work change request");
 			
-			 DBWork dbWork = new DBWork();
-			 if (dbWork.updateWorkMark(Integer.parseInt(request.getParameter("idwork")), Integer.parseInt(request.getParameter("workmark")))==true)
-				 response.getWriter().append("{\"Success\":1} ");
-			else
-				response.getWriter().append("{\"Success\":0} ");
-			return;
-		}
-		System.out.println("get save request");
 		StringBuffer jb = new StringBuffer();
 		  String line = null;
 		  try {
@@ -89,7 +122,15 @@ public class WorkServlet extends HttpServlet {
 			  System.out.println(e.toString());
 		  }
 		  
-		  System.out.println(jb.toString());
+		  if (jb.toString().length() == 0) {
+			  System.out.println("empty new work!!!");
+		  }
+
+		  if (jb.toString().indexOf("idwork") > 0) {
+			  System.out.println("mark a work request");
+			  processMarkWork(jb.toString(), response);
+			  return;
+		  }
 		  
 		  DBWork dbWork = new DBWork();
 

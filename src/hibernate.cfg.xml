@@ -27,6 +27,7 @@
       <mapping resource = "Paper.hbm.xml"/>
       <mapping resource = "Paperproblem.hbm.xml"/>
       <mapping resource = "ProblemByPaper.hbm.xml"/>
+      <mapping resource = "PaperWork.hbm.xml"/>
       
       
    </session-factory>
