@@ -124,6 +124,8 @@ public class WorkServlet extends HttpServlet {
 		  
 		  if (jb.toString().length() == 0) {
 			  System.out.println("empty new work!!!");
+			  response.getWriter().append("empty new work!!!");
+			  return;
 		  }
 
 		  if (jb.toString().indexOf("idwork") > 0) {

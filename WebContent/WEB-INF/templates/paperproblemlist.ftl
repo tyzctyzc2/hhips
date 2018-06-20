@@ -34,79 +34,100 @@
 	<body>
 		<h1>${papername}</h1>
 		<#if max != -1>
-			<table style="font-size:  x-large;">
-					<#list 0..max as i>
-						<tr class="edge">
-							<td>
-								<img id="myImage" class="center-fit" src=${problems[i].problemdetail} />
-							</td>
-						</tr>	
-						<#if showAnswer != 0>
-							<#if problems[i].problemstatus != 0>
-								<tr class="edge">
-									<#if problems[i].workdetail??>
-										<td>
-											<img id="myImage3" class="center-fit" src=${problems[i].workdetail} />
-										</td>
-									</#if>
-									<td>
-										${problems[i].usedtime}
-									</td>
-									<td>
-										<#if problems[i].workmark??>
-											<#if problems[i].workmark == 0>
-												<button class="bigFont right" type="button" onclick="markRight(${problems[i].idwork})">Correct</button>
-											<#else>
-												<button class="bigFont wrong" type="button" onclick="markRight(${problems[i].idwork})">Correct</button>
-											</#if>
-										<#else>
-											<button class="bigFont" type="button" onclick="markRight(${problems[i].idwork})">Correct</button>
-										</#if>
-									</td>
-									<td>
-										<button class="bigFont" type="button" onclick="markWrong(${problems[i].idwork})">Wrong</button>
-									</td>
-								</tr>
-							</#if>	
-						</#if>
-						<#if showAnswer != 0>
+			<#list 0..max as i>
+				<table style="font-size:  x-large;">
+					<tr class="edge">
+						<td>
+							<img id="myImage" class="center-fit" src=${problems[i].problemdetail} />
+						</td>
+					</tr>	
+				</table>
+				<#if showAnswer != 0>
+					<#if problems[i].workdetail??>
+						<table style="font-size:  x-large;">
 							<tr class="edge">
 								<td>
-									<img id="myImage2" class="center-fit" src=${problems[i].problemanswerdetail} />
+									${problems[i].usedtime}
 								</td>
-							</tr>	
-						</#if>
-						<tr>
+								<#if problems[i].problemstatus == 1>
+									<td class="bigFont">
+										Wait to do
+									</td>
+								</#if>
+								<#if problems[i].problemstatus == 2>
+									<td class="bigFont">
+										Wait to mark
+									</td>
+								</#if>
+								<#if problems[i].problemstatus == 3>
+									<td class="bigFont">
+										Done
+									</td>
+								</#if>
+							</tr>
+						</table>
+						<table style="font-size:  x-large;">
+							<tr class="edge">
+								<td>
+									<img id="myImage3" class="center-fit" src=${problems[i].workdetail} />
+								</td>
+								<#if problems[i].workmark??>
+									<#if problems[i].workmark == 0>
+										<button class="bigFont right" type="button" onclick="markRight(${problems[i].idwork}, ${problems[i].paperproblemid},  ${problems[i].idproblem})">Correct</button>
+									<#else>
+										<button class="bigFont wrong" type="button" onclick="markRight(${problems[i].idwork}, ${problems[i].paperproblemid},  ${problems[i].idproblem})">Correct</button>
+									</#if>
+								<#else>	
+									<button class="bigFont" type="button" onclick="markRight(${problems[i].idwork}, ${problems[i].paperproblemid},  ${problems[i].idproblem})">Correct</button>
+								</#if>
+								<button class="bigFont" type="button" onclick="markWrong(${problems[i].idwork}, ${problems[i].paperproblemid},  ${problems[i].idproblem})">Wrong</button>
+							</tr>
+						</table>
+					</#if>	
+					<table style="font-size:  x-large;">
+						<tr class="edge">
 							<td>
-								<br></br>
-							</td>
-							<td>
-								<br></br>
+								<img id="myImage2" class="center-fit" src=${problems[i].problemanswerdetail} />
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<br></br>
-							</td>
-							<td>
-								<br></br>
-							</td>
-						</tr>
-					</#list>
-			</table>
+					</table>	
+				</#if>
+				<tr>
+					<td>
+						<br></br>
+					</td>
+					<td>
+						<br></br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br></br>
+					</td>
+					<td>
+						<br></br>
+					</td>
+				</tr>
+			</#list>
 		</#if>
 		
 	</body>
 	<script>
-		function markRight(idwork) {
-			var url = "/hhipsair/Work?idwork="+idwork+"&workmark=0";
+		function markRight(idwork, paperproblemid, idproblem) {
+			var pData = {};
+			pData.idwork=idwork;
+			pData.workmark=0;
+			pData.paperproblemid=paperproblemid;
+			pData.idproblem=idproblem;
+			
+			var url = "/hhipsair/Work";
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
 			    url: url,
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType
-			    data: false,
+			    data: JSON.stringify(pData),
 				success: function(msg) {
 			    	window.location.reload();
 				},
@@ -115,15 +136,20 @@
 			    }
 			})
 		}
-		function markWrong(idwork) {
-			var url = "/hhipsair/Work?idwork="+idwork+"&workmark=1";
+		function markWrong(idwork, paperproblemid, idproblem) {
+			var pData = {};
+			pData.idwork=idwork;
+			pData.workmark=1;
+			pData.paperproblemid=paperproblemid;
+			pData.idproblem=idproblem;
+			var url = "/hhipsair/Work";
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
 			    url: url,
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType
-			    data: false,
+			    data: JSON.stringify(pData),
 				success: function(msg) {
 			    	window.location.reload();
 				},
