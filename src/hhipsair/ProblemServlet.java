@@ -50,7 +50,7 @@ public class ProblemServlet extends HttpServlet {
 			} catch (Exception e) {
 				chapterID = 1;
 			}
-			System.out.println("create new problem in chapter " + Integer.toString(chapterID));
+			System.out.println("ProblemServlet -- create new problem page for chapter " + Integer.toString(chapterID));
 			getNewProblmCase(response, chapterID);
 			return;
 		} else if (request.getParameter("problemid") != null) {
@@ -61,10 +61,11 @@ public class ProblemServlet extends HttpServlet {
 				response.getWriter().append("wrong problem ID " + request.getParameter("problemid"));
 				return;
 			}
-			System.out.println("get problem detail " + Integer.toString(problemID));
+			System.out.println("ProblemServlet -- get problem detail " + Integer.toString(problemID));
 			getProblemDetailCase(response, problemID);
 			return;
 		} else if (request.getParameter("active") != null) {
+			System.out.println("ProblemServlet -- get next active problem");
 			int activeLevel = 0;
 			try {
 				activeLevel = Integer.parseInt(request.getParameter("active"));
@@ -75,12 +76,13 @@ public class ProblemServlet extends HttpServlet {
 			getProblemNextActive(response, activeLevel);
 		} else if (request.getParameter("paperid") != null) {
 			String paperID = request.getParameter("paperid");
+			System.out.println("ProblemServlet -- get problem in paper " + paperID);
 			String showAnswer = request.getParameter("showanswer");
 			int showA = 0;
 			if (showAnswer != null)
 				showA = 1;
 			if (paperID.indexOf("-1") >-1) {
-				System.out.println("get all paper list");
+				System.out.println("ProblemServlet -- get all paper list");
 				getPaperList(response);
 			}
 			else {
@@ -204,11 +206,12 @@ public class ProblemServlet extends HttpServlet {
 			System.out.println(e.toString());
 		}
 
-		System.out.println(jb.toString());
+		if (jb.toString().length() < 500)
+			System.out.println(jb.toString());
 		
 		String activeLevel = request.getParameter("active");
 		if (activeLevel != null) {
-			System.out.println("active request");
+			System.out.println("ProblemServlet - active request");
 			String problemIDString = request.getParameter("problemid");
 			String paperIDString = request.getParameter("paperid");
 			doActiveProblem(response, Integer.parseInt(problemIDString), Integer.parseInt(activeLevel), Integer.parseInt(paperIDString));
@@ -217,7 +220,7 @@ public class ProblemServlet extends HttpServlet {
 		
 		String problemstatus = request.getParameter("problemstatus");
 		if (problemstatus != null) {
-			System.out.println("change problem status");
+			System.out.println("ProblemServlet - change problem status");
 			String problemid = request.getParameter("problemid");
 			String paperproblemid = request.getParameter("paperproblemid");
 			doChangeProblemStatus(response, Integer.parseInt(problemid), Integer.parseInt(paperproblemid), Integer.parseInt(problemstatus));
@@ -226,7 +229,7 @@ public class ProblemServlet extends HttpServlet {
 		
 		String deleteProblemID = request.getParameter("delete");
 		if (deleteProblemID != null) {
-			System.out.println("delete request");
+			System.out.println("ProblemServlet - delete request");
 			int problemID = Integer.parseInt(deleteProblemID);
 			DBProblem dbProblem = new DBProblem();
 			dbProblem.deleteProblem(problemID);
@@ -235,12 +238,13 @@ public class ProblemServlet extends HttpServlet {
 		}
 
 		DBProblem dbProblem = new DBProblem();
-
-		if (dbProblem.PushProblem(jb.toString()) == false) {
-			response.getWriter().append("Save failed at: ").append(request.getContextPath());
+		System.out.println("ProblemServlet - create new problem request");
+		Integer newProblemID =dbProblem.PushProblem(jb.toString()); 
+		if (newProblemID == 0) {
+			response.getWriter().append("0");
 		}
 
-		response.getWriter().append("Save at: ").append(request.getContextPath());
+		response.getWriter().append(newProblemID.toString());
 	}
 
 	private void doChangeProblemStatus(HttpServletResponse response, int problemid, int paperproblemid, int problemstatus) throws IOException {

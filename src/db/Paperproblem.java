@@ -7,6 +7,10 @@ package db;
  */
 public class Paperproblem implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7840552136163598987L;
 	private Integer paperproblemid;
 	private int paperid;
 	private int problemid;

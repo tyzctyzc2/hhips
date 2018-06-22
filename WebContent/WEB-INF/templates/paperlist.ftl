@@ -2,24 +2,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Source List</title>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		.imgbox {
-			display: grid;
-			height: 100%;
-		}
-		.center-fit {
-			max-width: 100%;
-			max-height: 100vh;
-			margin: auto;
-		}
-		.edge {
-			box-shadow: 0px 0px 2px 2px rgba(0,0,255,.4);
-		}
-	</style>
+	<link href="myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
 		<h1>Source List</h1>
@@ -37,9 +20,36 @@
 							</td>
 							<td>
 								<a href="/hhipsair/Problem?paperid=${papers[i].idpaper}&showanswer=1" style="text-decoration: none">
-									<p>${papers[i].papername} Answer </p>
+									<p>${papers[i].papername} Answer &nbsp;&nbsp;&nbsp;</p>
 								</a>
 							</td>
+							<#if papers[i].isactive == 1>
+								<td>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},1)">In Edit</button>
+								</td>
+							<#else>
+								<td>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},1)">In Edit</button>
+								</td>
+							</#if>
+							<#if papers[i].isactive == 2>
+								<td>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},2)">Active</button>
+								</td>
+							<#else>
+								<td>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},2)">Active</button>
+								</td>
+							</#if>
+							<#if papers[i].isactive == 3>
+								<td>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},3)">Done</button>
+								</td>
+							<#else>
+								<td>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},3)">Done</button>
+								</td>
+							</#if>
 						</tr>	
 					</#list>
 			</table>

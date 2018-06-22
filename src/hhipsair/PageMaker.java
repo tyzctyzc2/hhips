@@ -9,6 +9,7 @@ import db.Module;
 import db.Paper;
 import db.Problem;
 import db.ProblemByPaper;
+import db.ProblemWithLastWork;
 import db.ProblemWithWork;
 import db.SourceChapter;
 import db.Work;
@@ -29,7 +30,7 @@ public class PageMaker {
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("chapername", chapterName);
 		root.put("chaperid", chapterID);
-		List<ProblemWithWork> problems = myDBProblem.getProblemByCharpter(chp.getIdsourcechapter());
+		List<ProblemWithLastWork> problems = myDBProblem.getProblemWithLastWorkByCharpter(chp.getIdsourcechapter());
 		root.put("problems", problems);
 		if (problems.size() == 0) {
 			root.put("max", -1);

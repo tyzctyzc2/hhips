@@ -15,6 +15,7 @@
       <property name = "hibernate.connection.username">hh</property>
       
       <property name = "hibernate.connection.password">1234</property>
+      <property name="hibernate.current_session_context_class">thread</property>
       
       <!-- List of XML mapping files -->
       <mapping resource = "Problem.hbm.xml"/>
@@ -28,6 +29,7 @@
       <mapping resource = "Paperproblem.hbm.xml"/>
       <mapping resource = "ProblemByPaper.hbm.xml"/>
       <mapping resource = "PaperWork.hbm.xml"/>
+      <mapping resource = "ProblemWithLastWork.hbm.xml"/>
       
       
    </session-factory>

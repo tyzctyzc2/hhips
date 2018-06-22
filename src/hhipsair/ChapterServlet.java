@@ -71,20 +71,21 @@ public class ChapterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		init();
 		if (request.getParameter("chapterid") != null) {
+			System.out.println("ChapterServlet -- get chapter problem chapterid = "+request.getParameter("chapterid"));
 			getChapterProblems(response, request.getParameter("chapterid"));
 			return;
 		} else if (request.getParameter("sourceid") != null) {
+			System.out.println("ChapterServlet -- get chapter list in sourceid = "+request.getParameter("sourceid"));
 			getChapterList(response, request.getParameter("sourceid"));
 			return;
 		} else {
-			response.getWriter().append("don't know how to process your request!");
+			response.getWriter().append("ChapterServlet -- don't know how to process your request!");
 		}
 	}
 
 	private void getChapterList(HttpServletResponse response, String sourceIDString)
 			throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, ServletException {
 
-		System.out.println(sourceIDString);
 		int sourceID = 0;
 		try {
 			sourceIDString = sourceIDString.replace(",", "");

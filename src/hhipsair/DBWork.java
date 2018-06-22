@@ -9,53 +9,39 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import db.Problem;
+import db.HibernateUtils;
 import db.Work;
 import db.Work.WorkColumnName;
 
 public class DBWork {
-	SessionFactory factory;
 	public static String absolutePath = "";
 	
 	public DBWork() {
-		try {
-			Configuration cfg = new Configuration();
-			cfg.configure("hibernate.cfg.xml");
-			// factory = new Configuration().configure().buildSessionFactory();
-			factory = cfg.buildSessionFactory();
-		} catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			// throw new ExceptionInInitializerError(ex);
-			factory = null;
-		}
 	}
 	
 	public List<Work> getProblemAllWork(int problemID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
+		session.beginTransaction();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
         Root<Work> itemRoot = criteriaQuery.from(Work.class);
         criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), problemID));
-        return session.createQuery(criteriaQuery).getResultList();
+        List<Work> all =  session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        return all;
 	}
 
 	public int PushWork(String workJSON) {
-		if (factory == null)
-			return 0;
-
 		int pID = 0;
-		//System.out.println(workJSON);
+
 		try {
 			JSONObject jsonObject = new JSONObject(workJSON);
 			Work w = new Work();
@@ -105,7 +91,7 @@ public class DBWork {
 	
 	public boolean updateWorkMark(int idWork, int mark) {
 	
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
@@ -123,7 +109,7 @@ public class DBWork {
 
 	private boolean updateWork(Work w) {
 		
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		boolean suc = false;
 
@@ -143,7 +129,7 @@ public class DBWork {
 	}
 
 	private int insertWork(Work w) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		int workID = 0;
 

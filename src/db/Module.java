@@ -8,6 +8,10 @@ import java.util.Set;
  */
 public class Module implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2692219131681932676L;
 	private Integer idmodule;
 	private String modulename;
 	private Set problems = new HashSet(0);

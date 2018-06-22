@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 22, 2018 1:37:27 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="db.ProblemWithLastWork" table="v_chapterproblemwithlastwork">
+	    <id name = "idproblem" type = "int" column = "idproblem">
+	        <generator class="native"/>
+	     </id>
+        <property name="usedtime" type="java.lang.Integer">
+            <column name="USEDTIME" />
+        </property>
+        <property name="workmark" type="java.lang.Integer">
+            <column name="WORKMARK" />
+        </property>
+        <property name="workdetail" type="java.lang.String">
+            <column name="WORKDETAIL" />
+        </property>
+        <property name="modulename" type="java.lang.String">
+            <column name="modulename" />
+        </property>
+        <property name="reason" type="java.lang.Integer">
+            <column name="REASON" />
+        </property>
+        <property name="problemchapterid" type="java.lang.Integer">
+            <column name="PROBLEMCHAPTERID" />
+        </property>
+        <property name="idwork" type="java.lang.Integer">
+            <column name="IDWORK" />
+        </property>
+        <property name="problemanswerdetail" type="java.lang.String">
+            <column name="PROBLEMANSWERDETAIL" />
+        </property>
+        <property name="problemanswerstring" type="java.lang.String">
+            <column name="PROBLEMANSWERSTRING" />
+        </property>
+        <property name="problemcisactive" type="java.lang.Integer">
+            <column name="PROBLEMCISACTIVE" />
+        </property>
+        <property name="problemdetail" type="java.lang.String">
+            <column name="PROBLEMDETAIL" />
+        </property>
+        <property name="problemindex" type="java.lang.String">
+            <column name="PROBLEMINDEX" />
+        </property>
+        <property name="problemlevel" type="java.lang.Integer">
+            <column name="PROBLEMLEVEL" />
+        </property>
+        <property name="problemmodule" type="java.lang.Integer">
+            <column name="PROBLEMMODULE" />
+        </property>
+        
+        <property name="workdate" type="java.util.Date">
+            <column name="workdate" />
+        </property>
+    </class>
+</hibernate-mapping>

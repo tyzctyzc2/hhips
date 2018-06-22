@@ -1,21 +1,14 @@
 package hhipsair;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,75 +19,97 @@ import db.PaperWork;
 import db.Paperproblem;
 import db.Source;
 import db.SourceChapter;
-import db.Work;
 import db.Chapter.ChapterColumnName;
+import db.HibernateUtils;
 import db.Work.WorkColumnName;
 
 public class DBProblemManagement {
-	SessionFactory factory;
 
 	public DBProblemManagement() {
-		try {
-			Configuration cfg = new Configuration();
-			cfg.configure("hibernate.cfg.xml");
-			// factory = new Configuration().configure().buildSessionFactory();
-			factory = cfg.buildSessionFactory();
-		} catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			// throw new ExceptionInInitializerError(ex);
-			factory = null;
-		}
 	}
 	
 	public String getSourceName(int sourceID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
-		Criteria cr = session.createCriteria(db.Source.class);
-		cr.add(Restrictions.eq("idsource", sourceID));
-		List<db.Source> results = cr.list();
-		return results.get(0).getSourcename();
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Source> criteriaQuery = criteriaBuilder.createQuery(Source.class);
+        Root<Source> itemRoot = criteriaQuery.from(Source.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idsource"), sourceID));
+        List<Source> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		
+		return all.get(0).getSourcename();
 	}
 	
 	public List<db.Source> getAllSource() {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
+		
+		session.beginTransaction();
 		
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Source> criteriaQuery = criteriaBuilder.createQuery(Source.class);
         Root<Source> itemRoot = criteriaQuery.from(Source.class);
         criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idsource"), 0));
-        return session.createQuery(criteriaQuery).getResultList();
+        List<Source> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		
+        return all;
 	}
 	
 	public List<Module> getAllModule() {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
-		Criteria cr = session.createCriteria(db.Module.class);
-		List<Module> results = cr.list();
+		session.beginTransaction();
 		
-		return results;
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Module> criteriaQuery = criteriaBuilder.createQuery(Module.class);
+        Root<Module> itemRoot = criteriaQuery.from(Module.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idmodule"), 0));
+        List<Module> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		
+		return all;
 	}
 	
 	public List<Paper> getAllPapers() {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
-		Criteria cr = session.createCriteria(db.Paper.class);
-		List<Paper> results = cr.list();
+		session.beginTransaction();
 		
-		return results;
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+        Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idpaper"), 0));
+        List<Paper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		
+		return all;
 	}
 	
 	public List<Paper> getAllEditPapers() {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
-		Criteria cr = session.createCriteria(db.Paper.class);
-		cr.add(Restrictions.eq("isactive", 1));
-		List<Paper> results = cr.list();
+		session.beginTransaction();
 		
-		return results;
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+        Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 1));
+        List<Paper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		
+		return all;
 	}
 	
 	boolean insertPaperWork(int idwork, int idpaper, int idproblem) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 
 		PaperWork pw = new PaperWork();
@@ -133,22 +148,31 @@ public class DBProblemManagement {
 			return false;
 		if (paperproblemid==0)
 			return false;
-		Session session = factory.openSession();
+		System.out.println("Save work problemid = "+String.valueOf(problemid)+" paperproblemid="+String.valueOf(paperproblemid));
+		Session session = HibernateUtils.openCurrentSession();
+		
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
+        Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemid"), problemid));
+        List<Paperproblem> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
 
-		Criteria cr = session.createCriteria(db.Paperproblem.class);
-		cr.add(Restrictions.eq("problemid", problemid));
-		List<Paperproblem> results = cr.list();
-		if(results.size() == 0) {
+		if(all.size() == 0) {
 			System.out.println("not find matched paper problem, cannot update work in this case");
 			return false;
 		}
 		
-		Paperproblem pp = results.get(0);
+		Paperproblem pp = all.get(0);
 		pp.setProblemstatus(2);
 		pp.setIdwork(workid);
 		Transaction tx = null;
 
 		try {
+			session = HibernateUtils.openCurrentSession(); 
 			tx = session.beginTransaction();
 			session.update(pp);
 			tx.commit();
@@ -163,16 +187,23 @@ public class DBProblemManagement {
 	}
 	
 	public boolean ChangeProblemPaperStatus(int problemid, int paperproblemid, int problemstatus) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 
-		Criteria cr = session.createCriteria(db.Paperproblem.class);
-		cr.add(Restrictions.eq("paperproblemid", paperproblemid));
-		cr.add(Restrictions.eq("problemid", problemid));
-		List<Paperproblem> results = cr.list();
-		if(results.size() == 0)
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
+        Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("paperproblemid"), paperproblemid));
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemid"), problemid));
+        List<Paperproblem> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        
+		if(all.size() == 0)
 			return false;
 		
-		Paperproblem pp = results.get(0);
+		Paperproblem pp = all.get(0);
 		pp.setProblemstatus(problemstatus);
 		Transaction tx = null;
 
@@ -190,43 +221,61 @@ public class DBProblemManagement {
 	}
 	
 	public boolean createPaperProblem(int problemID, int paperID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 
 		Paperproblem pp = new Paperproblem();
 		pp.setProblemstatus(1);
 		pp.setPaperid(paperID);
 		pp.setProblemid(problemID);
 		
-		Criteria cr = session.createCriteria(db.Paperproblem.class);
-		cr.add(Restrictions.eq("paperid", paperID));
-		cr.add(Restrictions.eq("problemid", problemID));
-		List<Paper> results = cr.list();
-		if(results.size() > 0)
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
+        Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("paperid"), paperID));
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemid"), problemID));
+        List<Paperproblem> all = session.createQuery(criteriaQuery).getResultList();
+        
+        
+        session.getTransaction().commit();
+		if(all.size() > 0) {
 			return true;
+		}
 
 		try {
+			session = HibernateUtils.openCurrentSession();
+			session.beginTransaction();
 			problemID = (Integer) session.save(pp);
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return false;
 		} finally {
-			session.close();
+			//session.close();
+			session.getTransaction().commit();
 		}
 		return true;
 	}
 	
 	//chapter part
 	public String getChaperName(Chapter c) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		
-		Criteria cr = session.createCriteria(db.Chapter.class);
-		cr.add(Restrictions.eq("idsourcechapter", c.getIdsourcechapter()));
-		List<Chapter> results = cr.list();
-		return results.get(0).getSourcechaptername();
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Chapter> criteriaQuery = criteriaBuilder.createQuery(Chapter.class);
+        Root<Chapter> itemRoot = criteriaQuery.from(Chapter.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idsourcechapter"), c.getIdsourcechapter()));
+        List<Chapter> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        
+		return all.get(0).getSourcechaptername();
 	}
 	
 	int insertChapter(Chapter p) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		int problemID = 0;
 
@@ -245,8 +294,6 @@ public class DBProblemManagement {
 	}
 	
 	public int createNewChapter(String json) {
-		if (factory == null)
-			return 0;
 
 		int cID=0;
 		try {
@@ -272,12 +319,19 @@ public class DBProblemManagement {
 	}
 	
 	public List<SourceChapter> getChapterList(int sourceID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
+		
+		session.beginTransaction();
 		
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<SourceChapter> criteriaQuery = criteriaBuilder.createQuery(SourceChapter.class);
         Root<SourceChapter> itemRoot = criteriaQuery.from(SourceChapter.class);
         criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("sourceid"), sourceID));
-        return session.createQuery(criteriaQuery).getResultList();
+        List<SourceChapter> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        
+		
+		return all;
 	}
 }

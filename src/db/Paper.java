@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class Paper implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8783428717971245116L;
 	private Integer idpaper;
 	private String papername;
 	private Date paperdate;

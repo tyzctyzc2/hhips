@@ -48,7 +48,7 @@
 					<#list 0..worklength as i>
 						<tr class="edge">
 							<td>
-								<p>${works[i].workdate}</p>
+								<p>${works[i].workdate?string("yyyy_MM_dd")} &nbsp;  [${works[i].usedtime/60}]</p>
 							</td>
 							<td>
 								<img id="myImage" class="center-fit" src=${works[i].workdetail} />

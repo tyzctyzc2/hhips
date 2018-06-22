@@ -83,10 +83,10 @@
 				<table>					
 						<tr>
 							<td>
-								<#if (problems[i].myWork?size >0)>
-									<p>${problems[i].myWork[0].workdate?string("yyyy-MM-dd")} --- ${problems[i].myWork[0].usedtime}</p>
-									<#if problems[i].myWork[0].workmark??>
-										<#if problems[i].myWork[0].workmark == 0>
+								<#if problems[i].idwork??>
+									<p>${problems[i].workdate?string("yyyy-MM-dd")} --- ${problems[i].usedtime}</p>
+									<#if problems[i].workmark??>
+										<#if problems[i].workmark == 0>
 											<p class="right">-------Pass-------</p>
 										<#else>
 											<p class="wrong">------Not Pass----</p>

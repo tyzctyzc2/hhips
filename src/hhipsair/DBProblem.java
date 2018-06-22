@@ -2,65 +2,50 @@ package hhipsair;
 
 import org.json.*;
 
+import db.HibernateUtils;
 import db.Problem;
 import db.Problem.ProblemColumnName;
 import db.ProblemByPaper;
+import db.ProblemWithLastWork;
 import db.ProblemWithWork;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 
 public class DBProblem {
-	SessionFactory factory;
 
 	public DBProblem() {
-		try {
-			Configuration cfg = new Configuration();
-			cfg.configure("hibernate.cfg.xml");
-			// factory = new Configuration().configure().buildSessionFactory();
-			factory = cfg.buildSessionFactory();
-		} catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			// throw new ExceptionInInitializerError(ex);
-			factory = null;
-		}
 	}
 	
 	public Problem getProblemDetail(int problemID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
+		session.beginTransaction();
 		Problem p = session.get(Problem.class, problemID);
+		session.getTransaction().commit();
 		return p;
 	}
 	
 	public boolean activeProblem(int problemID, int activeLevel) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
+
 		Problem p = session.get(Problem.class, problemID);
 		p.setProblemcisactive(activeLevel);
 
 		this.updateProbelm(p);
+
 		return true;
 	}
 	
 	public boolean deleteProblem(int problemID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Problem p = session.get(Problem.class, problemID);
 
 		this.deleteProbelm(p);
@@ -68,15 +53,22 @@ public class DBProblem {
 	}
 	
 	public String getNextActiveProblem() {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 
-		Criteria cr = session.createCriteria(ProblemByPaper.class);
-		cr.add(Restrictions.eq("isactive", 2));//paper is active
-		cr.add(Restrictions.eq("problemstatus", 1));
-		List<ProblemByPaper> results = cr.list();
-		if (results.size() == 0)
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+        Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 2),
+        									criteriaBuilder.equal(itemRoot.get("problemstatus"), 1));
+        List<ProblemByPaper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        
+		if (all.size() == 0)
 			return "";
-		ProblemByPaper p =  results.get(0);
+		ProblemByPaper p =  all.get(0);
 		String img = FileHelper.getBase64String(p.getProblemdetail());
 		p.setProblemdetail(img);
 		return p.toString();
@@ -84,30 +76,41 @@ public class DBProblem {
 	
 	public List<ProblemByPaper> getActiveProblemList(String paperID) {
 		
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 
-		Criteria cr = session.createCriteria(ProblemByPaper.class);
-		cr.add(Restrictions.eq("idpaper", paperID));
-		List<ProblemByPaper> results = cr.list();
-		return results;	
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+        Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idpaper"), paperID));
+        List<ProblemByPaper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		return all;	
 	}
 	
 	public List<ProblemByPaper> getPaperProblemList(String paperID) {
 		
-		Session session = factory.openSession();
-
-		Criteria cr = session.createCriteria(ProblemByPaper.class);
-		cr.add(Restrictions.eq("idpaper", Integer.parseInt(paperID)));
-		List<ProblemByPaper> results = cr.list();
-		return results;	
+		Session session = HibernateUtils.openCurrentSession();
+		
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+        Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idpaper"), Integer.parseInt(paperID)));
+        List<ProblemByPaper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		return all;	
 	}
 
-	public boolean PushProblem(String problemJSON) {
-		if (factory == null)
-			return false;
+	public Integer PushProblem(String problemJSON) {
 
 		System.out.println("save new problem request...");
 		String log = "";
+		int pID = 0;
 		try {
 			JSONObject jsonObject = new JSONObject(problemJSON);
 			Problem p = new Problem();
@@ -134,7 +137,7 @@ public class DBProblem {
 			if (jsonObject.has(ProblemColumnName.problemcisactive.toString()) == true)
 				p.setProblemcisactive(jsonObject.getInt(ProblemColumnName.problemcisactive.toString()));
 
-			int pID = insertProbelm(p);
+			pID = insertProbelm(p);
 			System.out.println(log);
 
 			p.setIdproblem(pID);
@@ -154,18 +157,18 @@ public class DBProblem {
 			}
 
 			if (needUpdate == false)
-				return true;
+				return pID;
 			updateProbelm(p);
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
+		return pID;
 	}
 
 	int insertProbelm(Problem p) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		int problemID = 0;
 
@@ -182,18 +185,45 @@ public class DBProblem {
 		}
 		return problemID;
 	}
+	
+	public List<ProblemWithLastWork> getProblemWithLastWorkByCharpter(int chapterID) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemWithLastWork> criteriaQuery = criteriaBuilder.createQuery(ProblemWithLastWork.class);
+        Root<ProblemWithLastWork> itemRoot = criteriaQuery.from(ProblemWithLastWork.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemchapterid"), chapterID));
+
+        List<ProblemWithLastWork> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+		return all;
+	}
 
 	public List<ProblemWithWork> getProblemByCharpter(int chapterID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 
-		Criteria cr = session.createCriteria(ProblemWithWork.class);
-		cr.add(Restrictions.eq("problemchapterid", chapterID));
-		List<ProblemWithWork> results = cr.list();
-		return results;
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemWithWork> criteriaQuery = criteriaBuilder.createQuery(ProblemWithWork.class);
+        Root<ProblemWithWork> itemRoot = criteriaQuery.from(ProblemWithWork.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemchapterid"), chapterID));
+
+        List<ProblemWithWork> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        for(int i=0; i < all.size(); ++i) {
+        	ProblemWithWork pw = all.get(i);
+        	System.out.println(pw.getMyWork().size());
+        }
+		return all;
 	}
 
 	boolean updateProbelm(Problem p) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		boolean suc = false;
 
@@ -213,7 +243,7 @@ public class DBProblem {
 	}
 	
 	boolean deleteProbelm(Problem p) {
-		Session session = factory.openSession();
+		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		boolean suc = false;
 
