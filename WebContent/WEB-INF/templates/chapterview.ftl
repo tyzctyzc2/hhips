@@ -45,11 +45,13 @@
 </head>
 	<body>
 		<h1>${chapername}</h1>
-		<select id="paperselect">
-			<#list 0..maxpaper as i>
-				<option value=${papers[i].idpaper}>${papers[i].papername}</option>
-			</#list>
-		</select>
+		<#if maxpaper != -1>
+			<select id="paperselect">
+				<#list 0..maxpaper as i>
+					<option value=${papers[i].idpaper}>${papers[i].papername}</option>
+				</#list>
+			</select>
+		</#if>
 		<#if max != -1>
 			<#list 0..max as i>
 				<table>

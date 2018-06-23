@@ -76,6 +76,39 @@ public class DBProblemManagement {
 		return all;
 	}
 	
+	public void updatePaperIsactive(int idpaper, int isactive) {
+		Session session = HibernateUtils.openCurrentSession();
+		
+		session.beginTransaction();
+		
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+        Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idpaper"), idpaper));
+        List<Paper> all = session.createQuery(criteriaQuery).getResultList();
+        
+        session.getTransaction().commit();
+        
+        if (all.size() == 0)
+        	return;
+        
+        Paper p = all.get(0);
+        p.setIsactive(isactive);
+        
+        Transaction tx = null;
+
+		try {
+			session = HibernateUtils.openCurrentSession(); 
+			tx = session.beginTransaction();
+			session.update(p);
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
 	public List<Paper> getAllPapers() {
 		Session session = HibernateUtils.openCurrentSession();
 		
