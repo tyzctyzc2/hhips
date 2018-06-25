@@ -60,11 +60,21 @@ public class PaperServlet extends HttpServlet {
 				return;
 				
 			}
+			else if (jsonObject.has("papername") == true) {
+				System.out.println("PaperServlet - create new paper");
+				doCreateNewPaper(jsonObject.getString("papername"), response);
+				return;
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		doGet(request, response);
+		response.getWriter().append("{}");
+	}
+
+	private void doCreateNewPaper(String papername, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void doChangePaperIsactive(int idpaper, int isactive, HttpServletResponse response) {

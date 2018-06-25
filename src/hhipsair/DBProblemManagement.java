@@ -1,5 +1,7 @@
 package hhipsair;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -74,6 +76,28 @@ public class DBProblemManagement {
         session.getTransaction().commit();
 		
 		return all;
+	}
+	
+	public int insertNewPaper(String paperName) {
+		Paper p = new Paper();
+		p.setIsactive(1);
+		p.setPaperdate(new Date());
+		p.setPapername(paperName);
+		
+		Transaction tx = null;
+
+		Session session = HibernateUtils.openCurrentSession();
+		int newPaperID = 0;
+		try {
+			tx = session.beginTransaction();
+			newPaperID = (Integer) session.save(p);
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return newPaperID;
 	}
 	
 	public void updatePaperIsactive(int idpaper, int isactive) {
@@ -190,6 +214,7 @@ public class DBProblemManagement {
         CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
         Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
         criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemid"), problemid));
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("paperproblemid"), paperproblemid));
         List<Paperproblem> all = session.createQuery(criteriaQuery).getResultList();
         
         session.getTransaction().commit();
@@ -241,6 +266,7 @@ public class DBProblemManagement {
 		Transaction tx = null;
 
 		try {
+			session = HibernateUtils.openCurrentSession();
 			tx = session.beginTransaction();
 			session.update(pp);
 			tx.commit();

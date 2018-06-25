@@ -92,12 +92,14 @@ public class DBWork {
 	public boolean updateWorkMark(int idWork, int mark) {
 	
 		Session session = HibernateUtils.openCurrentSession();
-		
+		session.beginTransaction();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
         Root<Work> itemRoot = criteriaQuery.from(Work.class);
         criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
         List<Work> all = session.createQuery(criteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
         if (all.size() == 0)
         	return false;
         

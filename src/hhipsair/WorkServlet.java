@@ -123,21 +123,22 @@ public class WorkServlet extends HttpServlet {
 		  }
 		  
 		  if (jb.toString().length() == 0) {
-			  System.out.println("empty new work!!!");
-			  response.getWriter().append("empty new work!!!");
+			  System.out.println("WorkServlet - empty new work!!!");
+			  response.getWriter().append("WorkServlet - empty new work!!!");
 			  return;
 		  }
 
 		  if (jb.toString().indexOf("idwork") > 0) {
-			  System.out.println("mark a work request");
+			  System.out.println("WorkServlet - mark a work request");
 			  processMarkWork(jb.toString(), response);
 			  return;
 		  }
-		  
+		  System.out.println("WorkServlet - save a new work request");
 		  DBWork dbWork = new DBWork();
 
 		  int workID = dbWork.PushWork(jb.toString());
 		if (workID == 0) {
+			System.out.println("WorkServlet - Save work failed");
 			response.getWriter().append("Save work failed at: ").append(request.getContextPath());
 			return;
 		}
