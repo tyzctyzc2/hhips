@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+   <session-factory>
+   
+      <property name = "hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+      <property name = "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+      <!-- Assume test is the database name -->
+
+      <property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/hhips</property>
+
+      <property name = "hibernate.connection.username">hh</property>
+
+      <property name = "hibernate.connection.password">1234</property>
+      <property name="hibernate.current_session_context_class">thread</property>
+      
+      <!-- List of XML mapping files -->
+      <mapping class="db.Source" />
+      <mapping class="db.SourceChapter" />
+      <mapping class="db.Chapter" />
+      <mapping class="db.ProblemWithLastWork" />
+      <mapping class="db.Module" />
+      <mapping class="db.Paper" />
+       <mapping class="db.ProblemByPaper" />
+      <mapping class="db.Work" />
+      <mapping class="db.Problem" />
+      <mapping class="db.Paperproblem" />
+      <mapping class="db.PaperWork" />
+      <!--mapping resource = "Source.hbm.xml"/-->
+
+      
+   </session-factory>
+</hibernate-configuration>

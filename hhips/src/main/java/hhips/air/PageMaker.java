@@ -1,0 +1,192 @@
+package hhips.air;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import db.*;
+import org.springframework.ui.Model;
+
+public class PageMaker {
+	public static Map<String, Object> prepareChapterProblems(Model model, int chapterID) {
+		DBProblem myDBProblem = new DBProblem(); 
+		DBProblemManagement myProblemManagementDB = new DBProblemManagement();
+		Chapter chp = new Chapter();
+		try {
+			chp.setIdsourcechapter(chapterID);
+		}
+		catch (Exception e){
+			chp.setIdsourcechapter(1);
+		}
+		String chapterName = myProblemManagementDB.getChaperName(chp);
+
+		Map<String, Object> root = new HashMap<String, Object>();
+		root.put("chapername", chapterName);
+		model.addAttribute("chapername", chapterName);
+		root.put("chaperid", chapterID);
+		model.addAttribute("chaperid", chapterID);
+		List<ProblemWithLastWork> problems = myDBProblem.getProblemWithLastWorkByCharpter(chp.getIdsourcechapter());
+		root.put("problems", problems);
+		model.addAttribute("problems", problems);
+		if (problems.size() == 0) {
+			root.put("max", -1);
+			root.put("lastindex", -1);
+			root.put("lastmodule", -1);
+			root.put("lastlevel", -1);
+
+			model.addAttribute("max", -1);
+			model.addAttribute("lastindex", -1);
+			model.addAttribute("lastmodule", -1);
+			model.addAttribute("lastlevel", -1);
+		}
+		else {
+			root.put("max", problems.size()-1);
+			root.put("lastindex", problems.get(problems.size()-1).getProblemindex());
+			root.put("lastmodule", problems.get(problems.size()-1).getProblemmodule());
+			root.put("lastlevel", problems.get(problems.size()-1).getProblemlevel());
+
+			model.addAttribute("max", problems.size()-1);
+			model.addAttribute("lastindex", problems.get(problems.size()-1).getProblemindex());
+			model.addAttribute("lastmodule", problems.get(problems.size()-1).getProblemmodule());
+			model.addAttribute("lastlevel", problems.get(problems.size()-1).getProblemlevel());
+		}
+		
+		List<Module> modules = myProblemManagementDB.getAllModule();
+		root.put("modules", modules);
+		root.put("maxmodule", modules.size()-1);
+
+		model.addAttribute("modules", modules);
+		model.addAttribute("maxmodule", modules.size()-1);
+		
+		List<Paper> papers = myProblemManagementDB.getAllEditPapers();
+		root.put("papers", papers);
+		root.put("maxpaper", papers.size()-1);
+
+		model.addAttribute("papers", papers);
+		model.addAttribute("maxpaper", papers.size()-1);
+
+		return root;
+	}
+
+	public static Map<String, Object> prepareNewProblemData(int chapterID) {
+		DBProblemManagement myProblemManagementDB = new DBProblemManagement(); 
+		Chapter chp = new Chapter();
+		try {
+			chp.setIdsourcechapter(chapterID);
+		}
+		catch (Exception e){
+			chp.setIdsourcechapter(1);
+		}
+		String chapterName = myProblemManagementDB.getChaperName(chp);
+
+		Map<String, Object> root = new HashMap<String, Object>();
+		root.put("chapername", chapterName);
+		root.put("chaperid", chapterID);
+		
+		List<Module> modules = myProblemManagementDB.getAllModule();
+		root.put("modules", modules);
+		root.put("maxmodule", modules.size()-1);
+		
+		return root;
+	}
+	
+	public static Map<String, Object> prepareProblemDetail(Model model, int problemID) {
+		DBProblem myDBProblem = new DBProblem(); 
+		Problem p = myDBProblem.getProblemDetail(problemID);
+
+		Map<String, Object> root = new HashMap<String, Object>();
+		root.put("problemdetail", p);
+		model.addAttribute("problemdetail", p);
+	
+		DBWork myDBWork = new DBWork();
+		List<Work> allWork = myDBWork.getProblemAllWork(problemID);
+		root.put("worklength", allWork.size()-1);
+		root.put("works", allWork);
+
+		model.addAttribute("worklength", allWork.size()-1);
+		model.addAttribute("works", allWork);
+		
+		return root;
+	}
+	
+	public static Map<String, Object> preparePaperList(Model model) {
+		DBProblemManagement mySourceDB = new DBProblemManagement();
+		
+		Map<String, Object> root = new HashMap<String, Object>();
+		
+		List<Paper> allWork = mySourceDB.getAllPapers();
+		root.put("paperlength", allWork.size()-1);
+		root.put("papers", allWork);
+
+        model.addAttribute("paperlength", allWork.size()-1);
+        model.addAttribute("papers", allWork);
+		
+		return root;
+	}
+	
+	public static Map<String, Object> preparePaperProblemList(Model model, String activeParameter) {
+		DBProblem myDBProblem = new DBProblem(); 
+		List<ProblemByPaper> problems = myDBProblem.getPaperProblemList(activeParameter);
+
+		Map<String, Object> root = new HashMap<String, Object>();
+		root.put("problems", problems);
+		model.addAttribute("problems", problems);
+		
+		System.out.println("paper problem ==== " + problems.size());
+	
+		root.put("papername", "Active Problems");
+        model.addAttribute("papername", "Active Problems");
+		if (problems.size() == 0) {
+			root.put("max", -1);
+			model.addAttribute("max", -1);
+		}
+		else {
+			root.put("max", problems.size()-1);
+			root.put("papername", problems.get(0).getPapername());
+
+			model.addAttribute("max", problems.size()-1);
+			model.addAttribute("papername", problems.get(0).getPapername());
+		}
+		return root;
+	}
+
+	public static Map<String, Object> prepareChapterList(Model model, int sourceID) {
+		DBProblemManagement myProblemManagementDB = new DBProblemManagement();
+		
+		String sourceName = myProblemManagementDB.getSourceName(sourceID);
+		System.out.println(String.valueOf(sourceID));
+		System.out.println(sourceName);
+
+		Map<String, Object> root = new HashMap<String, Object>();
+	
+		List<SourceChapter> allWork = myProblemManagementDB.getChapterList(sourceID);
+		root.put("chapterlength", allWork.size()-1);
+		root.put("chapters", allWork);
+		root.put("sourcename", sourceName);
+		root.put("sourceid", sourceID);
+		root.put("newchapterindex", allWork.size()+1);
+
+		model.addAttribute("chapterlength", allWork.size()-1);
+		model.addAttribute("chapters", allWork);
+		model.addAttribute("sourcename", sourceName);
+		model.addAttribute("sourceid", sourceID);
+		model.addAttribute("newchapterindex", allWork.size()+1);
+		
+		return root;
+	}
+	
+	public static Map<String, Object> prepareSourceList(Model model) {
+		DBProblemManagement mySourceDB = new DBProblemManagement();
+		
+		Map<String, Object> root = new HashMap<String, Object>();
+		
+		List<db.Source> allWork = mySourceDB.getAllSource();
+		root.put("sourcelength", allWork.size()-1);
+		root.put("sources", allWork);
+
+		model.addAttribute("sourcelength", allWork.size()-1);
+		model.addAttribute("sources", allWork);
+		
+		return root;
+	}
+}
