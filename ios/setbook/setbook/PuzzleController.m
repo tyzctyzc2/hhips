@@ -15,10 +15,13 @@
 @interface PuzzleController () {
     int timeTick;
     NSTimer *timer;
+    
+    NSString *wantPaperId;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *giveupButton;
 @property (strong, nonatomic) IBOutlet UIButton *finishButton;
+@property (strong, nonatomic) IBOutlet UIButton *cancelButton;
 
 @property (strong, nonatomic) IBOutlet UIImageView *problemImg;
 @property (strong, nonatomic) IBOutlet UILabel *timerLabel;
@@ -27,12 +30,16 @@
 
 @implementation PuzzleController
 
+- (void)setPaperID:(NSString *)paperID {
+    wantPaperId = paperID;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self getActiveProblem];
+    [self getActiveProblemInPaper];
     
     timeTick = 0;
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
@@ -45,6 +52,9 @@
     self.finishButton.layer.borderColor= self.view.tintColor.CGColor;
     self.finishButton.layer.cornerRadius=16.0f;
     
+    self.cancelButton.layer.borderWidth =2.0f;
+    self.cancelButton.layer.borderColor= self.view.tintColor.CGColor;
+    self.cancelButton.layer.cornerRadius=16.0f;
    
 }
 
@@ -60,6 +70,44 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [toast dismissViewControllerAnimated:YES completion:nil];
     });
+}
+
+- (void)getActiveProblemInPaper {
+    HttpHelper *httpH = [HttpHelper new];
+    NSString *res = [httpH getNextActiveProblemInPaper:wantPaperId];
+    //NSLog(res);
+    
+    NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:nil];
+    NSString *token = [dic valueForKey:@"problemdetail"];
+    
+    id _Nullable pid =[dic valueForKey:@"idproblem"];//paperproblemid
+    myProbelmID = [NSString stringWithFormat:@"%@", pid];
+    
+    id _Nullable ppid =[dic valueForKey:@"paperproblemid"];//paperproblemid
+    myPaperProblemID =[NSString stringWithFormat:@"%@", ppid];
+    
+    if (pid == 0) {
+        NSLog(@"No work today");
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
+        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:vc animated:YES completion:NULL];
+        return;
+    }
+    
+    NSLog(@"got problem to go, problem ID = %@", myProbelmID);
+    NSLog(@"got problem to go, problem paper ID = %@", myPaperProblemID);
+    
+    NSData *nsdataFromBase64String = [[NSData alloc]
+                                      initWithBase64EncodedString:token options:0];
+    UIImage *ret = [UIImage imageWithData:nsdataFromBase64String];
+    
+    self.problemImg.image = ret;
 }
 
 - (void)getActiveProblem {
@@ -144,19 +192,49 @@
     NSLog(@"touchesBegan");
 }
 
+- (IBAction)buttonCancleTouch:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"容朕想想"message:@"皇上你确定要换个折子批吗？活都是不好干的！"preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"换折子" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self switchToMain];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 
-- (IBAction)buttonGiveup:(id)sender {
-    NSLog(@"buttonGiveup");
-    
+- (void) switchToMain {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
     ViewController *mv = (ViewController *)vc;
     [mv updateTodayLearnTime:timeTick];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:vc animated:YES completion:NULL];
+}
+
+-(void) doGiveUp {
+    [self switchToMain];
     
     HttpHelper *httpH = [HttpHelper new];
     [httpH postProblemGiveup:myProbelmID pID: myPaperProblemID pPID: timeTick];
+}
+
+- (IBAction)buttonGiveup:(id)sender {
+    NSLog(@"buttonGiveup");
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"朕要摔笔"message:@"皇上你确定要摔笔吗？母后会不高兴的！"preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"摔笔" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self doGiveUp];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
 }
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "PaperSelectController.h"
 
 @interface ViewController () {
     int totalLearnTimeToday;
@@ -45,8 +46,15 @@
 - (IBAction)buttonTouch:(id)sender {
     NSLog(@"touch uppppp");
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
+    /*UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Puzzle"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:NULL];*/
+    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"PaperSelect" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"PaperSelect"];
+    PaperSelectController *psc = (PaperSelectController *)vc;
+    
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:vc animated:YES completion:NULL];
 }

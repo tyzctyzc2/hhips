@@ -18,6 +18,7 @@
     
     NSString *_myProbelmID;
     NSString *_myPaperProblemID;
+    NSString *imageString;
     
 }
 @property int timerTicks;

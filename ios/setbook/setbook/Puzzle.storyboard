@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -30,7 +30,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PK-Qj-2r9">
-                                <rect key="frame" x="696" y="672" width="140" height="76"/>
+                                <rect key="frame" x="692" y="670" width="140" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <state key="normal" title="朕要摔笔">
@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJt-PD-oRz">
-                                <rect key="frame" x="867" y="672" width="140" height="76"/>
+                                <rect key="frame" x="872" y="670" width="140" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <state key="normal" title="朕有对策">
@@ -49,6 +49,15 @@
                                 </state>
                                 <connections>
                                     <action selector="puzzleDoneTouch:" destination="Tea-Og-8N7" eventType="touchUpInside" id="TPA-As-kby"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJK-wg-Suc">
+                                <rect key="frame" x="505" y="670" width="140" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                <state key="normal" title="容朕想想"/>
+                                <connections>
+                                    <action selector="buttonCancleTouch:" destination="Tea-Og-8N7" eventType="touchDown" id="4ER-1E-46b"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -59,6 +68,7 @@
                         <viewLayoutGuide key="safeArea" id="0Rp-ka-yZV"/>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="nJK-wg-Suc" id="Q7Z-Pb-C7q"/>
                         <outlet property="finishButton" destination="lJt-PD-oRz" id="uPP-lq-QfH"/>
                         <outlet property="giveupButton" destination="6PK-Qj-2r9" id="CK1-hb-ob3"/>
                         <outlet property="problemImg" destination="D8G-Gs-wns" id="tMv-Ta-hzq"/>
@@ -71,6 +81,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="wait" width="713" height="95"/>
+        <image name="wait" width="400" height="400"/>
     </resources>
 </document>
