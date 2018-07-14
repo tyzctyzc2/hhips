@@ -12,6 +12,8 @@
 }
 
 - (NSString *)getNextActiveProblem;
+- (NSString *)getNextActiveProblemInPaper: (NSString *) paperID;
+- (NSString *)getActivePaper;
 - (Boolean) postProblemAnswer: (NSString *) problemID pID: (NSString *) problemDetail base64: (NSString *) paperProblemID pPID: (int) passSecond;
 - (void) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond ;
 //- (Boolean) deactiveProblem: (NSString *)problemID pID: (NSString *)paperProblemID;

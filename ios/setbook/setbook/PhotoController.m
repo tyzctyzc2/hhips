@@ -85,22 +85,21 @@
     if (error) {
         NSLog(@"error : %@", error.localizedDescription);
     }
-    
+
+    imageString = nil;
     if (photoSampleBuffer) {
         self.photoButton.enabled = false;
         [session stopRunning];
         [self updateLabelMessage:@"Sending photp..."];
         NSData *data = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
-        NSString *imageString = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+        imageString = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
 
-        int usedTime = _timerTicks;
+/*        int usedTime = _timerTicks;
         if (photoTimeTick > 120)
             usedTime = usedTime + photoTimeTick;
         HttpHelper *httpH = [HttpHelper new];
         Boolean suc = [httpH postProblemAnswer:_myProbelmID pID: imageString base64: _myPaperProblemID pPID: usedTime];
         
-        //[httpH deactiveProblem:_myProbelmID pID:_myPaperProblemID];
-       
         if (suc) {
             [self updateLabelMessage:@"Your answer is saved."];
         }
@@ -109,16 +108,16 @@
             [self updateLabelMessage:@"Please try again"];
             self.photoButton.enabled = true;
             return;
-        }
+        }*/
     }
     else {
         return;
     }
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+/*    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:NULL];
+    [self presentViewController:vc animated:YES completion:NULL];*/
 }
 
 -(void) shoToastMessage:(NSString *)message {
@@ -194,7 +193,38 @@
     [_avCaptureOutput setPhotoSettingsForSceneMonitoring:_outputSettings];
     
     [_avCaptureOutput capturePhotoWithSettings:_outputSettings delegate:self];
-    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"御笔亲批"message:@"你确定提交你的御笔亲批吗？"preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [session startRunning];
+        [self updateLabelMessage:@"Take Photo"];
+        self.photoButton.enabled = true;
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if(imageString != nil) {
+            int usedTime = _timerTicks;
+            if (photoTimeTick > 120)
+                usedTime = usedTime + photoTimeTick;
+            HttpHelper *httpH = [HttpHelper new];
+            Boolean suc = [httpH postProblemAnswer:_myProbelmID pID: imageString base64: _myPaperProblemID pPID: usedTime];
+            
+            if (suc) {
+                [self updateLabelMessage:@"Your answer is saved."];
+            }
+            else {
+//                [session startRunning];
+                [self updateLabelMessage:@"Please try again"];
+                self.photoButton.enabled = true;
+                return;
+            }
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
+            vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            [self presentViewController:vc animated:YES completion:NULL];
+        }
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

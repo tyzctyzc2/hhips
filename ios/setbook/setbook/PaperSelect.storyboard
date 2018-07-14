@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Paper Select Controller-->
+        <scene sceneID="Zgi-Ky-hx5">
+            <objects>
+                <viewController storyboardIdentifier="PaperSelect" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hBS-NR-DKy" customClass="PaperSelectController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zYR-Hc-E0s">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItK-JR-TVk">
+                                <rect key="frame" x="116" y="90" width="793" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="ButtonA"/>
+                                <connections>
+                                    <action selector="buttonATouch:" destination="hBS-NR-DKy" eventType="touchDown" id="xJp-Ru-ggA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qbT-kO-cFP">
+                                <rect key="frame" x="116" y="210" width="793" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="ButtonB"/>
+                                <connections>
+                                    <action selector="buttonBTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="I9f-Lh-dM4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44K-Ml-cNM">
+                                <rect key="frame" x="116" y="450" width="793" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="ButtonD"/>
+                                <connections>
+                                    <action selector="buttonDTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="TBj-IF-if2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bj0-T4-gsE">
+                                <rect key="frame" x="116" y="330" width="793" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="ButtonC"/>
+                                <connections>
+                                    <action selector="buttonCTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="ixZ-vE-RS4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="dgW-Pt-2IE"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="aButton" destination="ItK-JR-TVk" id="Zih-Qe-sL4"/>
+                        <outlet property="bButton" destination="qbT-kO-cFP" id="rAh-51-B3E"/>
+                        <outlet property="cButton" destination="Bj0-T4-gsE" id="TH0-te-GnL"/>
+                        <outlet property="dButton" destination="44K-Ml-cNM" id="L7v-4X-bdU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b7P-VL-IKj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="177.5390625" y="353.90625"/>
+        </scene>
+    </scenes>
+</document>

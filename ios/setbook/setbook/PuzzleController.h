@@ -11,8 +11,10 @@
 @interface PuzzleController : UIViewController{
      NSString *myProbelmID;
     NSString *myPaperProblemID;
+    
 }
 - (IBAction)buttonStart:(id)sender;
 
+- (void)setPaperID:(NSString *)paperID;
 @end
 
