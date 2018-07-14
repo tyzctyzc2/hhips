@@ -2,8 +2,8 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Source List</title>
-	<script type="text/javascript" src="\jquery-3.3.1.min.js"></script>
-	<link href="\myStyle.css" rel="stylesheet" type="text/css" media="all">
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
 		<table>
@@ -13,7 +13,7 @@
 						<h1>Paper List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
 				<td>
-					<a href="/hhipsair/Source" style="text-decoration: none">
+					<a href="./Source" style="text-decoration: none">
 						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
 				
@@ -25,65 +25,65 @@
 					<#list 0..paperlength as i>
 						<tr class="edge">
 							<td>
-								<p>${papers[i].idpaper}---</p>
+								<p>${papers[i].idpaper?c}---</p>
 							</td>
 							<td>
-								<a href="/hhipsair/Problem?paperid=${papers[i].idpaper}" style="text-decoration: none">
+								<a href="./Problem?paperid=${papers[i].idpaper?c}" style="text-decoration: none">
 									<p>${papers[i].papername} &nbsp;&nbsp;&nbsp;</p>
 								</a>
 							</td>
 							<td>
-								<a href="/hhipsair/Problem?paperid=${papers[i].idpaper}&showanswer=1" style="text-decoration: none">
+								<a href="./Problem?paperid=${papers[i].idpaper?c}&showanswer=1" style="text-decoration: none">
 									<p>${papers[i].papername} Answer &nbsp;&nbsp;&nbsp;</p>
 								</a>
 							</td>
 							<#if papers[i].isactive == 1>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},1)">In Edit</button>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},1)">In Edit</button>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
 								</td>
 							</#if>
 							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 2>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},2)">Active</button>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},2)">Active</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},2)">Active</button>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},2)">Active</button>
 								</td>
 							</#if>
 							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 3>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},3)">Done</button>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},3)">Done</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},3)">Done</button>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},3)">Done</button>
 								</td>
 							</#if>
 							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 4>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},4)">Hold</button>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},4)">Hold</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},4)">Hold</button>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},4)">Hold</button>
 								</td>
 							</#if>
 							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 5>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper},5)">Archive</button>
+									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},5)">Archive</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper},5)">Archive</button>
+									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},5)">Archive</button>
 								</td>
 							</#if>
 						</tr>	
@@ -104,7 +104,7 @@
 			console.log(JSON.stringify(pData));
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
-			    url: "/hhipsair/Paper",
+			    url: "./Paper",
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType
@@ -127,7 +127,7 @@
 			console.log(JSON.stringify(pData));
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
-			    url: "/hhipsair/Paper",
+			    url: "./Paper",
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType

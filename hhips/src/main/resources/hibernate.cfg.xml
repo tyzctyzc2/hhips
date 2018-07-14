@@ -29,6 +29,7 @@
       <mapping class="db.Problem" />
       <mapping class="db.Paperproblem" />
       <mapping class="db.PaperWork" />
+      <mapping class="db.WorkByPaper" />
       <!--mapping resource = "Source.hbm.xml"/-->
 
       

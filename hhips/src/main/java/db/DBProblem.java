@@ -51,6 +51,29 @@ public class DBProblem {
 		this.deleteProbelm(p);
 		return true;
 	}
+
+	public String getNextActiveProblemInPaper(String paperID) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+		Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 2),
+				criteriaBuilder.equal(itemRoot.get("problemstatus"), 1),
+				criteriaBuilder.equal(itemRoot.get("idpaper"), paperID));
+		List<ProblemByPaper> all = session.createQuery(criteriaQuery).getResultList();
+
+		session.getTransaction().commit();
+
+		if (all.size() == 0)
+			return "";
+		ProblemByPaper p =  all.get(0);
+		String img = FileHelper.getBase64String(p.getProblemdetail());
+		p.setProblemdetail(img);
+		return p.toString();
+	}
 	
 	public String getNextActiveProblem() {
 		Session session = HibernateUtils.openCurrentSession();

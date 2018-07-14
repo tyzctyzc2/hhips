@@ -1,5 +1,6 @@
 package hhips.air;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,9 +129,18 @@ public class PageMaker {
 		DBProblem myDBProblem = new DBProblem(); 
 		List<ProblemByPaper> problems = myDBProblem.getPaperProblemList(activeParameter);
 
+		ArrayList<List<WorkByPaper>> allWork = new ArrayList<List<WorkByPaper>>();
+		for(int i =0;i<problems.size();++i) {
+			ProblemByPaper pp = problems.get(i);
+			DBWork ww = new DBWork();
+			List<WorkByPaper> thisW = ww.getPaperProblemWork(Integer.parseInt(activeParameter), pp.getIdproblem());
+			allWork.add(thisW);
+		}
+
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("problems", problems);
 		model.addAttribute("problems", problems);
+		model.addAttribute("works", allWork);
 		
 		System.out.println("paper problem ==== " + problems.size());
 	

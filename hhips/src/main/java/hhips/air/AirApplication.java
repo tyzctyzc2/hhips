@@ -2,6 +2,8 @@ package hhips.air;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import uti.FileHelper;
@@ -15,11 +17,18 @@ import java.nio.file.Paths;
 import static java.util.Locale.ROOT;
 
 @SpringBootApplication
-public class AirApplication {
+public class AirApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {
 		FileHelper.absolutePath = "D:\\spring\\hhips\\target\\classes\\static\\";
 
 		SpringApplication.run(AirApplication.class, args);
 	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		FileHelper.absolutePath = "D:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\hhipsair\\WEB-INF\\classes\\static\\";
+		return builder.sources(AirApplication.class);
+	}
+
 }

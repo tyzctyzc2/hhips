@@ -12,8 +12,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import uti.StringHelper;
 
 @Controller
-@RequestMapping("/hhipsair")
+//@RequestMapping("/hhipsair")
 public class WorkServlet {
+    @PostMapping("/Work/active")
+    public @ResponseBody
+    String activePaperProblem(@RequestBody String stringToParse) {
+        System.out.println("WorkServlet - post request - active problem");
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+
+            int idwork = jsonObject.getInt("idwork");
+
+            DBProblemManagement dbm = new DBProblemManagement();
+            dbm.ChangeProblemPaperStatus(jsonObject.getInt("idproblem"), jsonObject.getInt("paperproblemid"), 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject res = new JSONObject();
+        res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
+        return res.toString();
+    }
+
     @PostMapping("/Work")
     public @ResponseBody
     String changePaperRequest(@RequestBody String stringToParse) {

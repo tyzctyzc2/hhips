@@ -119,6 +119,35 @@ public class ProblemWithLastWork {
 	String modulename;
 	Date workdate;
 
+	public Integer getProblemtotalworktime() {
+		return problemtotalworktime;
+	}
+
+	public void setProblemtotalworktime(Integer problemtotalworktime) {
+		this.problemtotalworktime = problemtotalworktime;
+	}
+
+	public Integer getProblemtotalusetime() {
+		return problemtotalusetime;
+	}
+
+	public void setProblemtotalusetime(Integer problemtotalusetime) {
+		this.problemtotalusetime = problemtotalusetime;
+	}
+
+	Integer problemtotalusetime;
+	Integer problemtotalworktime;
+
+	public Integer getOldusedtime() {
+		return oldusedtime;
+	}
+
+	public void setOldusedtime(Integer oldusedtime) {
+		this.oldusedtime = oldusedtime;
+	}
+
+	Integer oldusedtime;
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	Integer	idproblem;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/hhipsair")
+//@RequestMapping("/hhipsair")
 public class SourceServlet {
     @GetMapping("/Source")
     public String getSourceList(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {

@@ -40,6 +40,20 @@ public class DBWork {
         return all;
 	}
 
+	public  List<WorkByPaper> getPaperProblemWork(Integer idpaper, Integer idproblem) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<WorkByPaper> criteriaQuery = criteriaBuilder.createQuery(WorkByPaper.class);
+		Root<WorkByPaper> itemRoot = criteriaQuery.from(WorkByPaper.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem), criteriaBuilder.equal(itemRoot.get("idpaper"), idpaper));
+		List<WorkByPaper> all =  session.createQuery(criteriaQuery).getResultList();
+		session.getTransaction().commit();
+
+		return all;
+	}
+
 	public int PushWork(JSONObject jsonObject) {
 		int pID = 0;
 

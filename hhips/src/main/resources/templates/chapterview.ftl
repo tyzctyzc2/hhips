@@ -2,18 +2,18 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Chapter View</title>
-	<script type="text/javascript" src="\jquery-3.3.1.min.js"></script>
-	<link href="\myStyle.css" rel="stylesheet" type="text/css" media="all">
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
 		<table>
 			<tr>
 				<td>
-					<a href="/hhipsair/Source" style="text-decoration: none">
+					<a href="./Source" style="text-decoration: none">
 						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
 				<td>
-					<a href="/hhipsair/Problem?paperid=-1" style="text-decoration: none">
+					<a href="./Problem?paperid=-1" style="text-decoration: none">
 						<h1>Paper List</h1>
 				</td>
 			</tr>
@@ -22,7 +22,7 @@
 		<#if maxpaper != -1>
 			<select id="paperselect">
 				<#list 0..maxpaper as i>
-					<option value=${papers[i].idpaper}>${papers[i].papername}</option>
+					<option value=${papers[i].idpaper?c}>${papers[i].papername}</option>
 				</#list>
 			</select>
 		</#if>
@@ -31,7 +31,7 @@
 				<#list 0..max as i>
 						<tr class="edge">
 							<td class="edge">
-								<a class="jumper notLinkText" href="#jump_${problems[i].idproblem}">
+								<a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
 								<p>${problems[i].problemindex}&nbsp;&nbsp;</p>
 								</a>
 							</td>
@@ -47,19 +47,36 @@
 										<p>${problems[i].workdate?string("yyyy-MM-dd")} &nbsp;&nbsp;&nbsp;</p>
 									</td>
 									<td class="edge">
-										<p>${problems[i].usedtime} &nbsp;&nbsp;</p>
+										<p>${problems[i].problemtotalworktime} &nbsp;&nbsp;</p>
 									</td>
 									<#if problems[i].workmark??>
 										<#if problems[i].workmark == 0>
-											<td><p class="right">-------Pass-------</p></td>
+											<td><p class="right">Pass</p></td>
 										<#else>
-											<td><p class="wrong">------Not Pass----</p></td>
+											<td><p class="wrong">Not Pass</p></td>
 										</#if>
+									<#else>
+									    <td><p>Wait score</p></td>
 									</#if>
 								<#else>
 									<td class="edge">
 										<p>no work recorder</p>
 									</td>
+								</#if>
+
+								<#if problems[i].problemtotalusetime??>
+								    <td class="edge">
+                                        <p>${problems[i].problemtotalusetime?c}</p>
+                                    </td>
+								    <td class="edge">
+								        <p style="height: 10px; width:${problems[i].problemtotalusetime?c}0px;background-color:green"></p>
+                                    </td>
+                                    <td class="edge">
+                                        <p>${problems[i].usedtime?c}</p>
+                                    </td>
+                                    <td class="edge">
+                                        <p style="height: 10px; width:${problems[i].usedtime?c}0px;background-color:green"></p>
+                                    </td>
 								</#if>
 						</tr>
 				</#list>
@@ -68,7 +85,7 @@
 		<#if max != -1>
 			<#list 0..max as i>
 				<table>
-					<span id=jump_${problems[i].idproblem}></span>
+					<span id=jump_${problems[i].idproblem?c}></span>
 					<tr class="edge">
 						<td>
 							<p>${problems[i].problemindex}</p>
@@ -77,21 +94,21 @@
 							<p>${problems[i].modulename}</p>
 						</td>
 						<td>
-							<button type="button" class="normalButton" onclick="deleteProblem(${problems[i].idproblem})">Delete</button>
+							<button type="button" class="normalButton" onclick="deleteProblem(${problems[i].idproblem?c})">Delete</button>
 						</td>
 						<td>
 							<p>${problems[i].problemlevel}</p>
 						</td>
 						<td>
 							<#if problems[i].problemcisactive != 0>
-								<button type="button" id=active_${problems[i].idproblem}" class="activeButton" onclick="activeProblem(${problems[i].idproblem}, 0)">Deactive</button>
+								<button type="button" id=active_${problems[i].idproblem?c}" class="activeButton" onclick="activeProblem(${problems[i].idproblem?c}, 0)">Deactive</button>
 							<#else>
-								<button type="button" id=active_${problems[i].idproblem}" class="normalButton" onclick="activeProblem(${problems[i].idproblem}, 5)">Active</button>
+								<button type="button" id=active_${problems[i].idproblem?c}" class="normalButton" onclick="activeProblem(${problems[i].idproblem?c}, 5)">Active</button>
 							</#if>
 						</td>
 						<td>
-							<a href="/hhipsair/Problem?problemid=${problems[i].idproblem}">    
-							<img id="myImage" class="center-fit" src=/${problems[i].problemdetail} />
+							<a href="./Problem?problemid=${problems[i].idproblem?c}">
+							<img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
 							</a>
 						</td>
 					</tr>	
@@ -100,7 +117,7 @@
 					<tr>
 						<td>
 							<#if problems[i].idwork??>
-								<p>${problems[i].workdate?string("yyyy-MM-dd")} --- ${problems[i].usedtime}</p>
+								<p>${problems[i].workdate?string("yyyy-MM-dd")} --- ${problems[i].usedtime?c}</p>
 								<#if problems[i].workmark??>
 									<#if problems[i].workmark == 0>
 										<p class="right">-------Pass-------</p>
@@ -117,7 +134,7 @@
 				<table>					
 					<tr>
 						<td>
-							<img id="answer" class="center-fit" src=/${problems[i].problemanswerdetail} />
+							<img id="answer" class="center-fit" src=.\${problems[i].problemanswerdetail} />
 						</td>
 					</tr>
 					<tr>
@@ -266,7 +283,7 @@
   			if (r==false)
   				return;
   				
-			var url = "/hhipsair/Problem?delete="+idproblem;
+			var url = "./Problem?delete="+idproblem;
 			
 			$.ajax({
 			    type: "POST",
@@ -288,8 +305,8 @@
 		
 		function activeProblem(idproblem, problemcisactive) {
 			var paperid = $( "#paperselect" ).val();
-			var url = "/hhipsair/Problem?active="+problemcisactive+"&problemid="+idproblem+"&paperid="+paperid;
-			
+			var url = "./Problem?active="+problemcisactive+"&problemid="+idproblem+"&paperid="+paperid;
+			console.log(url);
 			$.ajax({
 			    type: "POST",
 			    url: url,
@@ -340,7 +357,7 @@
 			console.log('==========');
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
-			    url: "/hhipsair/Problem/new",
+			    url: "./Problem/new",
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType

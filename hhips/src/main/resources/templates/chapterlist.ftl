@@ -2,18 +2,18 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Chapter List</title>
-	<script type="text/javascript" src="\jquery-3.3.1.min.js"></script>
-	<link href="\myStyle.css" rel="stylesheet" type="text/css" media="all">
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
 		<table>
 			<tr>
 				<td>
-					<a href="/hhipsair/Source" style="text-decoration: none">
+					<a href="./Source" style="text-decoration: none">
 						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
 				<td>
-					<a href="/hhipsair/Problem?paperid=-1" style="text-decoration: none">
+					<a href="./Problem?paperid=-1" style="text-decoration: none">
 						<h1>Paper List</h1>
 				</td>
 			</tr>
@@ -28,7 +28,7 @@
 								<p>${chapters[i].sourcechapterindex}---</p>
 							</td>
 							<td>
-								<a href="/hhipsair/Chapter?chapterid=${chapters[i].idsourcechapter}" style="text-decoration: none">
+								<a href="./Chapter?chapterid=${chapters[i].idsourcechapter?c}" style="text-decoration: none">
 									<p>${chapters[i].sourcechaptername}</p>
 								</a>
 							</td>
@@ -42,7 +42,7 @@
 	</body>
 	<script>
 		var sourceID = ${sourceid?c};
-		var newchapterindex=${newchapterindex}
+		var newchapterindex=${newchapterindex?c}
 		function postChapter() {
 			var pData = {};
 			pData.sourcechaptername = $( "#newchaptername" ).val();
@@ -52,7 +52,7 @@
 			console.log(JSON.stringify(pData));
 			$.ajax({
 			    type: "POST", // 上传文件要用POST
-			    url: "/hhipsair/Chapter",
+			    url: "./Chapter",
 			    dataType : "json",
 				processData: false,  // 注意：不要 process data
 				contentType: false,  // 注意：不设置 contentType

@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/hhipsair")
+//@RequestMapping("/hhipsair")
 public class ProblemServlet {
     @GetMapping("/Problem")
     public String processProblemGet(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID,
                                     @RequestParam(value="chapterid", required=false, defaultValue="0") int chapterID,
                                     @RequestParam(value="showanswer", required=false, defaultValue="0") int showAnswer,
                                     @RequestParam(value="problemid", required=false, defaultValue="0") String problemId,
-                                    @RequestParam(value="active", required=false, defaultValue="") String active) {
+                                    @RequestParam(value="active", required=false, defaultValue="") String active,
+                                    @RequestParam(value="idpaper", required=false, defaultValue="") String idpaper) {
         System.out.println("ProblemServlet - problem request");
 
         if (paperID.compareTo("0") !=0)
@@ -27,10 +28,24 @@ public class ProblemServlet {
         if (problemId.compareTo("0") !=0)
             return getProblemDetailCase(model, problemId);
 
-        if (active.length() > 0)
-            return  getProblemNextActive(model, active);
+        if (active.length() > 0) {
+            if (idpaper.length() > 0)
+                return getProblemNextActiveInPaper(model, active, idpaper);
+            else
+                return getProblemNextActive(model, active);
+        }
 
         return "error";
+    }
+
+    private String getProblemNextActiveInPaper(Model model, String active, String idpaper) {
+        System.out.println("ProblemServlet - get active problem in paper " + idpaper);
+        DBProblem dbProblem = new DBProblem();
+        String pp = dbProblem.getNextActiveProblemInPaper(idpaper);
+
+        model.addAttribute("txt", pp);
+
+        return  "textmsg";
     }
 
     private String getProblemNextActive(Model model, String active) {
@@ -47,7 +62,7 @@ public class ProblemServlet {
         int iPID = 0;
 
         try {
-            iPID = Integer.parseInt(problemId);
+            iPID = Integer.parseInt(problemId.replaceAll(",",""));
         } catch (Exception e) {
             return "error";
         }
@@ -89,6 +104,7 @@ public class ProblemServlet {
 
     @PostMapping("/Problem/new")
     public @ResponseBody String createProblem(@RequestBody String stringToParse) {
+        System.out.println("ProblemServlet -- post create new problem");
         JSONObject res = new JSONObject();
         try {
             JSONObject jsonObject = new JSONObject(stringToParse.toString());
@@ -103,6 +119,7 @@ public class ProblemServlet {
             }
 
         } catch (JSONException e) {
+            System.out.println(stringToParse);
             e.printStackTrace();
             res.append(JSON_RESPONSE_KEY_SUCCESS, false);
         }

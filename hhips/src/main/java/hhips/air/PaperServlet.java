@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/hhipsair")
+//@RequestMapping("/hhipsair")
 public class PaperServlet {
     String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
     @GetMapping("/Paper/active")
