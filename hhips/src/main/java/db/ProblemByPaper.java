@@ -64,6 +64,16 @@ public class ProblemByPaper  {
 	private int isactive;
 	private String papername;
 	String workdetail;
+
+	public String getModulename() {
+		return modulename;
+	}
+
+	public void setModulename(String modulename) {
+		this.modulename = modulename;
+	}
+
+	String modulename;
 	public String getWorkdetail() {
 		return workdetail;
 	}

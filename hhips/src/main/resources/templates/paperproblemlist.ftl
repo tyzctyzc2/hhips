@@ -6,6 +6,20 @@
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
+	    <#if showAnswer != 0>
+            <table>
+                <tr>
+                    <td>
+                        <a href="./Source" style="text-decoration: none">
+                            <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
+                    </td>
+                    <td>
+                        <a href="./Problem?paperid=-1" style="text-decoration: none">
+                            <h1>卷卷目录</h1>
+                    </td>
+                </tr>
+            </table>
+        </#if>
 		<h1>${papername}</h1>
 		<#if showAnswer != 0>
 			<#if max != -1>
@@ -18,23 +32,37 @@
 								</a>
 							</td>
 							<td class="edge">
-								<p>${problems[i].problemlevel}&nbsp;&nbsp;</p>
-							</td>
+                                <#if problems[i].problemlevel == 1>
+                                    <p>☆</p>
+                                </#if>
+                                <#if problems[i].problemlevel == 2>
+                                    <p>☆☆</p>
+                                </#if>
+                                <#if problems[i].problemlevel == 3>
+                                    <p>☆☆☆</p>
+                                </#if>
+                                <#if problems[i].problemlevel == 4>
+                                    <p>☆☆☆☆</p>
+                                </#if>
+                            </td>
+                            <td class="edge">
+                                <p>${problems[i].modulename}&nbsp;&nbsp;</p>
+                            </td>
 							
 								<#if problems[i].workdetail??>
 									<td class="edge">
-										<p>${problems[i].usedtime?c} &nbsp;&nbsp;</p>
+										<p>${works[i]?size} &nbsp;&nbsp;</p>
 									</td>
 									<#if problems[i].workmark??>
 										<#if problems[i].workmark == 0>
-											<td><p class="right">-------Pass-------</p></td>
+											<td><p class="right">通过</p></td>
 										<#else>
-											<td><p class="wrong">------Not Pass----</p></td>
+											<td><p class="wrong">未通过</p></td>
 										</#if>
 									</#if>
 								<#else>
 									<td class="edge">
-										<p>no work recorder</p>
+										<p>未做</p>
 									</td>
 								</#if>
 								<td class="edge">

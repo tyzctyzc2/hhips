@@ -15,8 +15,6 @@ import org.hibernate.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import db.HibernateUtils;
-import db.Work;
 import db.Work.WorkColumnName;
 import uti.FileHelper;
 
@@ -40,15 +38,29 @@ public class DBWork {
         return all;
 	}
 
-	public  List<WorkByPaper> getPaperProblemWork(Integer idpaper, Integer idproblem) {
+	public List<WorkDetail> getProblemAllWork(Integer idproblem) {
 		Session session = HibernateUtils.openCurrentSession();
 
 		session.beginTransaction();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<WorkByPaper> criteriaQuery = criteriaBuilder.createQuery(WorkByPaper.class);
-		Root<WorkByPaper> itemRoot = criteriaQuery.from(WorkByPaper.class);
+		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
+		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem));
+		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
+		session.getTransaction().commit();
+
+		return all;
+	}
+
+	public  List<WorkDetail> getPaperProblemWork(Integer idpaper, Integer idproblem) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
+		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
 		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem), criteriaBuilder.equal(itemRoot.get("idpaper"), idpaper));
-		List<WorkByPaper> all =  session.createQuery(criteriaQuery).getResultList();
+		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
 		session.getTransaction().commit();
 
 		return all;

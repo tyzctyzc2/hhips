@@ -29,6 +29,16 @@ public class PageMaker {
 		List<ProblemWithLastWork> problems = myDBProblem.getProblemWithLastWorkByCharpter(chp.getIdsourcechapter());
 		root.put("problems", problems);
 		model.addAttribute("problems", problems);
+
+		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
+		for(int i =0;i<problems.size();++i) {
+			ProblemWithLastWork pp = problems.get(i);
+			DBWork ww = new DBWork();
+			List<WorkDetail> thisW = ww.getProblemAllWork(pp.getIdproblem());
+			allWork.add(thisW);
+		}
+		model.addAttribute("works", allWork);
+
 		if (problems.size() == 0) {
 			root.put("max", -1);
 			root.put("lastindex", -1);
@@ -129,11 +139,11 @@ public class PageMaker {
 		DBProblem myDBProblem = new DBProblem(); 
 		List<ProblemByPaper> problems = myDBProblem.getPaperProblemList(activeParameter);
 
-		ArrayList<List<WorkByPaper>> allWork = new ArrayList<List<WorkByPaper>>();
+		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
 		for(int i =0;i<problems.size();++i) {
 			ProblemByPaper pp = problems.get(i);
 			DBWork ww = new DBWork();
-			List<WorkByPaper> thisW = ww.getPaperProblemWork(Integer.parseInt(activeParameter), pp.getIdproblem());
+			List<WorkDetail> thisW = ww.getPaperProblemWork(Integer.parseInt(activeParameter), pp.getIdproblem());
 			allWork.add(thisW);
 		}
 

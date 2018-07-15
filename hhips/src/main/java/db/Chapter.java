@@ -9,7 +9,7 @@ public class Chapter {
 	public enum ChapterColumnName { sourcechaptername, sourcechapterindex, sourceid};
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int idsourcechapter;
 	private String sourcechaptername;
 	private int sourcechapterindex;

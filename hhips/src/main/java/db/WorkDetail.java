@@ -3,8 +3,8 @@ package db;
 import javax.persistence.*;
 import java.util.Date;
 @Entity
-@Table(name = "v_workbypaper")
-public class WorkByPaper {
+@Table(name = "v_workdetaillist")
+public class WorkDetail {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer idwork;
@@ -23,6 +23,16 @@ public class WorkByPaper {
     private Integer workmark;
     private Integer reason;
 
+    public Integer getProblemchapterid() {
+        return problemchapterid;
+    }
+
+    public void setProblemchapterid(Integer problemchapterid) {
+        this.problemchapterid = problemchapterid;
+    }
+
+    private Integer problemchapterid;
+
     public Integer getIdpaper() {
         return idpaper;
     }
@@ -32,7 +42,7 @@ public class WorkByPaper {
     }
 
     private  Integer idpaper;
-    public WorkByPaper() {
+    public WorkDetail() {
     }
 
 

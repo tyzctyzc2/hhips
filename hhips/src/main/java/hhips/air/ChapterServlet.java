@@ -1,10 +1,13 @@
 package hhips.air;
 
+import db.Chapter;
+import db.DBProblem;
+import db.DBProblemManagement;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 //@RequestMapping("/hhipsair")
@@ -50,5 +53,31 @@ public class ChapterServlet {
         PageMaker.prepareChapterList(model, sourceID);
 
         return "chapterlist";
+    }
+
+    String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
+    @PostMapping("/Chapter")
+    public @ResponseBody    String createNewChapter(@RequestBody String stringToParse) {
+        System.out.println("ChapterServlet -- post create new chapter");
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+            Chapter cc = new Chapter();
+            DBProblemManagement dbm = new DBProblemManagement();
+            Integer newChapterID = dbm.createNewChapter(stringToParse);
+            if (newChapterID == 0) {
+                res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+            }
+            else {
+                res.append(JSON_RESPONSE_KEY_SUCCESS, true);
+            }
+
+        } catch (JSONException e) {
+            System.out.println(stringToParse);
+            e.printStackTrace();
+            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        }
+
+        return res.toString();
     }
 }

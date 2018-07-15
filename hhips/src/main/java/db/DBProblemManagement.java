@@ -133,7 +133,7 @@ public class DBProblemManagement {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
         Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
-        criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idpaper"), 0));
+        criteriaQuery.select(itemRoot).where(criteriaBuilder.notEqual(itemRoot.get("isactive"), 5));
         List<Paper> all = session.createQuery(criteriaQuery).getResultList();
         
         session.getTransaction().commit();

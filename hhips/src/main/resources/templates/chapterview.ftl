@@ -10,11 +10,11 @@
 			<tr>
 				<td>
 					<a href="./Source" style="text-decoration: none">
-						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
+						<h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
 				<td>
 					<a href="./Problem?paperid=-1" style="text-decoration: none">
-						<h1>Paper List</h1>
+						<h1>卷卷目录</h1>
 				</td>
 			</tr>
 		</table>
@@ -27,61 +27,72 @@
 			</select>
 		</#if>
 		<#if max != -1>
-			<table>
-				<#list 0..max as i>
-						<tr class="edge">
-							<td class="edge">
-								<a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
-								<p>${problems[i].problemindex}&nbsp;&nbsp;</p>
-								</a>
-							</td>
-							<td class="edge">
-								<p>${problems[i].modulename}&nbsp;&nbsp;</p>
-							</td>
-							<td class="edge">
-								<p>${problems[i].problemlevel}&nbsp;&nbsp;</p>
-							</td>
-							
-								<#if problems[i].idwork??>
-									<td class="edge">
-										<p>${problems[i].workdate?string("yyyy-MM-dd")} &nbsp;&nbsp;&nbsp;</p>
-									</td>
-									<td class="edge">
-										<p>${problems[i].problemtotalworktime} &nbsp;&nbsp;</p>
-									</td>
-									<#if problems[i].workmark??>
-										<#if problems[i].workmark == 0>
-											<td><p class="right">Pass</p></td>
-										<#else>
-											<td><p class="wrong">Not Pass</p></td>
-										</#if>
-									<#else>
-									    <td><p>Wait score</p></td>
-									</#if>
-								<#else>
-									<td class="edge">
-										<p>no work recorder</p>
-									</td>
-								</#if>
+            <table>
+                <#list 0..max as i>
+                    <tr class="edge">
+                        <td class="edge">
+                            <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
+                            <p>${problems[i].problemindex}&nbsp;&nbsp;</p>
+                            </a>
+                        </td>
+                        <td class="edge">
+                            <#if problems[i].problemlevel == 1>
+                                <p>☆</p>
+                            </#if>
+                            <#if problems[i].problemlevel == 2>
+                                <p>☆☆</p>
+                            </#if>
+                            <#if problems[i].problemlevel == 3>
+                                <p>☆☆☆</p>
+                            </#if>
+                            <#if problems[i].problemlevel == 4>
+                                <p>☆☆☆☆</p>
+                            </#if>
+                        </td>
+                        <td class="edge">
+                            <p>${problems[i].modulename}&nbsp;&nbsp;</p>
+                        </td>
 
-								<#if problems[i].problemtotalusetime??>
-								    <td class="edge">
-                                        <p>${problems[i].problemtotalusetime?c}</p>
-                                    </td>
-								    <td class="edge">
-								        <p style="height: 10px; width:${problems[i].problemtotalusetime?c}0px;background-color:green"></p>
-                                    </td>
-                                    <td class="edge">
-                                        <p>${problems[i].usedtime?c}</p>
-                                    </td>
-                                    <td class="edge">
-                                        <p style="height: 10px; width:${problems[i].usedtime?c}0px;background-color:green"></p>
-                                    </td>
-								</#if>
-						</tr>
-				</#list>
-			</table>
-		</#if>
+                            <#if problems[i].workdetail??>
+                                <#if problems[i].workmark??>
+                                    <#if problems[i].workmark == 0>
+                                        <td><p class="right">通过</p></td>
+                                    <#else>
+                                        <td><p class="wrong">未通过</p></td>
+                                    </#if>
+                                </#if>
+                                <td class="edge">
+                                    <p>${problems[i].workdate?string("yyyy-MM-dd")} &nbsp;&nbsp;&nbsp;</p>
+                                </td>
+                                <td class="edge">
+                                    <p>${problems[i].problemtotalworktime?c} &nbsp;&nbsp;</p>
+                                </td>
+                                <td class="edge">
+                                    <p>${problems[i].problemtotalusetime?c}</p>
+                                </td>
+                            <#else>
+                                <td class="edge">
+                                    <p>未做</p>
+                                </td>
+                            </#if>
+                            <td class="edge">
+                                <#list works[i] as work>
+                                    <#if work.workmark??>
+                                        <#if work.workmark == 0>
+                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                        <#else>
+                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                        </#if>
+                                    <#else>
+                                        <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
+                                    </#if>
+                                </#list>
+
+                            </td>
+                        </tr>
+                </#list>
+            </table>
+        </#if>
 		<#if max != -1>
 			<#list 0..max as i>
 				<table>

@@ -6,7 +6,19 @@
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
-		<h1>Problem View</h1>
+	    <table>
+            <tr>
+                <td>
+                    <a href="./Source" style="text-decoration: none">
+                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
+                </td>
+                <td>
+                    <a href="./Problem?paperid=-1" style="text-decoration: none">
+                        <h1>卷卷目录</h1>
+                </td>
+            </tr>
+        </table>
+		<h1>题目历史</h1>
 		<table>
 			<tr class="edge">
 				<td>

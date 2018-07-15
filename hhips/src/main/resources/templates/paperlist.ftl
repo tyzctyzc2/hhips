@@ -7,18 +7,17 @@
 </head>
 	<body>
 		<table>
-			<tr>
-				<td>
-					
-						<h1>Paper List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-				</td>
-				<td>
-					<a href="./Source" style="text-decoration: none">
-						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-				</td>
-				
-			</tr>
-		</table>
+            <tr>
+                <td>
+                    <a href="./Source" style="text-decoration: none">
+                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
+                </td>
+                <td>
+                    <a href="./Problem?paperid=-1" style="text-decoration: none">
+                        <h1>卷卷目录</h1>
+                </td>
+            </tr>
+        </table>
 		
 		<#if paperlength != -1>
 			<table style="font-size:  x-large;">
@@ -34,7 +33,7 @@
 							</td>
 							<td>
 								<a href="./Problem?paperid=${papers[i].idpaper?c}&showanswer=1" style="text-decoration: none">
-									<p>${papers[i].papername} Answer &nbsp;&nbsp;&nbsp;</p>
+									<p>${papers[i].papername}分析版 &nbsp;&nbsp;&nbsp;</p>
 								</a>
 							</td>
 							<#if papers[i].isactive == 1>

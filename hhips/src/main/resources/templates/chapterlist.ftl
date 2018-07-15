@@ -7,19 +7,18 @@
 </head>
 	<body>
 		<table>
-			<tr>
-				<td>
-					<a href="./Source" style="text-decoration: none">
-						<h1>Source List&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-				</td>
-				<td>
-					<a href="./Problem?paperid=-1" style="text-decoration: none">
-						<h1>Paper List</h1>
-				</td>
-			</tr>
-		</table>
-		<h1>Chapter List</h1>
-		<p>${sourcename}</p>
+            <tr>
+                <td>
+                    <a href="./Source" style="text-decoration: none">
+                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
+                </td>
+                <td>
+                    <a href="./Problem?paperid=-1" style="text-decoration: none">
+                        <h1>卷卷目录</h1>
+                </td>
+            </tr>
+        </table>
+		<h1>章节列表---${sourcename}</h1>
 		<#if chapterlength != -1>
 			<table style="font-size:  x-large;">
 					<#list 0..chapterlength as i>
