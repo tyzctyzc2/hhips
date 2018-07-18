@@ -44,13 +44,16 @@ public class DBWork {
 
         Date ee = new Date();
 
-        try {
-            ss = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
-            ee = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        if (wantDay.length() > 0) {
+
+			try {
+				ss = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+				ee = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return new ArrayList<>();
+			}
+		}
         ss.setHours(0);
         ee.setHours(23);
 		Session session = HibernateUtils.openCurrentSession();

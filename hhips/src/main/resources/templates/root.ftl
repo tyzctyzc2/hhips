@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="./Report/day?wantday=20180717" style="text-decoration: none">
+                    <a href="./Report" style="text-decoration: none">
                         <h1>今日成绩</h1>
                 </td>
             </tr>

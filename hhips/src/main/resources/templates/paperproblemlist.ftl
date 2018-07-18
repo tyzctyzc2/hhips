@@ -69,9 +69,17 @@
 								    <#list works[i] as work>
 								        <#if work.workmark??>
 								            <#if work.workmark == 0>
-								                <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+								                <#if work.usedtime == 0>
+								                    <p class="edge" style="height: 20px; float:left; width:10px;background-color:green">${work.usedtime?c}</p>
+								                <#else>
+								                    <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                                </#if>
                                             <#else>
-                                                <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                                <#if work.usedtime == 0>
+                                                    <p class="edge" style="height: 20px; float:left; width:10px;background-color:red">${work.usedtime?c}</p>
+                                                <#else>
+                                                    <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                                </#if>
                                             </#if>
                                         <#else>
                                             <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
