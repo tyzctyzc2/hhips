@@ -27,7 +27,11 @@ public class AirApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		FileHelper.absolutePath = "D:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\hhipsair\\WEB-INF\\classes\\static\\";
+		//FileHelper.absolutePath = "D:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\hhipsair\\WEB-INF\\classes\\static\\";
+		String staticPath = System.getProperty("user.dir") + "\\webapps\\hhipsair\\WEB-INF\\classes\\static\\";
+		System.out.println("Set Working Directory = " +    staticPath);
+
+		FileHelper.absolutePath = staticPath;
 		return builder.sources(AirApplication.class);
 	}
 

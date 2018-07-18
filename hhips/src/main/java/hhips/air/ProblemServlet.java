@@ -17,13 +17,14 @@ public class ProblemServlet {
     public String processProblemGet(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID,
                                     @RequestParam(value="chapterid", required=false, defaultValue="0") int chapterID,
                                     @RequestParam(value="showanswer", required=false, defaultValue="0") int showAnswer,
+                                    @RequestParam(value="noFormat", required=false, defaultValue="0") int noFormat,
                                     @RequestParam(value="problemid", required=false, defaultValue="0") String problemId,
                                     @RequestParam(value="active", required=false, defaultValue="") String active,
                                     @RequestParam(value="idpaper", required=false, defaultValue="") String idpaper) {
         System.out.println("ProblemServlet - problem request");
 
         if (paperID.compareTo("0") !=0)
-            return getPaperRelated(model, paperID, showAnswer);
+            return getPaperRelated(model, paperID, showAnswer, noFormat);
 
         if (problemId.compareTo("0") !=0)
             return getProblemDetailCase(model, problemId);
@@ -71,7 +72,7 @@ public class ProblemServlet {
         return "problemdetail";
     }
 
-    private String getPaperRelated(Model model, String paperID, int showAnswer) {
+    private String getPaperRelated(Model model, String paperID, int showAnswer, int noFormat) {
         System.out.println("ProblemServlet - get paper problem request " + paperID);
 
         if (showAnswer != 0)
@@ -82,15 +83,16 @@ public class ProblemServlet {
         }
         else {
             System.out.println("ProblemServlet -- get paper list of " + paperID);
-            return getPaperProblemList(model, paperID, showAnswer);
+            return getPaperProblemList(model, paperID, showAnswer, noFormat);
         }
     }
 
-    private String getPaperProblemList(Model model, String paperID, int showAnswer) {
+    private String getPaperProblemList(Model model, String paperID, int showAnswer, int noFormat) {
         Map<String, Object> root = PageMaker.preparePaperProblemList(model, paperID);
 
         root.put("showAnswer", showAnswer);
         model.addAttribute("showAnswer", showAnswer);
+        model.addAttribute("noFormat", noFormat);
 
         return "paperproblemlist";
     }

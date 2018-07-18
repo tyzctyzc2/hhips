@@ -2,6 +2,7 @@ package db;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,33 @@ public class DBWork {
         
         session.getTransaction().commit();
         return all;
+	}
+
+	public List<WorkDetail> getDayAllWork(String wantDay) {
+        Date ss = new Date();
+
+        Date ee = new Date();
+
+        try {
+            ss = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+            ee = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+        ss.setHours(0);
+        ee.setHours(23);
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
+		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("workdate"), ss), criteriaBuilder.lessThan(itemRoot.get("workdate"), ee));
+		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
+		session.getTransaction().commit();
+
+		return all;
 	}
 
 	public List<WorkDetail> getProblemAllWork(Integer idproblem) {

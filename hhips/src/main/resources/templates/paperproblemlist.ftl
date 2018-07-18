@@ -89,7 +89,7 @@
 			<#list 0..max as i>
 				<table style="font-size:  x-large;">
 					<span id=jump_${problems[i].idproblem?c}></span>
-					<tr class="edge">
+					<tr>
 						<td>
 							<a href="./Problem?problemid=${problems[i].idproblem?c}">
 								<img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
@@ -148,22 +148,24 @@
 						</tr>
 					</table>	
 				</#if>
-				<tr>
-					<td>
-						<br></br>
-					</td>
-					<td>
-						<br></br>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<br></br>
-					</td>
-					<td>
-						<br></br>
-					</td>
-				</tr>
+				<#if noFormat == 0>
+                    <tr>
+                        <td>
+                            <br></br>
+                        </td>
+                        <td>
+                            <br></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br></br>
+                        </td>
+                        <td>
+                            <br></br>
+                        </td>
+                    </tr>
+                </#if>
 			</#list>
 		</#if>
 		

@@ -17,6 +17,34 @@ public class WorkDetail {
         this.idproblem = idproblem;
     }
 
+    public Date getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getPapername() {
+        return papername;
+    }
+
+    public void setPapername(String papername) {
+        this.papername = papername;
+    }
+
+    private String papername;
+
+    public String getModulename() {
+        return modulename;
+    }
+
+    public void setModulename(String modulename) {
+        this.modulename = modulename;
+    }
+
+    private  String modulename;
+    private Date startdate;
     private Date workdate;
     private Integer usedtime;
     private String workdetail;

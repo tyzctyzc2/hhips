@@ -24,12 +24,15 @@ public class FileHelper {
 		String day = dateFormat.format(date);
 		dateFormat = new SimpleDateFormat("yyyyMM");
 		String month = dateFormat.format(date);
-		
+
 		Path path = Paths.get(absolutePath + month);
 		System.out.println(absolutePath + month);
-		/*if (Files.exists(path)) {
-			URI.create(absolutePath + month);
-		}*/
+
+		File directory = new File(absolutePath + month);
+		if (! directory.exists()){
+			directory.mkdir();
+			System.out.println("Path created -- " + absolutePath + month);
+		}
 
 		return month + "\\" + day + "_";
 	}
