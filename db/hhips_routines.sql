@@ -223,6 +223,22 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `v_chaptersummary`
+--
+
+DROP TABLE IF EXISTS `v_chaptersummary`;
+/*!50001 DROP VIEW IF EXISTS `v_chaptersummary`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_chaptersummary` AS SELECT 
+ 1 AS `idsourcechapter`,
+ 1 AS `sourceid`,
+ 1 AS `sourcechapterindex`,
+ 1 AS `sourcechaptername`,
+ 1 AS `chapterproblemcount`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Final view structure for view `v_workbypaper`
 --
 
@@ -401,6 +417,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_chaptersummary`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_chaptersummary`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_chaptersummary` AS select `c`.`idsourcechapter` AS `idsourcechapter`,`c`.`sourceid` AS `sourceid`,`c`.`sourcechapterindex` AS `sourcechapterindex`,`c`.`sourcechaptername` AS `sourcechaptername`,count(`p`.`idproblem`) AS `chapterproblemcount` from (`sourcechapter` `c` left join `problem` `p` on((`p`.`problemchapterid` = `c`.`idsourcechapter`))) group by `c`.`idsourcechapter`,`c`.`sourcechapterindex`,`c`.`sourcechaptername`,`c`.`sourceid` order by `c`.`sourcechapterindex` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -411,4 +445,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-18 12:22:53
+-- Dump completed on 2018-07-22 10:19:08

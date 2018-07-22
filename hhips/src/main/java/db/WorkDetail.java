@@ -43,6 +43,15 @@ public class WorkDetail {
         this.modulename = modulename;
     }
 
+    public Integer getProblemlevel() {
+        return problemlevel;
+    }
+
+    public void setProblemlevel(Integer problemlevel) {
+        this.problemlevel = problemlevel;
+    }
+
+    private  Integer problemlevel;
     private  String modulename;
     private Date startdate;
     private Date workdate;

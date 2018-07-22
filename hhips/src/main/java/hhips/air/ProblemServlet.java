@@ -82,7 +82,7 @@ public class ProblemServlet {
             return getPaperList(model);
         }
         else {
-            System.out.println("ProblemServlet -- get paper list of " + paperID);
+            System.out.println("ProblemServlet -- <getPaperRelated>get paper list of " + paperID);
             return getPaperProblemList(model, paperID, showAnswer, noFormat);
         }
     }
@@ -91,6 +91,7 @@ public class ProblemServlet {
         Map<String, Object> root = PageMaker.preparePaperProblemList(model, paperID);
 
         root.put("showAnswer", showAnswer);
+        model.addAttribute("idpaper", paperID);
         model.addAttribute("showAnswer", showAnswer);
         model.addAttribute("noFormat", noFormat);
 
@@ -103,6 +104,31 @@ public class ProblemServlet {
     }
 
     String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
+
+    @PostMapping("/Problem/update")
+    public @ResponseBody String updateProblem(@RequestBody String stringToParse) {
+        System.out.println("ProblemServlet -- post update new problem");
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+            DBProblem dbProblem = new DBProblem();
+            System.out.println("ProblemServlet - update problem request");
+            Integer newProblemID =dbProblem.UpdateProblem(jsonObject);
+            if (newProblemID == 0) {
+                res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+            }
+            else {
+                res.append(JSON_RESPONSE_KEY_SUCCESS, true);
+            }
+
+        } catch (JSONException e) {
+            System.out.println(stringToParse);
+            e.printStackTrace();
+            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        }
+
+        return res.toString();
+    }
 
     @PostMapping("/Problem/new")
     public @ResponseBody String createProblem(@RequestBody String stringToParse) {

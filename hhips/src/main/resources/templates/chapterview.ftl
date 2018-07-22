@@ -14,10 +14,17 @@
 				</td>
 				<td>
 					<a href="./Problem?paperid=-1" style="text-decoration: none">
-						<h1>卷卷目录</h1>
+						<h1>卷卷目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
 				</td>
+				<td>
+                    <a href="./" style="text-decoration: none">
+                        <h1>首页</h1>
+                </td>
 			</tr>
 		</table>
+		<a href="./Chapter?sourceid=${sourceid}" style="text-decoration: none">
+		    <h1>${sourcename}</h1>
+        </a>
 		<h1>${chapername}</h1>
 		<#if maxpaper != -1>
 			<select id="paperselect">
@@ -215,6 +222,17 @@
 						<option value="22">22</option>
 						<option value="23">23</option>
 						<option value="24">24</option>
+						<option value="25">25</option>
+						<option value="26">26</option>
+						<option value="27">27</option>
+						<option value="28">28</option>
+						<option value="29">29</option>
+						<option value="30">30</option>
+						<option value="31">31</option>
+						<option value="32">32</option>
+						<option value="33">33</option>
+						<option value="34">34</option>
+						<option value="35">35</option>
 						<option value="Z01">Z01</option>
 						<option value="Z02">Z02</option>
 						<option value="Z03">Z03</option>

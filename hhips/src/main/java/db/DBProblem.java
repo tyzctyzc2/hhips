@@ -12,6 +12,7 @@ import db.ProblemWithWork;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.LoggerFactory;
 import uti.FileHelper;
 
 import java.util.List;
@@ -22,6 +23,8 @@ import javax.persistence.criteria.Root;
 
 
 public class DBProblem {
+
+	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DBProblem.class);
 
 	public DBProblem() {
 	}
@@ -127,6 +130,66 @@ public class DBProblem {
         
         session.getTransaction().commit();
 		return all;	
+	}
+
+	public Integer UpdateProblem(JSONObject jsonObject) {
+		System.out.println("update problem request...");
+		String log = "";
+		int pID = 0;
+		try {
+			Problem p = new Problem();
+			if (jsonObject.has(ProblemColumnName.idproblem.toString())) {
+				p.setIdproblem(jsonObject.getInt(ProblemColumnName.idproblem.toString()));
+				log = log + ProblemColumnName.idproblem.toString() + "=" + p.getIdproblem().toString() + ";";
+			}
+			p = getProblemDetail(p.getIdproblem());
+
+			if (jsonObject.has(ProblemColumnName.problemlevel.toString())) {
+				p.setProblemlevel(jsonObject.getInt(ProblemColumnName.problemlevel.toString()));
+				log = log + ProblemColumnName.problemlevel.toString() + "=" + p.getProblemlevel().toString() + ";";
+			}
+			if (jsonObject.has(ProblemColumnName.problemchapterid.toString())) {
+				p.setProblemchapterid(jsonObject.getInt(ProblemColumnName.problemchapterid.toString()));
+				log = log + ProblemColumnName.problemchapterid.toString() + "=" + p.getProblemchapterid().toString() + ";";
+			}
+			if (jsonObject.has(ProblemColumnName.problemindex.toString())) {
+				p.setProblemindex(jsonObject.getString(ProblemColumnName.problemindex.toString()));
+				log = log + ProblemColumnName.problemindex.toString() + "=" + p.getProblemindex() + ";";
+			}
+			if (jsonObject.has(ProblemColumnName.problemmodule.toString())) {
+				p.setProblemmodule(jsonObject.getInt(ProblemColumnName.problemmodule.toString()));
+				log = log + ProblemColumnName.problemmodule.toString() + "=" + p.getProblemmodule().toString() + ";";
+			}
+			if (jsonObject.has(ProblemColumnName.problemanswerstring.toString())) {
+				if (jsonObject.getString(ProblemColumnName.problemanswerstring.toString()).length() > 0) {
+					p.setProblemanswerstring(jsonObject.getString(ProblemColumnName.problemanswerstring.toString()));
+					log = log + ProblemColumnName.problemanswerstring.toString() + "=" + p.getProblemanswerstring() + ";";
+				}
+			}
+			if (jsonObject.has(ProblemColumnName.problemcisactive.toString()))
+				p.setProblemcisactive(jsonObject.getInt(ProblemColumnName.problemcisactive.toString()));
+
+			System.out.println(log);
+			logger.info(log);
+			updateProbelm(p);
+
+			if (jsonObject.has(ProblemColumnName.problemdetail.toString())) {
+				if (jsonObject.getString(ProblemColumnName.problemdetail.toString()).length() > 0) {
+					FileHelper.updateBase64File(jsonObject.getString(ProblemColumnName.problemdetail.toString()), p.getProblemdetail());
+				}
+			}
+
+			if (jsonObject.has(ProblemColumnName.problemanswerdetail.toString())) {
+				if (jsonObject.getString(ProblemColumnName.problemanswerdetail.toString()).length() > 0) {
+					FileHelper.updateBase64File(jsonObject.getString(ProblemColumnName.problemanswerdetail.toString()), p.getProblemanswerdetail());
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pID;
 	}
 
 	public Integer PushProblem(JSONObject jsonObject) {

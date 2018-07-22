@@ -14,6 +14,31 @@ import uti.StringHelper;
 @Controller
 //@RequestMapping("/hhipsair")
 public class WorkServlet {
+    @PostMapping("/Work/wrong")
+    public @ResponseBody
+    String wrongPaperProblem(@RequestBody String stringToParse) {
+        System.out.println("WorkServlet - post request - mark work wrong");
+        int idwork = 0;
+        int workmark = -1;
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+            idwork = jsonObject.getInt("idwork");
+            workmark = jsonObject.getInt("workmark");
+
+            DBWork dbWork = new DBWork();
+
+            if (dbWork.updateWorkMark(idwork, workmark)==true)
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
+            else
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
+        } catch (JSONException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        return res.toString();
+    }
+
     @PostMapping("/Work/active")
     public @ResponseBody
     String activePaperProblem(@RequestBody String stringToParse) {

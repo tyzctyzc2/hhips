@@ -19,7 +19,11 @@ public class PageMaker {
 		catch (Exception e){
 			chp.setIdsourcechapter(1);
 		}
-		String chapterName = myProblemManagementDB.getChaperName(chp);
+		Chapter cp = myProblemManagementDB.getChaperName(chp);
+		String chapterName = cp.getSourcechaptername();
+		String sourceName = myProblemManagementDB.getSourceName(cp.getSourceid());
+		model.addAttribute("sourcename", sourceName);
+		model.addAttribute("sourceid", cp.getSourceid());
 
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("chapername", chapterName);
@@ -88,7 +92,8 @@ public class PageMaker {
 		catch (Exception e){
 			chp.setIdsourcechapter(1);
 		}
-		String chapterName = myProblemManagementDB.getChaperName(chp);
+		Chapter cp = myProblemManagementDB.getChaperName(chp);
+		String chapterName =cp.getSourcechaptername();
 
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("chapername", chapterName);
@@ -105,6 +110,10 @@ public class PageMaker {
 		DBProblem myDBProblem = new DBProblem(); 
 		Problem p = myDBProblem.getProblemDetail(problemID);
 
+		model.addAttribute("lastindex", p.getProblemindex());
+		model.addAttribute("lastmodule", p.getProblemmodule());
+		model.addAttribute("lastlevel", p.getProblemlevel());
+
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("problemdetail", p);
 		model.addAttribute("problemdetail", p);
@@ -116,7 +125,19 @@ public class PageMaker {
 
 		model.addAttribute("worklength", allWork.size()-1);
 		model.addAttribute("works", allWork);
-		
+
+		DBProblemManagement myProblemManagementDB = new DBProblemManagement();
+		List<Module> modules = myProblemManagementDB.getAllModule();
+
+		model.addAttribute("modules", modules);
+		model.addAttribute("maxmodule", modules.size()-1);
+
+		Chapter cp = new Chapter();
+		cp.setIdsourcechapter(p.getProblemchapterid());
+		cp = myProblemManagementDB.getChaperName(cp);
+		String chapterName = cp.getSourcechaptername();
+		model.addAttribute("chapterName", chapterName);
+
 		return root;
 	}
 	
@@ -179,7 +200,8 @@ public class PageMaker {
 
 		Map<String, Object> root = new HashMap<String, Object>();
 	
-		List<SourceChapter> allWork = myProblemManagementDB.getChapterList(sourceID);
+		//List<SourceChapter> allWork = myProblemManagementDB.getChapterList(sourceID);
+		List<SourceChapterSummary> allWork = myProblemManagementDB.getChapterSummaryList(sourceID);
 		root.put("chapterlength", allWork.size()-1);
 		root.put("chapters", allWork);
 		root.put("sourcename", sourceName);

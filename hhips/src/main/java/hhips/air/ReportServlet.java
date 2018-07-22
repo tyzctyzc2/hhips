@@ -32,18 +32,21 @@ public class ReportServlet {
     }
 
     private void processWorkDetail4Paper(Model model, List<WorkDetail> workDetails) {
-        HashMap<String, Map<Integer, List<WorkDetail>>> allWorks = new HashMap<>();
+        HashMap<String, Map<String, List<WorkDetail>>> allWorks = new HashMap<>();
 
         int totalCorrectUsedTime = 0;
         int totalCorrectTime = 0;
+        int avgCorrect = 0;
         int totalWrongUsedTime = 0;
         int totalWrongTime =0;
+        int avgWrong = 0;
         int totalUnknownUsedTime = 0;
         int totalUnknownTime =0;
+        int avgUnknown = 0;
 
         for (int i = 0; i < workDetails.size(); ++i) {
             WorkDetail curW = workDetails.get(i);
-            int paperID = curW.getIdpaper();
+            String paperID = Integer.toString(curW.getIdpaper());
 
             if (curW.getWorkmark() == null) {
                 totalUnknownUsedTime = totalUnknownUsedTime + curW.getUsedtime();
@@ -60,13 +63,13 @@ public class ReportServlet {
                 }
             }
 
-            Map<Integer, List<WorkDetail>> paperW = new HashMap<>();
+            Map<String, List<WorkDetail>> paperW = new HashMap<>();
             if (allWorks.containsKey(paperID))
                 paperW = allWorks.get(paperID);
             else
-                allWorks.put(Integer.toString(paperID), paperW);
+                allWorks.put(paperID, paperW);
 
-            int problemID = curW.getIdproblem();
+            String problemID = Integer.toString(curW.getIdproblem());
             List<WorkDetail> problemW = new ArrayList<>();
             if (paperW.containsKey(problemID))
                 problemW = paperW.get(problemID);
@@ -76,13 +79,85 @@ public class ReportServlet {
             problemW.add(curW);
         }
 
+        if(totalCorrectTime > 0)
+            avgCorrect = (int)(totalCorrectUsedTime/totalCorrectTime);
+
+        if (totalWrongTime > 0)
+            avgWrong = (int) (totalWrongUsedTime/totalWrongTime);
+
+        if (totalUnknownTime > 0)
+            avgUnknown = (int) (totalUnknownUsedTime/totalUnknownTime);
+
+        int totalUsedTime = totalCorrectUsedTime + totalWrongUsedTime +totalUnknownUsedTime;
+        int totalTimes = totalCorrectTime + totalWrongTime +totalUnknownTime;
+        int avgTotal = 0;
+        if (totalTimes > 0)
+            avgTotal = totalUsedTime / totalTimes;
+
         model.addAttribute("workbypaper", allWorks);
         model.addAttribute("totalCorrectUsedTime", totalCorrectUsedTime);
         model.addAttribute("totalCorrectTime", totalCorrectTime);
+        model.addAttribute("avgCorrect", avgCorrect);
         model.addAttribute("totalWrongUsedTime", totalWrongUsedTime);
         model.addAttribute("totalWrongTime", totalWrongTime);
+        model.addAttribute("avgWrong", avgWrong);
         model.addAttribute("totalUnknownUsedTime", totalUnknownUsedTime);
         model.addAttribute("totalUnknownTime", totalUnknownTime);
+        model.addAttribute("avgUnknown", avgUnknown);
+        model.addAttribute("totalUsedTime", totalUsedTime);
+        model.addAttribute("totalTimes", totalTimes);
+        model.addAttribute("avgTotal", avgTotal);
+
+        int paperIndex = 0;
+        double score = 0;
+
+        for (Map.Entry<String, Map<String, List<WorkDetail>>> paper : allWorks.entrySet()) {
+            Map<String, List<WorkDetail>> curPaper = paper.getValue();
+
+            int problemCountInPaper = curPaper.size();
+            int solvedProblem = 0;
+            int unsolvedProblem = 0;
+            int unknownProblem = 0;
+
+            ArrayList<Integer> paperProblemTime = new ArrayList<>();//sort to get 90 avg.
+            for (Map.Entry<String, List<WorkDetail>> problem : curPaper.entrySet()) {
+                List<WorkDetail> workList = problem.getValue();
+                boolean curSolved = false;
+                int curProblemTime = 0;
+                int curLevel = 0;
+
+                for(int k=0; k < workList.size(); ++k) {
+                    WorkDetail curWd = workList.get(k);
+
+                    curLevel = curWd.getProblemlevel();
+
+                    if (curWd.getWorkmark() == null) {
+                        unknownProblem++;
+                    }
+                    else {
+                        if (curWd.getWorkmark() == 0)
+                            curSolved = true;
+                    }
+
+                    curProblemTime = curProblemTime + curWd.getUsedtime();
+                }
+
+                if (curSolved)
+                    solvedProblem++;
+                else
+                    unsolvedProblem++;
+
+                if (curSolved) {
+                    switch (curLevel) {
+                        case 1:
+                            score = score + 0.2;
+                            break;
+                    }
+                }
+
+                paperProblemTime.add(curProblemTime);
+            }
+        }
     }
 
     private ArrayList<WorkDetail> processWorkDetail(List<WorkDetail> wd) {

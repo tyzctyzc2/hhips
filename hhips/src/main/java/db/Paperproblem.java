@@ -2,6 +2,10 @@ package db;
 // default package
 // Generated May 27, 2018 11:48:26 AM by Hibernate Tools 5.3.0.Beta2
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import javax.persistence.*;
 
 /**
@@ -69,6 +73,23 @@ public class Paperproblem implements java.io.Serializable {
 
 	public void setProblemid(int problemid) {
 		this.problemid = problemid;
+	}
+
+	public boolean update() {
+		Transaction tx = null;
+		Session session = HibernateUtils.openCurrentSession();
+		try {
+			session = HibernateUtils.openCurrentSession();
+			tx = session.beginTransaction();
+			session.update(this);
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			session.close();
+		}
+		return true;
 	}
 
 }

@@ -20,6 +20,7 @@
       <!-- List of XML mapping files -->
       <mapping class="db.Source" />
       <mapping class="db.SourceChapter" />
+      <mapping class="db.SourceChapterSummary" />
       <mapping class="db.Chapter" />
       <mapping class="db.ProblemWithLastWork" />
       <mapping class="db.Module" />

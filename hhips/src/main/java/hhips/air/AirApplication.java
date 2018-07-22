@@ -20,7 +20,8 @@ import static java.util.Locale.ROOT;
 public class AirApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {
-		FileHelper.absolutePath = "D:\\spring\\hhips\\target\\classes\\static\\";
+		//FileHelper.absolutePath = "D:\\spring\\hhips\\target\\classes\\static\\";
+		FileHelper.absolutePath = "D:\\lznjava\\hhips\\hhips\\target\\classes\\static\\";
 
 		SpringApplication.run(AirApplication.class, args);
 	}

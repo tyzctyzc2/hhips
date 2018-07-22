@@ -7,6 +7,7 @@
 </head>
 	<body>
 	    <#if showAnswer != 0>
+	        <div style="display: inline-flex;">
             <table>
                 <tr>
                     <td>
@@ -15,12 +16,20 @@
                     </td>
                     <td>
                         <a href="./Problem?paperid=-1" style="text-decoration: none">
-                            <h1>卷卷目录</h1>
+                            <h1>卷卷目录&nbsp; &nbsp;&nbsp;</h1>
+                    </td>
+                    <td>
+                        <a href="./" style="text-decoration: none">
+                            <h1>首页</h1>
                     </td>
                 </tr>
             </table>
+            <button class="bigFont" type="button" onclick="activeWholePaper(${idpaper})">Active All Problem in Paper</button>
+            </div>
         </#if>
-		<h1>${papername}</h1>
+
+        <h1>${papername}</h1>
+
 		<#if showAnswer != 0>
 			<#if max != -1>
 				<table>
@@ -47,6 +56,13 @@
                             </td>
                             <td class="edge">
                                 <p>${problems[i].modulename}&nbsp;&nbsp;</p>
+                            </td>
+                            <td class="edge">
+                                <#if problems[i].problemstatus == 1>
+                                    <p>Active</p>
+                                <#else>
+                                    <p>Hold</p>
+                                </#if>
                             </td>
 							
 								<#if problems[i].workdetail??>
@@ -114,17 +130,17 @@
 								</td>
 								<#if problems[i].problemstatus == 1>
 									<td class="bigFont">
-										Wait to do
+										Active
 									</td>
 								</#if>
 								<#if problems[i].problemstatus == 2>
 									<td class="bigFont">
-										Wait to mark
+										Not Active
 									</td>
 								</#if>
 								<#if problems[i].problemstatus == 3>
 									<td class="bigFont">
-										Done
+										Not Active
 									</td>
 								</#if>
 							</tr>
@@ -145,6 +161,7 @@
 								</#if>
 								<button class="bigFont" type="button" onclick="markWrong(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">Wrong</button>
 								<button class="bigFont" type="button" onclick="activeAgain(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">ActiveOnly</button>
+								<button class="bigFont" type="button" onclick="markWrongOnly(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">WrongOnly</button>
 							</tr>
 						</table>
 					</#if>	
@@ -179,6 +196,49 @@
 		
 	</body>
 	<script>
+	    var idpaper = ${idpaper};
+	    function activeWholePaper(_idpaper) {
+
+            var url = "./Paper/activewholeproblem?idpaper="+idpaper;
+
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: null,
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+        }
+	    function markWrongOnly(idwork, paperproblemid, idproblem) {
+            var pData = {};
+            pData.idwork=idwork;
+            pData.workmark=1;
+            pData.paperproblemid=paperproblemid;
+            pData.idproblem=idproblem;
+
+            var url = "./Work/wrong";
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+        }
 	    function activeAgain(idwork, paperproblemid, idproblem) {
             var pData = {};
             pData.idwork=idwork;

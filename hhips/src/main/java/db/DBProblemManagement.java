@@ -250,7 +250,29 @@ public class DBProblemManagement {
 		
 		return insertPaperWork(workid, pp.getPaperid(), pp.getProblemid());
 	}
-	
+
+	public boolean changeAllPaperProblemStatus(int paperID, int problemstatus) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
+		Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("paperid"), paperID));
+		List<Paperproblem> all = session.createQuery(criteriaQuery).getResultList();
+
+		session.getTransaction().commit();
+
+		for(int i = 0; i<all.size();++i) {
+			Paperproblem pp = all.get(i);
+			pp.setProblemstatus(problemstatus);
+			pp.update();
+		}
+
+		return true;
+	}
+
 	public boolean ChangeProblemPaperStatus(int problemid, int paperproblemid, int problemstatus) {
 		Session session = HibernateUtils.openCurrentSession();
 
@@ -270,19 +292,7 @@ public class DBProblemManagement {
 		
 		Paperproblem pp = all.get(0);
 		pp.setProblemstatus(problemstatus);
-		Transaction tx = null;
-
-		try {
-			session = HibernateUtils.openCurrentSession();
-			tx = session.beginTransaction();
-			session.update(pp);
-			tx.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			session.close();
-		}
+		pp.update();
 		return true;
 	}
 	
@@ -321,7 +331,7 @@ public class DBProblemManagement {
 	}
 	
 	//chapter part
-	public String getChaperName(Chapter c) {
+	public Chapter getChaperName(Chapter c) {
 		Session session = HibernateUtils.openCurrentSession();
 		
 		session.beginTransaction();
@@ -334,7 +344,7 @@ public class DBProblemManagement {
         
         session.getTransaction().commit();
         
-		return all.get(0).getSourcechaptername();
+		return all.get(0);
 	}
 	
 	int insertChapter(Chapter p) {
@@ -379,6 +389,23 @@ public class DBProblemManagement {
 			e.printStackTrace();
 		}
 		return cID;
+	}
+
+	public List<SourceChapterSummary> getChapterSummaryList(int sourceID) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<SourceChapterSummary> criteriaQuery = criteriaBuilder.createQuery(SourceChapterSummary.class);
+		Root<SourceChapterSummary> itemRoot = criteriaQuery.from(SourceChapterSummary.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("sourceid"), sourceID)).orderBy(criteriaBuilder.asc(itemRoot.get("sourcechapterindex")));
+		List<SourceChapterSummary> all = session.createQuery(criteriaQuery).getResultList();
+
+		session.getTransaction().commit();
+
+
+		return all;
 	}
 	
 	public List<SourceChapter> getChapterList(int sourceID) {

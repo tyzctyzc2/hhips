@@ -76,4 +76,10 @@ public class FileHelper {
 		saveImageFile(decodedDetail, filePathName);
 		return filePathName;
 	}
+
+	public static String updateBase64File(String base64String, String fileName) {
+		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
+		saveImageFile(decodedDetail, fileName);
+		return fileName;
+	}
 }
