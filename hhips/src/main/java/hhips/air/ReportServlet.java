@@ -1,18 +1,75 @@
 package hhips.air;
 
 import db.DBWork;
-import db.Work;
+import score.ProblemScoreCalculator;
 import db.WorkDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import score.ScoreCalculator;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Controller
 public class ReportServlet {
+    public class PaperSummary {
+        private Integer idpaper;
+        private String paperName;
+        private Integer totalWorkedProblem;
+        private Integer oneTimeCorrectProblem;
+        private Integer waitToFixProblem;
+        private Integer totalWorkTime;
+
+        public Integer getIdpaper() {
+            return idpaper;
+        }
+
+        public void setIdpaper(Integer idpaper) {
+            this.idpaper = idpaper;
+        }
+
+        public String getPaperName() {
+            return paperName;
+        }
+
+        public void setPaperName(String paperName) {
+            this.paperName = paperName;
+        }
+
+        public Integer getTotalWorkedProblem() {
+            return totalWorkedProblem;
+        }
+
+        public void setTotalWorkedProblem(Integer totalWorkedProblem) {
+            this.totalWorkedProblem = totalWorkedProblem;
+        }
+
+        public Integer getOneTimeCorrectProblem() {
+            return oneTimeCorrectProblem;
+        }
+
+        public void setOneTimeCorrectProblem(Integer oneTimeCorrectProblem) {
+            this.oneTimeCorrectProblem = oneTimeCorrectProblem;
+        }
+
+        public Integer getWaitToFixProblem() {
+            return waitToFixProblem;
+        }
+
+        public void setWaitToFixProblem(Integer waitToFixProblem) {
+            this.waitToFixProblem = waitToFixProblem;
+        }
+
+        public Integer getTotalWorkTime() {
+            return totalWorkTime;
+        }
+
+        public void setTotalWorkTime(Integer totalWorkTime) {
+            this.totalWorkTime = totalWorkTime;
+        }
+    }
+
     @GetMapping("/Report")
     public String processProblemGet(Model model, @RequestParam(value = "wantday", required = false, defaultValue = "") String wantDay) {
         System.out.println("ReportServlet - report request --" + wantDay);
@@ -108,8 +165,13 @@ public class ReportServlet {
         model.addAttribute("totalTimes", totalTimes);
         model.addAttribute("avgTotal", avgTotal);
 
+        generatePaperSummary(model, allWorks);
+    }
+
+    private void generatePaperSummary(Model model, HashMap<String, Map<String, List<WorkDetail>>> allWorks) {
         int paperIndex = 0;
         double score = 0;
+        List<PaperSummary> paperSummaryList = new ArrayList<>();
 
         for (Map.Entry<String, Map<String, List<WorkDetail>>> paper : allWorks.entrySet()) {
             Map<String, List<WorkDetail>> curPaper = paper.getValue();
@@ -118,17 +180,23 @@ public class ReportServlet {
             int solvedProblem = 0;
             int unsolvedProblem = 0;
             int unknownProblem = 0;
+            int oneTimePassProblem = 0;
+            int paperUsedTime = 0;
+            PaperSummary ps = new PaperSummary();
 
             ArrayList<Integer> paperProblemTime = new ArrayList<>();//sort to get 90 avg.
             for (Map.Entry<String, List<WorkDetail>> problem : curPaper.entrySet()) {
                 List<WorkDetail> workList = problem.getValue();
                 boolean curSolved = false;
+                boolean oneTimePassed = true;
                 int curProblemTime = 0;
                 int curLevel = 0;
 
                 for(int k=0; k < workList.size(); ++k) {
                     WorkDetail curWd = workList.get(k);
 
+                    ps.setIdpaper(curWd.getIdpaper());
+                    ps.setPaperName(curWd.getPapername());
                     curLevel = curWd.getProblemlevel();
 
                     if (curWd.getWorkmark() == null) {
@@ -137,6 +205,8 @@ public class ReportServlet {
                     else {
                         if (curWd.getWorkmark() == 0)
                             curSolved = true;
+                        else
+                            oneTimePassed = false;
                     }
 
                     curProblemTime = curProblemTime + curWd.getUsedtime();
@@ -147,17 +217,25 @@ public class ReportServlet {
                 else
                     unsolvedProblem++;
 
-                if (curSolved) {
-                    switch (curLevel) {
-                        case 1:
-                            score = score + 0.2;
-                            break;
-                    }
-                }
+                if (oneTimePassed)
+                    oneTimePassProblem++;
+
+                ScoreCalculator sc = ProblemScoreCalculator.GetCalculator(curLevel);
+                score = score + sc.GetBaseScore(curSolved);
+                score = score + sc.GetWrongTimeScore(workList.size()-1);
 
                 paperProblemTime.add(curProblemTime);
+                paperUsedTime = paperUsedTime + curProblemTime;
             }
+
+            ps.setTotalWorkedProblem(problemCountInPaper);
+            ps.setOneTimeCorrectProblem(oneTimePassProblem);
+            ps.setWaitToFixProblem(unsolvedProblem);
+            ps.setTotalWorkTime(paperUsedTime);
+            paperSummaryList.add(ps);
         }
+        model.addAttribute("todayScore", score);
+        model.addAttribute("papersummary", paperSummaryList);
     }
 
     private ArrayList<WorkDetail> processWorkDetail(List<WorkDetail> wd) {

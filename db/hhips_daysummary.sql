@@ -27,6 +27,7 @@ CREATE TABLE `daysummary` (
   `onday` datetime DEFAULT NULL,
   `totalminutes` int(11) DEFAULT NULL,
   `totalproblem` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddaysummary`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22 10:19:08
+-- Dump completed on 2018-07-25 19:15:04

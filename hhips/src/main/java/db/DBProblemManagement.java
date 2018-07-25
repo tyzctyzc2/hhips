@@ -295,8 +295,12 @@ public class DBProblemManagement {
 		pp.update();
 		return true;
 	}
-	
-	public boolean createPaperProblem(int problemID, int paperID) {
+
+	public boolean insertPaperWholeChapter(int chapterID, int paperID) {
+		return true;
+	}
+
+	public boolean insertPaperProblem(int problemID, int paperID) {
 		Session session = HibernateUtils.openCurrentSession();
 
 		Paperproblem pp = new Paperproblem();

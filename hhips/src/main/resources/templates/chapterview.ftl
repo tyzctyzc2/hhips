@@ -26,6 +26,7 @@
 		    <h1>${sourcename}</h1>
         </a>
 		<h1>${chapername}</h1>
+		<button type="button" onclick="addWhole2Paper(${chaperid})">Add all to Paper</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
 				<#list 0..maxpaper as i>
@@ -248,6 +249,9 @@
 						<option value="J03">J03</option>
 						<option value="J04">J04</option>
 						<option value="J05">J05</option>
+						<option value="J05">J06</option>
+						<option value="J05">J07</option>
+						<option value="J05">J08</option>
 						<option value="T01">T01</option>
 						<option value="T02">T02</option>
 						<option value="T03">T03</option>
@@ -328,6 +332,26 @@
 				error: function(msg) {
 			    	console.log(msg);
 			    	window.location.reload()
+			    }
+			})
+		}
+
+		function addWhole2Paper(chapterid) {
+            var paperid = $( "#paperselect" ).val();
+			var url = "./Paper/addchapterproblem?chapterid="+chapterid+"&paperid="+paperid;
+			console.log(url);
+			$.ajax({
+			    type: "POST",
+			    url: url,
+			    dataType : "json",
+				processData: false,  // 注意：不要 process data
+				contentType: false,  // 注意：不设置 contentType
+			    data: "",
+				success: function(msg) {
+			    	console.log(msg);
+				},
+				error: function(msg) {
+			    	console.log(msg);
 			    }
 			})
 		}

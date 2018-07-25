@@ -16,27 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `module`
+-- Table structure for table `reason`
 --
 
-DROP TABLE IF EXISTS `module`;
+DROP TABLE IF EXISTS `reason`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `module` (
-  `idmodule` int(11) NOT NULL AUTO_INCREMENT,
-  `modulename` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idmodule`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+CREATE TABLE `reason` (
+  `idreason` int(11) NOT NULL AUTO_INCREMENT,
+  `reasonname` varchar(45) DEFAULT NULL,
+  `reasonfactor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idreason`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `module`
+-- Dumping data for table `reason`
 --
 
-LOCK TABLES `module` WRITE;
-/*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'计算'),(2,'计数'),(3,'应用题'),(4,'几何'),(5,'逻辑'),(6,'数论'),(10,'语文');
-/*!40000 ALTER TABLE `module` ENABLE KEYS */;
+LOCK TABLES `reason` WRITE;
+/*!40000 ALTER TABLE `reason` DISABLE KEYS */;
+INSERT INTO `reason` VALUES (1,'看错题',-4),(2,'计算错',-2),(3,'不能识别知识点',0),(4,'识别知识点不能识别要素',-1),(5,'知识点未掌握',-1);
+/*!40000 ALTER TABLE `reason` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-25 19:15:04
+-- Dump completed on 2018-07-25 19:15:05

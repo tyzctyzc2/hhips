@@ -16,6 +16,19 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Temporary view structure for view `v_workperdayproblem`
+--
+
+DROP TABLE IF EXISTS `v_workperdayproblem`;
+/*!50001 DROP VIEW IF EXISTS `v_workperdayproblem`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_workperdayproblem` AS SELECT 
+ 1 AS `workday`,
+ 1 AS `totalproblem`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_workbypaper`
 --
 
@@ -143,6 +156,27 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `v_papersummary`
+--
+
+DROP TABLE IF EXISTS `v_papersummary`;
+/*!50001 DROP VIEW IF EXISTS `v_papersummary`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_papersummary` AS SELECT 
+ 1 AS `idpaper`,
+ 1 AS `papername`,
+ 1 AS `paperdate`,
+ 1 AS `paperstatus`,
+ 1 AS `totalusedtime`,
+ 1 AS `totalproblem`,
+ 1 AS `totaldone`,
+ 1 AS `totalanswer`,
+ 1 AS `avgperproblem`,
+ 1 AS `avgperanswer`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_workdetaillist`
 --
 
@@ -165,40 +199,6 @@ SET character_set_client = utf8;
  1 AS `idpaper`,
  1 AS `papername`,
  1 AS `problemchapterid`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `v_workperdayproblem`
---
-
-DROP TABLE IF EXISTS `v_workperdayproblem`;
-/*!50001 DROP VIEW IF EXISTS `v_workperdayproblem`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `v_workperdayproblem` AS SELECT 
- 1 AS `workday`,
- 1 AS `totalproblem`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `v_papersummary`
---
-
-DROP TABLE IF EXISTS `v_papersummary`;
-/*!50001 DROP VIEW IF EXISTS `v_papersummary`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `v_papersummary` AS SELECT 
- 1 AS `idpaper`,
- 1 AS `papername`,
- 1 AS `paperdate`,
- 1 AS `paperstatus`,
- 1 AS `totalusedtime`,
- 1 AS `totalproblem`,
- 1 AS `totaldone`,
- 1 AS `totalanswer`,
- 1 AS `avgperproblem`,
- 1 AS `avgperanswer`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -237,6 +237,24 @@ SET character_set_client = utf8;
  1 AS `sourcechaptername`,
  1 AS `chapterproblemcount`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `v_workperdayproblem`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_workperdayproblem`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_workperdayproblem` AS select cast(`w`.`workdate` as date) AS `workday`,count(distinct `w`.`idproblem`) AS `totalproblem` from `work` `w` group by cast(`w`.`workdate` as date) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `v_workbypaper`
@@ -347,42 +365,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `v_workdetaillist`
---
-
-/*!50001 DROP VIEW IF EXISTS `v_workdetaillist`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_workdetaillist` AS select `w`.`idwork` AS `idwork`,(`w`.`workdate` - interval `w`.`usedtime` second) AS `startdate`,`w`.`workdate` AS `workdate`,`w`.`idproblem` AS `idproblem`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdetail` AS `workdetail`,`w`.`workmark` AS `workmark`,`w`.`reason` AS `reason`,`p`.`problemlevel` AS `problemlevel`,`m`.`idmodule` AS `idmodule`,`m`.`modulename` AS `modulename`,`pw`.`idpaper` AS `idpaper`,`pe`.`papername` AS `papername`,`p`.`problemchapterid` AS `problemchapterid` from ((((`work` `w` join `paperwork` `pw` on((`pw`.`idwork` = `w`.`idwork`))) join `problem` `p` on((`w`.`idproblem` = `p`.`idproblem`))) join `paper` `pe` on((`pw`.`idpaper` = `pe`.`idpaper`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) order by (`w`.`workdate` - interval `w`.`usedtime` second) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `v_workperdayproblem`
---
-
-/*!50001 DROP VIEW IF EXISTS `v_workperdayproblem`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_workperdayproblem` AS select cast(`w`.`workdate` as date) AS `workday`,count(distinct `w`.`idproblem`) AS `totalproblem` from `work` `w` group by cast(`w`.`workdate` as date) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
 -- Final view structure for view `v_papersummary`
 --
 
@@ -396,6 +378,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_papersummary` AS select `p`.`idpaper` AS `idpaper`,`p`.`papername` AS `papername`,`p`.`paperdate` AS `paperdate`,`p`.`isactive` AS `paperstatus`,round((sum(`w`.`usedtime`) / 60),0) AS `totalusedtime`,count(distinct `pp`.`problemid`) AS `totalproblem`,count(distinct `pw`.`idproblem`) AS `totaldone`,count(`w`.`idwork`) AS `totalanswer`,round(((sum(`w`.`usedtime`) / count(distinct `pw`.`idproblem`)) / 60),0) AS `avgperproblem`,round(((sum(`w`.`usedtime`) / count(`w`.`idwork`)) / 60),0) AS `avgperanswer` from (((`paper` `p` left join `paperproblem` `pp` on((`pp`.`paperid` = `p`.`idpaper`))) left join `paperwork` `pw` on(((`pp`.`problemid` = `pw`.`idproblem`) and (`pp`.`paperid` = `pw`.`idpaper`)))) left join `work` `w` on((`pw`.`idwork` = `w`.`idwork`))) group by `p`.`idpaper`,`p`.`papername` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_workdetaillist`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_workdetaillist`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_workdetaillist` AS select `w`.`idwork` AS `idwork`,(`w`.`workdate` - interval `w`.`usedtime` second) AS `startdate`,`w`.`workdate` AS `workdate`,`w`.`idproblem` AS `idproblem`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdetail` AS `workdetail`,`w`.`workmark` AS `workmark`,`w`.`reason` AS `reason`,`p`.`problemlevel` AS `problemlevel`,`m`.`idmodule` AS `idmodule`,`m`.`modulename` AS `modulename`,`pw`.`idpaper` AS `idpaper`,`pe`.`papername` AS `papername`,`p`.`problemchapterid` AS `problemchapterid` from ((((`work` `w` join `paperwork` `pw` on((`pw`.`idwork` = `w`.`idwork`))) join `problem` `p` on((`w`.`idproblem` = `p`.`idproblem`))) join `paper` `pe` on((`pw`.`idpaper` = `pe`.`idpaper`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) order by (`w`.`workdate` - interval `w`.`usedtime` second) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -445,4 +445,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22 10:19:08
+-- Dump completed on 2018-07-25 19:15:05

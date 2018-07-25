@@ -37,6 +37,7 @@
                 <li><a href="#papersummary">Paper Summary</a></li>
             </ul>
             <div id="summary">
+                <p>总计：</p>
                 <table class=edge>
                     <tr>
                         <th class=edge>类别</th>
@@ -69,6 +70,42 @@
                         <td class=edge>${avgTotal}</td>
                     </tr>
                 </table>
+                <p>按卷卷综合：</p>
+                <table>
+                    <tr>
+                        <th class=edge>卷卷</th>
+                        <th class=edge>总题目</th>
+                        <th class=edge>一击命中</th>
+                        <th class=edge>待改正</th>
+                        <th class=edge>总时间</th>
+                    </tr>
+                    <#list papersummary as onepaper>
+                    <tr>
+                        <td class=edge><a href="./Problem?showanswer=1&paperid=${onepaper.idpaper}" style="text-decoration: none"><p>${onepaper.paperName}</p></a></td>
+                        <td class=edge>${onepaper.totalWorkedProblem}</td>
+                        <td class=edge>${onepaper.oneTimeCorrectProblem}</td>
+                        <td class=edge>${onepaper.waitToFixProblem}</td>
+                        <td class=edge>${onepaper.totalWorkTime}</td>
+                    </tr>
+                    </#list>
+                </table>
+                <p>计分：</p>
+                <h1>${todayScore}</h1>
+                <div>基准分</div>
+                <div>一星+2，没做对/放弃-2</div>
+                <div>二星+4，没做对/放弃-2</div>
+                <div>三星+10</div>
+                <div>四星+14</div>
+                <div>错次数：</div>
+                <div>一星-1</div>
+                <div>二星-1</div>
+                <div>三星-1</div>
+                <div>四星有错不扣分，无错一次对+1</div>
+                <div>时间：</div>
+                <div>一星：3分钟以下+1，10分钟以上-1</div>
+                <div>二星：5分钟以下+1，15分钟以上-1</div>
+                <div>三星：10分钟以下+1，20分钟以上-1</div>
+                <div>四星：30分钟以下+1</div>
             </div>
 
             <table id="timesummary">

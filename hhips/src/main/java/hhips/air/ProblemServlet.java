@@ -187,6 +187,6 @@ public class ProblemServlet {
     private void doActiveProblem(int problemID, int activeLevel, int paperID) {
         System.out.println("ProblemServlet - add " + problemID + " to paper " + paperID);
         DBProblemManagement dbProblemManagement = new DBProblemManagement();
-        dbProblemManagement.createPaperProblem(problemID, paperID);
+        dbProblemManagement.insertPaperProblem(problemID, paperID);
     }
 }

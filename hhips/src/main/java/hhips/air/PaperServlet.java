@@ -36,10 +36,25 @@ public class PaperServlet {
         return  ary.toString();
     }
 
+    //active all problems in a paper
+    @PostMapping("/Paper/addchapter2paper")
+    public @ResponseBody String addChapter2Paper(Model model, @RequestParam(value="chapterid", required=false, defaultValue="0") Integer chapterid,
+                                                 @RequestParam(value="paperid", required=false, defaultValue="0") Integer paperid) {
+        logger.info("PaperServlet - [addchapter2paper] paper request " + paperid);
+        System.out.println("PaperServlet - [addchapter2paper] paper request " + paperid);
+        JSONObject res = new JSONObject();
+
+        DBProblemManagement pm = new DBProblemManagement();
+        pm.insertPaperWholeChapter(chapterid, paperid);
+        res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        return res.toString();
+    }
+
+    //active all problems in a paper
     @PostMapping("/Paper/activewholeproblem")
     public @ResponseBody String activeWholePaperRequest(Model model, @RequestParam(value="idpaper", required=false, defaultValue="0") Integer paperID) {
-        logger.info("ProblemServlet - [activeWholePaperRequest] paper problem request " + paperID);
-        System.out.println("ProblemServlet - [activeWholePaperRequest] paper problem request " + paperID);
+        logger.info("PaperServlet - [activeWholePaperRequest] paper problem request " + paperID);
+        System.out.println("PaperServlet - [activeWholePaperRequest] paper problem request " + paperID);
         JSONObject res = new JSONObject();
 
         DBProblemManagement pm = new DBProblemManagement();
