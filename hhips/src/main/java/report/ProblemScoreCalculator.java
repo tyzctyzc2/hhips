@@ -1,4 +1,4 @@
-package score;
+package report;
 
 class ScoreCalculator1 implements ScoreCalculator {
 

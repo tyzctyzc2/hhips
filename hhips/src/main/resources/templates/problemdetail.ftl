@@ -51,6 +51,15 @@
 							<td>
 								<p>${works[i].workdate?string("yyyy_MM_dd")} &nbsp;  [${works[i].usedtime/60}]</p>
 							</td>
+							<#if works[i].workmark??>
+                                <#if works[i].workmark == 0>
+                                    <td><p class="right">通过</p></td>
+                                <#else>
+                                    <td><p class="wrong">未通过</p></td>
+                                </#if>
+                            <#else>
+                                <td><p class="orange">待批</p></td>
+                            </#if>
 							<td>
 								<img id="myImage" class="center-fit" src=.\${works[i].workdetail} />
 							</td>

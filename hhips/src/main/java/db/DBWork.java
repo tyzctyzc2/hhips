@@ -39,36 +39,6 @@ public class DBWork {
         return all;
 	}
 
-	public List<WorkDetail> getDayAllWork(String wantDay) {
-        Date ss = new Date();
-
-        Date ee = new Date();
-
-        if (wantDay.length() > 0) {
-
-			try {
-				ss = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
-				ee = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return new ArrayList<>();
-			}
-		}
-        ss.setHours(0);
-        ee.setHours(23);
-		Session session = HibernateUtils.openCurrentSession();
-
-		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
-		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("workdate"), ss), criteriaBuilder.lessThan(itemRoot.get("workdate"), ee));
-		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
-		session.getTransaction().commit();
-
-		return all;
-	}
-
 	public List<WorkDetail> getProblemAllWork(Integer idproblem) {
 		Session session = HibernateUtils.openCurrentSession();
 

@@ -1,4 +1,4 @@
-package score;
+package report;
 
 public interface ScoreCalculator {
     int GetBaseScore(boolean pass);

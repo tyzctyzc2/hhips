@@ -68,6 +68,8 @@
                                     <#else>
                                         <td><p class="wrong">未通过</p></td>
                                     </#if>
+                                <#else>
+                                    <td><p class="orange">待批</p></td>
                                 </#if>
                                 <td class="edge">
                                     <p>${problems[i].workdate?string("yyyy-MM-dd")} &nbsp;&nbsp;&nbsp;</p>
@@ -249,9 +251,9 @@
 						<option value="J03">J03</option>
 						<option value="J04">J04</option>
 						<option value="J05">J05</option>
-						<option value="J05">J06</option>
-						<option value="J05">J07</option>
-						<option value="J05">J08</option>
+						<option value="J06">J06</option>
+						<option value="J07">J07</option>
+						<option value="J08">J08</option>
 						<option value="T01">T01</option>
 						<option value="T02">T02</option>
 						<option value="T03">T03</option>

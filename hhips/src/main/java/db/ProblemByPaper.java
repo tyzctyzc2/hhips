@@ -1,6 +1,7 @@
 package db;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "v_paperproblem")
@@ -16,6 +17,16 @@ public class ProblemByPaper  {
 	private int paperproblemid;
 	Integer usedtime;
 	Integer workmark;
+
+	public Date getWorkdate() {
+		return workdate;
+	}
+
+	public void setWorkdate(Date workdate) {
+		this.workdate = workdate;
+	}
+
+	Date workdate;
 
 	public Integer getWorkmark() {
 		return workmark;

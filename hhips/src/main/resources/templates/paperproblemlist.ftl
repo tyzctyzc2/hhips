@@ -75,7 +75,10 @@
 										<#else>
 											<td><p class="wrong">未通过</p></td>
 										</#if>
+                                    <#else>
+                                        <td><p class="orange edge">待批</p></td>
 									</#if>
+									<td><p class="right edge">${problems[i].workdate}</p></td>
 								<#else>
 									<td class="edge">
 										<p>未做</p>
