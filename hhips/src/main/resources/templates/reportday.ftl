@@ -1,31 +1,18 @@
 <html>
-<head>
-   <meta charset="utf-8"/>
-   <title>Chapter List</title>
-   <link href="./jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" media="all">
-   <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
-   <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
-   <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Chapter List</title>
+        <link href="./jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" media="all">
+        <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
+        <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
 
-</head>
-   <body>
-
-        <table>
-            <tr>
-                <td>
-                    <a href="./Source" style="text-decoration: none">
-                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./Problem?paperid=-1" style="text-decoration: none">
-                        <h1>卷卷目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./" style="text-decoration: none">
-                        <h1>首页</h1>
-                </td>
-            </tr>
-        </table>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    </head>
+    <body>
+        <#include "/header.ftl">
         <div    style = text-align: right;>
             <p>Date: <input type="text" id="datepicker"></p>
         </div>
@@ -35,6 +22,7 @@
                 <li><a href="#summary">Summary</a></li>
                 <li><a href="#timesummary">Time Summary</a></li>
                 <li><a href="#papersummary">Paper Summary</a></li>
+                <li><a href="#historysummary">History Summary</a></li>
             </ul>
             <div id="summary">
                 <p>总计：</p>
@@ -194,8 +182,11 @@
                     </#list>
                 </#if>
             </table>
+            <div id="historysummary">
+                <div id="container"></div>
+            </div>
         </div>
-   </body>
+    </body>
     <script>
         $( function() {
             $( "#datepicker" ).datepicker({ dateFormat: "yymmdd" });
@@ -209,5 +200,67 @@
         $( function() {
           $( "#tabs" ).tabs();
         } );
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'History'
+            },
+            subtitle: {
+                text: 'Maxi Past 60 Days'
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { // don't display the dummy year
+                    month: '%e. %b',
+                    year: '%b'
+                },
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Score'
+                },
+                min: 0
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x:%e. %b}: {point.y:.0f} '
+            },
+
+            plotOptions: {
+                spline: {
+                    marker: {
+                        enabled: true
+                    }
+                }
+            },
+
+            colors: ['#F6C', '#6CF', '#06C', '#036', '#000'],
+
+            // Define the data points. All series have a dummy year
+            // of 1970/71 in order to be compared on the same x axis. Note
+            // that in JavaScript, months start at 0 for January, 1 for February etc.
+            series: [{
+                name: "Score",
+                data: [
+                    ${scoreHis}
+                ]
+            }, {
+                name: "User Time",
+                data: [
+                    ${usedTimeHis}
+                ]
+            }, {
+                name: "Problem",
+                data: [
+                    ${problemHis}
+                ]
+            }]
+        });
     </script>
 </html>

@@ -75,21 +75,54 @@ public class DayReportProcessor {
     int myTotalProblem = 0;
     int myScore = 0;
 
+    public int getMyTotalUserTime() {
+        return myTotalUserTime;
+    }
+
+    public void setMyTotalUserTime(int myTotalUserTime) {
+        this.myTotalUserTime = myTotalUserTime;
+    }
+
+    public Date getForDay() {
+        return forDay;
+    }
+
+    public void setForDay(Date forDay) {
+        this.forDay = forDay;
+    }
+
+    public int getMyTotalProblem() {
+        return myTotalProblem;
+    }
+
+    public void setMyTotalProblem(int myTotalProblem) {
+        this.myTotalProblem = myTotalProblem;
+    }
+
+    public int getMyScore() {
+        return myScore;
+    }
+
+    public void setMyScore(int myScore) {
+        this.myScore = myScore;
+    }
+
     public List<WorkDetail> getDayAllWork(String wantDay) {
-        Date ss = new Date();
-
-        Date ee = new Date();
-
+        Date wantDD = new Date();
         if (wantDay.length() > 0) {
-
             try {
-                ss = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
-                ee = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+                wantDD = new SimpleDateFormat("yyyyMMdd").parse(wantDay);
+                return getDayAllWork(wantDD);
             } catch (ParseException e) {
                 e.printStackTrace();
-                return new ArrayList<>();
             }
         }
+        return new ArrayList<>();
+    }
+
+    public List<WorkDetail> getDayAllWork(Date wantDay) {
+        Date ss = new Date(wantDay.getTime());
+        Date ee = new Date(wantDay.getTime());
         ss.setHours(0);
         ee.setHours(23);
         forDay = ss;
@@ -171,19 +204,21 @@ public class DayReportProcessor {
 
         myTotalUserTime = totalUsedTime;
 
-        model.addAttribute("workbypaper", allWorks);
-        model.addAttribute("totalCorrectUsedTime", totalCorrectUsedTime);
-        model.addAttribute("totalCorrectTime", totalCorrectTime);
-        model.addAttribute("avgCorrect", avgCorrect);
-        model.addAttribute("totalWrongUsedTime", totalWrongUsedTime);
-        model.addAttribute("totalWrongTime", totalWrongTime);
-        model.addAttribute("avgWrong", avgWrong);
-        model.addAttribute("totalUnknownUsedTime", totalUnknownUsedTime);
-        model.addAttribute("totalUnknownTime", totalUnknownTime);
-        model.addAttribute("avgUnknown", avgUnknown);
-        model.addAttribute("totalUsedTime", totalUsedTime);
-        model.addAttribute("totalTimes", totalTimes);
-        model.addAttribute("avgTotal", avgTotal);
+        if (model != null) {
+            model.addAttribute("workbypaper", allWorks);
+            model.addAttribute("totalCorrectUsedTime", totalCorrectUsedTime);
+            model.addAttribute("totalCorrectTime", totalCorrectTime);
+            model.addAttribute("avgCorrect", avgCorrect);
+            model.addAttribute("totalWrongUsedTime", totalWrongUsedTime);
+            model.addAttribute("totalWrongTime", totalWrongTime);
+            model.addAttribute("avgWrong", avgWrong);
+            model.addAttribute("totalUnknownUsedTime", totalUnknownUsedTime);
+            model.addAttribute("totalUnknownTime", totalUnknownTime);
+            model.addAttribute("avgUnknown", avgUnknown);
+            model.addAttribute("totalUsedTime", totalUsedTime);
+            model.addAttribute("totalTimes", totalTimes);
+            model.addAttribute("avgTotal", avgTotal);
+        }
 
         generatePaperSummary(model, allWorks);
     }
@@ -208,6 +243,7 @@ public class DayReportProcessor {
             for (Map.Entry<String, List<WorkDetail>> problem : curPaper.entrySet()) {
                 List<WorkDetail> workList = problem.getValue();
                 boolean curSolved = false;
+                boolean notMarked = false;
                 boolean oneTimePassed = true;
                 int curProblemTime = 0;
                 int curLevel = 0;
@@ -221,6 +257,7 @@ public class DayReportProcessor {
 
                     if (curWd.getWorkmark() == null) {
                         unknownProblem++;
+                        notMarked = true;
                     }
                     else {
                         if (curWd.getWorkmark() == 0)
@@ -240,9 +277,12 @@ public class DayReportProcessor {
                 if (oneTimePassed)
                     oneTimePassProblem++;
 
-                ScoreCalculator sc = ProblemScoreCalculator.GetCalculator(curLevel);
-                score = score + sc.GetBaseScore(curSolved);
-                score = score + sc.GetWrongTimeScore(workList.size()-1);
+                if (notMarked == false) {
+                    ScoreCalculator sc = ProblemScoreCalculator.GetCalculator(curLevel);
+                    score = score + sc.GetBaseScore(curSolved);
+                    score = score + sc.GetWrongTimeScore(workList.size() - 1);
+                    score = score + sc.GetUsedTimeScore(curProblemTime);
+                }
 
                 paperProblemTime.add(curProblemTime);
                 paperUsedTime = paperUsedTime + curProblemTime;
@@ -257,8 +297,11 @@ public class DayReportProcessor {
             paperSummaryList.add(ps);
         }
         myScore = score;
-        model.addAttribute("todayScore", score);
-        model.addAttribute("papersummary", paperSummaryList);
+
+        if (model != null) {
+            model.addAttribute("todayScore", score);
+            model.addAttribute("papersummary", paperSummaryList);
+        }
     }
 
     public ArrayList<WorkDetail> processWorkDetail(List<WorkDetail> wd) {

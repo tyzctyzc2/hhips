@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="./Report" style="text-decoration: none">
+                    <a href="./Report?wantday=${today}" style="text-decoration: none">
                         <h1>今日成绩</h1>
                 </td>
             </tr>

@@ -1,5 +1,6 @@
 package hhips.air;
 
+import db.DBPaper;
 import db.DBProblem;
 import db.DBProblemManagement;
 import db.Paper;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import uti.StringHelper;
 
 import java.util.List;
 
@@ -24,8 +26,11 @@ public class PaperServlet {
     String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
     @GetMapping("/Paper/active")
     public @ResponseBody String getActivePaper(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID) {
-        DBProblemManagement dbp = new DBProblemManagement();
-        List<Paper> ll = dbp.getAllActivePapers();
+
+        model.addAttribute("today", StringHelper.GetDateString());
+
+        DBPaper dbPaper = new DBPaper();
+        List<Paper> ll = dbPaper.getAllActivePapers();
         JSONArray ary = new JSONArray();
         for (Paper p: ll)
             ary.put(p);

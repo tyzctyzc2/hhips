@@ -38,7 +38,10 @@ class ScoreCalculator2 implements ScoreCalculator {
 
     @Override
     public int GetBaseScore(boolean pass) {
-        return 4;
+
+        if (pass)
+            return 4;
+        return -2;
     }
 
     @Override
@@ -69,7 +72,9 @@ class ScoreCalculator3 implements ScoreCalculator {
 
     @Override
     public int GetBaseScore(boolean pass) {
-        return 10;
+        if (pass)
+            return 10;
+        return 0;
     }
 
     @Override
@@ -100,7 +105,9 @@ class ScoreCalculator4 implements ScoreCalculator {
 
     @Override
     public int GetBaseScore(boolean pass) {
-        return 14;
+        if (pass)
+            return 14;
+        return 0;
     }
 
     @Override

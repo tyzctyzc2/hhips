@@ -6,26 +6,11 @@
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
-		<table>
-			<tr>
-				<td>
-					<a href="./Source" style="text-decoration: none">
-						<h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-				</td>
-				<td>
-					<a href="./Problem?paperid=-1" style="text-decoration: none">
-						<h1>卷卷目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-				</td>
-				<td>
-                    <a href="./" style="text-decoration: none">
-                        <h1>首页</h1>
-                </td>
-			</tr>
-		</table>
+		<#include "/header.ftl">
 		<a href="./Chapter?sourceid=${sourceid}" style="text-decoration: none">
 		    <h1>${sourcename}</h1>
         </a>
-		<h1>${chapername}</h1>
+		<h1>${chapterindex}--${chapername}</h1>
 		<button type="button" onclick="addWhole2Paper(${chaperid})">Add all to Paper</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">

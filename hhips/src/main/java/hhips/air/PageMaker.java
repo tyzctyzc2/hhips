@@ -28,6 +28,7 @@ public class PageMaker {
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("chapername", chapterName);
 		model.addAttribute("chapername", chapterName);
+		model.addAttribute("chapterindex", cp.getSourcechapterindex());
 		root.put("chaperid", chapterID);
 		model.addAttribute("chaperid", chapterID);
 		List<ProblemWithLastWork> problems = myDBProblem.getProblemWithLastWorkByCharpter(chp.getIdsourcechapter());
@@ -72,8 +73,9 @@ public class PageMaker {
 
 		model.addAttribute("modules", modules);
 		model.addAttribute("maxmodule", modules.size()-1);
-		
-		List<Paper> papers = myProblemManagementDB.getAllEditPapers();
+
+		DBPaper dbPaper = new DBPaper();
+		List<Paper> papers = dbPaper.getAllEditPapers();
 		root.put("papers", papers);
 		root.put("maxpaper", papers.size()-1);
 
@@ -137,16 +139,25 @@ public class PageMaker {
 		cp = myProblemManagementDB.getChaperName(cp);
 		String chapterName = cp.getSourcechaptername();
 		model.addAttribute("chapterName", chapterName);
+		model.addAttribute("chapterIndex", cp.getSourcechapterindex());
+
+		String sourceName = myProblemManagementDB.getSourceName(cp.getSourceid());
+		model.addAttribute("sourceName", sourceName);
+		model.addAttribute("sourceId", cp.getSourceid());
+
+		DBPaper dbPaper = new DBPaper();
+		List<ProblemByPaper> pbp = dbPaper.getProblemActivePaper(problemID);
+		model.addAttribute("inActivePaper", pbp);
 
 		return root;
 	}
 	
 	public static Map<String, Object> preparePaperList(Model model) {
-		DBProblemManagement mySourceDB = new DBProblemManagement();
+		DBPaper dbPaper = new DBPaper();
 		
 		Map<String, Object> root = new HashMap<String, Object>();
 		
-		List<Paper> allWork = mySourceDB.getAllPapers();
+		List<Paper> allWork = dbPaper.getAllPapers();
 		root.put("paperlength", allWork.size()-1);
 		root.put("papers", allWork);
 
@@ -156,7 +167,7 @@ public class PageMaker {
 		return root;
 	}
 	
-	public static Map<String, Object> preparePaperProblemList(Model model, String activeParameter) {
+	public static void preparePaperProblemList(Model model, String activeParameter) {
 		DBProblem myDBProblem = new DBProblem(); 
 		List<ProblemByPaper> problems = myDBProblem.getPaperProblemList(activeParameter);
 
@@ -168,27 +179,23 @@ public class PageMaker {
 			allWork.add(thisW);
 		}
 
-		Map<String, Object> root = new HashMap<String, Object>();
-		root.put("problems", problems);
 		model.addAttribute("problems", problems);
 		model.addAttribute("works", allWork);
 		
 		System.out.println("paper problem ==== " + problems.size());
 	
-		root.put("papername", "Active Problems");
         model.addAttribute("papername", "Active Problems");
 		if (problems.size() == 0) {
-			root.put("max", -1);
 			model.addAttribute("max", -1);
 		}
 		else {
-			root.put("max", problems.size()-1);
-			root.put("papername", problems.get(0).getPapername());
-
 			model.addAttribute("max", problems.size()-1);
 			model.addAttribute("papername", problems.get(0).getPapername());
 		}
-		return root;
+
+		DBReason dbReason = new DBReason();
+		model.addAttribute("allReason", dbReason.getAllReason());
+		model.addAttribute("allStarReason", dbReason.getAllStarReason());
 	}
 
 	public static Map<String, Object> prepareChapterList(Model model, int sourceID) {

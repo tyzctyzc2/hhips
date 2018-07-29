@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import uti.StringHelper;
 
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class ProblemServlet {
                                     @RequestParam(value="active", required=false, defaultValue="") String active,
                                     @RequestParam(value="idpaper", required=false, defaultValue="") String idpaper) {
         System.out.println("ProblemServlet - problem request");
+
+        model.addAttribute("today", StringHelper.GetDateString());
 
         if (paperID.compareTo("0") !=0)
             return getPaperRelated(model, paperID, showAnswer, noFormat);
@@ -88,9 +91,8 @@ public class ProblemServlet {
     }
 
     private String getPaperProblemList(Model model, String paperID, int showAnswer, int noFormat) {
-        Map<String, Object> root = PageMaker.preparePaperProblemList(model, paperID);
+        PageMaker.preparePaperProblemList(model, paperID);
 
-        root.put("showAnswer", showAnswer);
         model.addAttribute("idpaper", paperID);
         model.addAttribute("showAnswer", showAnswer);
         model.addAttribute("noFormat", noFormat);

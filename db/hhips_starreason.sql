@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `useractivity`
+-- Table structure for table `starreason`
 --
 
-DROP TABLE IF EXISTS `useractivity`;
+DROP TABLE IF EXISTS `starreason`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `useractivity` (
-  `iduseractivity` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) DEFAULT NULL,
-  `activityid` int(11) DEFAULT NULL,
-  `activitynotes` varchar(45) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
-  PRIMARY KEY (`iduseractivity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `starreason` (
+  `idstarreason` int(11) NOT NULL AUTO_INCREMENT,
+  `starreasonname` varchar(45) DEFAULT NULL,
+  `starreasonfactor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idstarreason`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `useractivity`
+-- Dumping data for table `starreason`
 --
 
-LOCK TABLES `useractivity` WRITE;
-/*!40000 ALTER TABLE `useractivity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `useractivity` ENABLE KEYS */;
+LOCK TABLES `starreason` WRITE;
+/*!40000 ALTER TABLE `starreason` DISABLE KEYS */;
+INSERT INTO `starreason` VALUES (1,'书写认真',1),(2,'过程严谨',2),(3,'努力思考',4);
+/*!40000 ALTER TABLE `starreason` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

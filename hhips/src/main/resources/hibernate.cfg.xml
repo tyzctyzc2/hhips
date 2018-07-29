@@ -31,6 +31,9 @@
       <mapping class="db.Paperproblem" />
       <mapping class="db.PaperWork" />
       <mapping class="db.WorkDetail" />
+      <mapping class="db.Reason" />
+      <mapping class="db.StarReason" />
+      <mapping class="report.DaySummary" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

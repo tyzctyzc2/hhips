@@ -124,55 +124,7 @@ public class DBProblemManagement {
 			session.close();
 		}
 	}
-	
-	public List<Paper> getAllPapers() {
-		Session session = HibernateUtils.openCurrentSession();
-		
-		session.beginTransaction();
-		
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
-        Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
-        criteriaQuery.select(itemRoot).where(criteriaBuilder.notEqual(itemRoot.get("isactive"), 5));
-        List<Paper> all = session.createQuery(criteriaQuery).getResultList();
-        
-        session.getTransaction().commit();
-		
-		return all;
-	}
 
-	public List<Paper> getAllActivePapers() {
-		Session session = HibernateUtils.openCurrentSession();
-
-		session.beginTransaction();
-
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
-		Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 2));
-		List<Paper> all = session.createQuery(criteriaQuery).getResultList();
-
-		session.getTransaction().commit();
-
-		return all;
-	}
-	
-	public List<Paper> getAllEditPapers() {
-		Session session = HibernateUtils.openCurrentSession();
-		
-		session.beginTransaction();
-		
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
-        Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
-        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 1));
-        List<Paper> all = session.createQuery(criteriaQuery).getResultList();
-        
-        session.getTransaction().commit();
-		
-		return all;
-	}
-	
 	boolean insertPaperWork(int idwork, int idpaper, int idproblem) {
 		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;

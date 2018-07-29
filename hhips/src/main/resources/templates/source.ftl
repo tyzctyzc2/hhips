@@ -6,22 +6,7 @@
 	<title>Source List</title>
 </head>
 	<body>
-		<table>
-            <tr>
-                <td>
-                    <a href="./Source" style="text-decoration: none">
-                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./Problem?paperid=-1" style="text-decoration: none">
-                        <h1>卷卷目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./" style="text-decoration: none">
-                        <h1>首页</h1>
-                </td>
-            </tr>
-        </table>
+		<#include "/header.ftl">
 		
 		
 		<#if sourcelength != -1>

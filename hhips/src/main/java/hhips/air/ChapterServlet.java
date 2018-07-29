@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import uti.StringHelper;
 
 @Controller
 //@RequestMapping("/hhipsair")
@@ -16,7 +17,7 @@ public class ChapterServlet {
     public String processChapterGet(Model model, @RequestParam(value="sourceid", required=false, defaultValue="") String sourceid,
                                     @RequestParam(value="chapterid", required=false, defaultValue="") String chapterid ) {
         System.out.println("ChapterServlet - chapter request");
-
+        model.addAttribute("today", StringHelper.GetDateString());
         if (sourceid.length() > 0)
             return getChapterList(model, sourceid);
 
@@ -37,7 +38,9 @@ public class ChapterServlet {
 
         PageMaker.prepareChapterProblems(model, chapterID);
 
-        return "chapterview";
+        model.addAttribute("today", StringHelper.GetDateString());
+
+        return "chapterdetail";
     }
 
     private String getChapterList(Model model, String sourceIDString) {

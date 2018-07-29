@@ -7,23 +7,10 @@
 </head>
 	<body>
 	    <#if showAnswer != 0>
-	        <div style="display: inline-flex;">
-            <table>
-                <tr>
-                    <td>
-                        <a href="./Source" style="text-decoration: none">
-                            <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                    </td>
-                    <td>
-                        <a href="./Problem?paperid=-1" style="text-decoration: none">
-                            <h1>卷卷目录&nbsp; &nbsp;&nbsp;</h1>
-                    </td>
-                    <td>
-                        <a href="./" style="text-decoration: none">
-                            <h1>首页</h1>
-                    </td>
-                </tr>
-            </table>
+	        <div>
+            <#include "/header.ftl">
+            </div>
+            <div>
             <button class="bigFont" type="button" onclick="activeWholePaper(${idpaper})">Active All Problem in Paper</button>
             </div>
         </#if>
@@ -165,6 +152,18 @@
 								<button class="bigFont" type="button" onclick="markWrong(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">Wrong</button>
 								<button class="bigFont" type="button" onclick="activeAgain(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">ActiveOnly</button>
 								<button class="bigFont" type="button" onclick="markWrongOnly(${problems[i].idwork?c}, ${problems[i].paperproblemid?c},  ${problems[i].idproblem?c})">WrongOnly</button>
+								<select class="bigFont" id="reasonSelect" onchange="postWorkReason(${problems[i].idwork?c})">
+								    <option value="0">未设置</option>
+                                    <#list allReason as reason>
+                                        <option value=${reason.idreason}>${reason.reasonname}</option>
+                                    </#list>
+								</select>
+								<select class="bigFont" id="starReasonSelect" onchange="ppp()">
+                                    <option selected="selected" value="0">未设置</option>
+                                    <#list allStarReason as starReason>
+                                        <option value=${starReason.idstarreason}>${starReason.starreasonname}</option>
+                                    </#list>
+                                </select>
 							</tr>
 						</table>
 					</#if>	

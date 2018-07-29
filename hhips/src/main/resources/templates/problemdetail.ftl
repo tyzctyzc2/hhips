@@ -6,29 +6,26 @@
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
-	    <table>
-            <tr>
-                <td>
-                    <a href="./Source" style="text-decoration: none">
-                        <h1>题源目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./Problem?paperid=-1" style="text-decoration: none">
-                        <h1>卷卷目录&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
-                </td>
-                <td>
-                    <a href="./" style="text-decoration: none">
-                        <h1>首页</h1>
-                </td>
-            </tr>
-        </table>
-        <h1><a href="./Chapter?chapterid=${problemdetail.problemchapterid}" style="text-decoration: none">${chapterName}</a></h1>
-		<h1>题目历史</h1>
+	    <#include "/header.ftl">
+	    <h1><a href="./Chapter?sourceid=${problemdetail.problemchapterid}" style="text-decoration: none">${sourceName}</a></h1>
+        <h1><a href="./Chapter?chapterid=${problemdetail.problemchapterid}" style="text-decoration: none">${chapterIndex} - ${chapterName}</a></h1>
+		<#if problemdetail.problemlevel == 1>
+            <h1>${problemdetail.problemindex} -- ☆</h1>
+        </#if>
+        <#if problemdetail.problemlevel == 2>
+            <h1>${problemdetail.problemindex} -- ☆☆</h1>
+        </#if>
+        <#if problemdetail.problemlevel == 3>
+            <h1>${problemdetail.problemindex} -- ☆☆☆</h1>
+        </#if>
+        <#if problemdetail.problemlevel == 4>
+            <h1>${problemdetail.problemindex} -- ☆☆☆☆</h1>
+        </#if>
+        <#list inActivePaper as paper>
+            <p>${paper.papername}</p>
+        </#list>
 		<table>
 			<tr class="edge">
-				<td>
-					<p>${problemdetail.problemindex}</p>
-				</td>
 				<td>
 					<img id="myImage" class="center-fit" src=.\${problemdetail.problemdetail} />
 				</td>
@@ -36,9 +33,6 @@
 		</table>
 		<table>
 			<tr class="edge">
-				<td>
-					<p>${problemdetail.problemlevel}</p>
-				</td>
 				<td>
 					<img id="myImage" class="center-fit" src=.\${problemdetail.problemanswerdetail} />
 				</td>
@@ -48,20 +42,28 @@
 			<table>
 					<#list 0..worklength as i>
 						<tr class="edge">
-							<td>
-								<p>${works[i].workdate?string("yyyy_MM_dd")} &nbsp;  [${works[i].usedtime/60}]</p>
+							<td class="edge">
+								<p>${works[i].workdate?string("yyyyMMdd")}</p>
 							</td>
+							<td class="edge">
+                                <p>${works[i].usedtime/60}</p>
+                            </td>
 							<#if works[i].workmark??>
                                 <#if works[i].workmark == 0>
-                                    <td><p class="right">通过</p></td>
+                                    <td class="edge"><p class="right">通过</p></td>
                                 <#else>
-                                    <td><p class="wrong">未通过</p></td>
+                                    <td class="edge"><p class="wrong">未过</p></td>
                                 </#if>
                             <#else>
-                                <td><p class="orange">待批</p></td>
+                                <td class="edge"><p class="orange">待批</p></td>
                             </#if>
-							<td>
-								<img id="myImage" class="center-fit" src=.\${works[i].workdetail} />
+							<td class="edge">
+							    <#if works[i].workdetail?contains('t')>
+							        <img id="myImage" class="center-fit_small" src=.\${works[i].workdetail} />
+                                <#else>
+                                    <img id="myImage" class="center-fit" src=.\${works[i].workdetail} />
+							    </#if>
+
 							</td>
 						</tr>
 					</#list>

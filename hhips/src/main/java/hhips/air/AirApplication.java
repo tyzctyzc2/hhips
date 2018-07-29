@@ -6,6 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import report.DaySummaryGenerator;
 import uti.FileHelper;
 
 import java.io.File;
@@ -20,8 +21,11 @@ import static java.util.Locale.ROOT;
 public class AirApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {
+		DaySummaryGenerator dg = new DaySummaryGenerator();
+		//dg.run();
+
 		//FileHelper.absolutePath = "D:\\spring\\hhips\\target\\classes\\static\\";
-		FileHelper.absolutePath = "D:\\lznjava\\hhips\\hhips\\target\\classes\\static\\";
+		FileHelper.absolutePath = "D:\\javacode\\hhips\\hhips\\target\\classes\\static\\";
 
 		SpringApplication.run(AirApplication.class, args);
 	}
