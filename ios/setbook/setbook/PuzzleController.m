@@ -43,13 +43,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"viewDidLoad");
+    NSLog(@"PuzzleController viewDidLoad");
     // Do any additional setup after loading the view, typically from a nib.
     
     [self getActiveProblemInPaper];
     
     timeTick = 0;
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
     startTime = [NSDate date];
     
     self.giveupButton.layer.borderWidth =2.0f;
@@ -66,6 +66,12 @@
     
     notAlarm = false;
    
+}
+
+-(void) viewWillDisappear:(BOOL)animated{
+    NSLog(@"PuzzleController viewWillDisappear");
+    [timer invalidate];
+    timer = nil;
 }
 
 -(void)showToastMessage:(NSString *)message {
@@ -180,16 +186,18 @@
     NSString *timeString =[NSString stringWithFormat:@"%02d:%02d",mins,secs];
     self.timerLabel.text = timeString;
     
-    if (timeTick > 1800)
+    if (timeTick > 18)
     {
+        //NSLog(@"timeTick > 1800-------");
         if (notAlarm == false)
         {
             AudioServicesPlaySystemSound(1109);
             //notAlarm = true;
         }
     }
-    else if(timeTick > 1200)
+    else if(timeTick > 12)
     {
+        //NSLog(@"timeTick > 1200-------");
         if (notAlarm == false)
         {
             AudioServicesPlaySystemSound(1103);
