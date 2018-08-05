@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyBaseViewController.h"
 
-@interface PuzzleController : UIViewController{
+@interface PuzzleController : MyBaseViewController {
      NSString *myProbelmID;
     NSString *myPaperProblemID;
     

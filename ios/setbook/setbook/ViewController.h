@@ -12,6 +12,6 @@
 
 - (IBAction)buttonStart:(id)sender;
 - (void)updateTodayLearnTime:(int)moreTime;
-
+- (void)setPaperID:(NSString *)paperID;
 @end
 

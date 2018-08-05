@@ -9,16 +9,17 @@
 #import "PaperSelectController.h"
 #import "PuzzleController.h"
 #import "HttpHelper.h"
+#import "ViewController.h"
 
 @interface PaperSelectController () {
-    NSString *idpapers[4];
+    NSString *idpapers[5];
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *aButton;
 @property (strong, nonatomic) IBOutlet UIButton *bButton;
 @property (strong, nonatomic) IBOutlet UIButton *cButton;
 @property (strong, nonatomic) IBOutlet UIButton *dButton;
-
+@property (strong, nonatomic) IBOutlet UIButton *eButton;
 @end
 
 @implementation PaperSelectController
@@ -45,6 +46,25 @@
     self.dButton.layer.borderWidth =2.0f;
     self.dButton.layer.borderColor= self.view.tintColor.CGColor;
     self.dButton.layer.cornerRadius=16.0f;
+    
+    self.eButton.layer.borderWidth =2.0f;
+    self.eButton.layer.borderColor= self.view.tintColor.CGColor;
+    self.eButton.layer.cornerRadius=16.0f;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationLandscapeRight; // or Right of course
+}
+
+-(BOOL)shouldAutorotate
+{
+    //NSLog(@"PaperSelectController shouldAutorotate");
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    //NSLog(@"PaperSelectController supportedInterfaceOrientations");
+    return UIInterfaceOrientationMaskLandscapeRight;
 }
 
 - (void)getActivePaper {
@@ -54,6 +74,7 @@
     [_bButton setHidden:true];
     [_cButton setHidden:true];
     [_dButton setHidden:true];
+    [_eButton setHidden:true];
     
     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -97,6 +118,11 @@
                     [_dButton setHidden:false];
                     break;
                     
+                case 5:
+                    [_eButton setTitle:name forState:UIControlStateNormal];
+                    [_eButton setHidden:false];
+                    break;
+                    
                 default:
                     break;
             }
@@ -128,7 +154,23 @@
     
 }
 
+- (IBAction)buttonETouch:(id)sender {
+    NSLog(@"touch buttonETouch");
+    [self paperPicked:idpapers[4]];
+    
+}
+
+- (UIViewController *)updateMainPaperID:(NSString *)paperID {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
+    ViewController *mv = (ViewController *)vc;
+    [mv setPaperID:paperID];
+    return vc;
+}
+
 -(void)paperPicked:(NSString *) paperID {
+    [self updateMainPaperID:paperID];
+    
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
      UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Puzzle"];
      vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

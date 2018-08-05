@@ -13,7 +13,7 @@ int main(int argc, char * argv[]) {
     @autoreleasepool {
         // Set the application defaults
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSDictionary *appDefaults = [NSDictionary dictionaryWithObject:@"192.168.0.101"
+        NSDictionary *appDefaults = [NSDictionary dictionaryWithObject:@"192.168.0.100"
                                                                 forKey:@"serveraddress_preference"];
         [defaults registerDefaults:appDefaults];
         [defaults synchronize];

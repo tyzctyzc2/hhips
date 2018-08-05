@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MyUINavigationController.h"
 
 @interface AppDelegate (){
     //private NavigationController controller;
@@ -24,7 +25,9 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
     
-    self.navController=[[UINavigationController alloc]initWithRootViewController:vc];
+    //self.navController=[[UINavigationController alloc]initWithRootViewController:vc];
+    
+    self.navController=[[MyUINavigationController alloc]initWithRootViewController:vc];
     
     [self.window setRootViewController: self.navController];
     
@@ -41,6 +44,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSLog(@"applicationDidEnterBackground");
 }
 
 

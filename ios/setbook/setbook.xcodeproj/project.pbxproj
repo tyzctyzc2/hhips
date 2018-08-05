@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7525CE0B20F9E2F00065E479 /* PaperSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7565BC4320F971CB00FFA692 /* PaperSelectController.m */; };
+		752AF185211580FC000AE218 /* MyUINavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 752AF18421157FFF000AE218 /* MyUINavigationController.m */; };
 		75339AE220A1B05F0037EA16 /* HttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 75339AE120A1B05F0037EA16 /* HttpHelper.m */; };
 		753438FB2070D144007E9867 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 753438FA2070D144007E9867 /* Photo.storyboard */; };
 		753438FE2070D697007E9867 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 753438FD2070D697007E9867 /* PhotoController.m */; };
+		7547F06E20FB3F4300156F2E /* MyBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7547F06D20FB3EE500156F2E /* MyBaseViewController.m */; };
 		7548A86120D0C6A4008875AA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7548A86020D0C6A4008875AA /* Settings.bundle */; };
 		7565BC4520F9724700FFA692 /* PaperSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7565BC4420F9724700FFA692 /* PaperSelect.storyboard */; };
 		757B99B9206E4A4E00F0C020 /* Puzzle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 757B99B8206E4A4E00F0C020 /* Puzzle.storyboard */; };
@@ -42,11 +44,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		752AF18321157F54000AE218 /* MyUINavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUINavigationController.h; sourceTree = "<group>"; };
+		752AF18421157FFF000AE218 /* MyUINavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUINavigationController.m; sourceTree = "<group>"; };
 		75339AE020A1B05F0037EA16 /* HttpHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpHelper.h; sourceTree = "<group>"; };
 		75339AE120A1B05F0037EA16 /* HttpHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HttpHelper.m; sourceTree = "<group>"; };
 		753438FA2070D144007E9867 /* Photo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photo.storyboard; sourceTree = "<group>"; };
 		753438FC2070D632007E9867 /* PhotoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoController.h; sourceTree = "<group>"; };
 		753438FD2070D697007E9867 /* PhotoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoController.m; sourceTree = "<group>"; };
+		7547F06C20FB23A400156F2E /* MyBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBaseViewController.h; sourceTree = "<group>"; };
+		7547F06D20FB3EE500156F2E /* MyBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBaseViewController.m; sourceTree = "<group>"; };
 		7548A86020D0C6A4008875AA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7565BC4120F9711F00FFA692 /* PaperSelectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaperSelectController.h; sourceTree = "<group>"; };
 		7565BC4320F971CB00FFA692 /* PaperSelectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaperSelectController.m; sourceTree = "<group>"; };
@@ -122,6 +128,8 @@
 			children = (
 				75A672D8206BA04900826BE1 /* AppDelegate.h */,
 				75A672D9206BA04900826BE1 /* AppDelegate.m */,
+				752AF18321157F54000AE218 /* MyUINavigationController.h */,
+				752AF18421157FFF000AE218 /* MyUINavigationController.m */,
 				75830D9E2070839E00B54D03 /* PuzzleController.h */,
 				75830D9C2070838200B54D03 /* PuzzleController.m */,
 				757B99B8206E4A4E00F0C020 /* Puzzle.storyboard */,
@@ -134,6 +142,8 @@
 				7565BC4120F9711F00FFA692 /* PaperSelectController.h */,
 				7565BC4320F971CB00FFA692 /* PaperSelectController.m */,
 				7565BC4420F9724700FFA692 /* PaperSelect.storyboard */,
+				7547F06C20FB23A400156F2E /* MyBaseViewController.h */,
+				7547F06D20FB3EE500156F2E /* MyBaseViewController.m */,
 				75A672E1206BA04900826BE1 /* Assets.xcassets */,
 				75A672E6206BA04900826BE1 /* Info.plist */,
 				75A672E7206BA04900826BE1 /* main.m */,
@@ -298,8 +308,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				75A672DD206BA04900826BE1 /* ViewController.m in Sources */,
+				7547F06E20FB3F4300156F2E /* MyBaseViewController.m in Sources */,
 				75339AE220A1B05F0037EA16 /* HttpHelper.m in Sources */,
 				75A672E8206BA04900826BE1 /* main.m in Sources */,
+				752AF185211580FC000AE218 /* MyUINavigationController.m in Sources */,
 				75830D9D2070838200B54D03 /* PuzzleController.m in Sources */,
 				75A672DA206BA04900826BE1 /* AppDelegate.m in Sources */,
 				7525CE0B20F9E2F00065E479 /* PaperSelectController.m in Sources */,
@@ -465,6 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8P755HD7DT;
 				INFOPLIST_FILE = setbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dmm.setbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -479,6 +492,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8P755HD7DT;
 				INFOPLIST_FILE = setbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dmm.setbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";

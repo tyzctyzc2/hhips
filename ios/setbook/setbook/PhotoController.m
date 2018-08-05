@@ -24,9 +24,47 @@
     self.myProbelmID = _problemID;
 }
 
+- (BOOL)shouldAutorotate {
+    NSLog(@"PhotoController shouldAutorotate!!!!!!!!");// portrait
+    return YES;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    NSLog(@"shouldAutorotateToInterfaceOrientation!!!!!!!!");// portrait
+    return NO;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //NSLog(@"didRotateFromInterfaceOrientation");
+    
+    UIDeviceOrientation orientation2 = [[UIDevice currentDevice] orientation];
+    if (orientation2 == UIDeviceOrientationLandscapeLeft || orientation2 == UIDeviceOrientationLandscapeRight) {
+        NSLog(@"PhotoController landscape!!!!!!!!");// portrait
+        [self setupPreviewLayer];
+    } else {
+        NSLog(@"PhotoController portrait!!!!!!!!");// landscape
+        [self setupPortraitPreviewLayer];
+    }
+    
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    NSLog(@"PhotoController willRotateToInterfaceOrientation!!!!!!!!");// portrait
+
+}
+
+- (void)updateLayoutsForCurrentOrientation:(UIInterfaceOrientation)toInterfaceOrientation view:(UIView *)view {
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    view.transform = transform;
+    
+    NSLog(@"PhotoController ------------- updateLayoutsForCurrentOrientation");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"viewDidLoad");
+    
     // Do any additional setup after loading the view, typically from a nib.
     
     [self iniCaptureSession];
@@ -94,30 +132,10 @@
         NSData *data = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
         imageString = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
 
-/*        int usedTime = _timerTicks;
-        if (photoTimeTick > 120)
-            usedTime = usedTime + photoTimeTick;
-        HttpHelper *httpH = [HttpHelper new];
-        Boolean suc = [httpH postProblemAnswer:_myProbelmID pID: imageString base64: _myPaperProblemID pPID: usedTime];
-        
-        if (suc) {
-            [self updateLabelMessage:@"Your answer is saved."];
-        }
-        else {
-            [session startRunning];
-            [self updateLabelMessage:@"Please try again"];
-            self.photoButton.enabled = true;
-            return;
-        }*/
     }
     else {
         return;
     }
-    
-/*    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:NULL];*/
 }
 
 -(void) shoToastMessage:(NSString *)message {
@@ -155,8 +173,22 @@
     [session addOutput:_avCaptureOutput];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return NO;
+- (void)setupPortraitPreviewLayer {
+    self.preview_layer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    [self.preview_layer setVideoGravity: AVLayerVideoGravityResizeAspectFill];
+    [self.preview_layer setFrame:self.view.bounds];
+    self.preview_layer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    
+    CGRect bounds=[self.view frame];
+    bounds.size.height=884;
+    bounds.size.width=728;
+    bounds.origin.x=20;
+    bounds.origin.y=20;
+    self.preview_layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.preview_layer.bounds=bounds;
+    self.preview_layer.position=CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+    
+    [self.view.layer addSublayer:self.preview_layer];
 }
 
 - (void)setupPreviewLayer {

@@ -14,6 +14,7 @@
 
 @interface PuzzleController () {
     int timeTick;
+    NSDate *startTime;
     NSTimer *timer;
     
     NSString *wantPaperId;
@@ -34,6 +35,10 @@
     wantPaperId = paperID;
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
@@ -43,6 +48,7 @@
     
     timeTick = 0;
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
+    startTime = [NSDate date];
     
     self.giveupButton.layer.borderWidth =2.0f;
     self.giveupButton.layer.borderColor= self.view.tintColor.CGColor;
@@ -154,10 +160,16 @@
 
 -(void)myTicker{
     //increment the timer
-    timeTick++;
+    //timeTick++;
     //if we wanted to count down we could have done "timeTick--"
     
     //set a text label to display the time
+    
+    
+    NSDate *curDate = [NSDate date];
+    NSTimeInterval dif = [curDate timeIntervalSinceDate:startTime];
+    timeTick = (int) lroundf(dif);
+    
     NSInteger mins,secs;
     mins=timeTick/60;
     secs=timeTick%60;
@@ -190,6 +202,14 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"touchesBegan");
+    
+    //UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIDeviceOrientation orientation2 = [[UIDevice currentDevice] orientation];
+    if (orientation2 == UIDeviceOrientationLandscapeLeft || orientation2 == UIDeviceOrientationLandscapeRight) {
+        NSLog(@"PuzzleController landscape!!!!!!!!");// portrait
+    } else {
+        NSLog(@"PuzzleController NOT landscape!!!!!!!!");// landscape
+    }
 }
 
 - (IBAction)buttonCancleTouch:(id)sender {
