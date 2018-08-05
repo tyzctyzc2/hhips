@@ -11,11 +11,13 @@
 #import "ViewController.h"
 #import "HttpHelper.h"
 #import "AppDelegate.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface PuzzleController () {
     int timeTick;
     NSDate *startTime;
     NSTimer *timer;
+    Boolean notAlarm;
     
     NSString *wantPaperId;
 }
@@ -61,6 +63,8 @@
     self.cancelButton.layer.borderWidth =2.0f;
     self.cancelButton.layer.borderColor= self.view.tintColor.CGColor;
     self.cancelButton.layer.cornerRadius=16.0f;
+    
+    notAlarm = false;
    
 }
 
@@ -175,6 +179,23 @@
     secs=timeTick%60;
     NSString *timeString =[NSString stringWithFormat:@"%02d:%02d",mins,secs];
     self.timerLabel.text = timeString;
+    
+    if (timeTick > 1800)
+    {
+        if (notAlarm == false)
+        {
+            AudioServicesPlaySystemSound(1109);
+            //notAlarm = true;
+        }
+    }
+    else if(timeTick > 1200)
+    {
+        if (notAlarm == false)
+        {
+            AudioServicesPlaySystemSound(1103);
+            //notAlarm = true;
+        }
+    }
 }
 
 - (IBAction)puzzleDoneTouch:(id)sender {
