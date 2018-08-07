@@ -16,28 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `starreason`
+-- Table structure for table `linkproblem`
 --
 
-DROP TABLE IF EXISTS `starreason`;
+DROP TABLE IF EXISTS `linkproblem`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `starreason` (
-  `idstarreason` int(11) NOT NULL AUTO_INCREMENT,
-  `starreasonname` varchar(45) DEFAULT NULL,
-  `starreasonfactor` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idstarreason`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE `linkproblem` (
+  `idlinkproblem` int(11) NOT NULL AUTO_INCREMENT,
+  `sourceidproblem` int(11) DEFAULT NULL,
+  `targetidproblem` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idlinkproblem`),
+  KEY `sourceidproblem_idx` (`sourceidproblem`),
+  KEY `targetidproblem_idx` (`targetidproblem`),
+  CONSTRAINT `sourceidproblem` FOREIGN KEY (`sourceidproblem`) REFERENCES `problem` (`idproblem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `targetidproblem` FOREIGN KEY (`targetidproblem`) REFERENCES `problem` (`idproblem`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `starreason`
+-- Dumping data for table `linkproblem`
 --
 
-LOCK TABLES `starreason` WRITE;
-/*!40000 ALTER TABLE `starreason` DISABLE KEYS */;
-INSERT INTO `starreason` VALUES (1,'书写认真',1),(2,'过程严谨',2),(3,'努力思考',4),(4,'过程有进步',1),(5,'顽强坚持',1);
-/*!40000 ALTER TABLE `starreason` ENABLE KEYS */;
+LOCK TABLES `linkproblem` WRITE;
+/*!40000 ALTER TABLE `linkproblem` DISABLE KEYS */;
+INSERT INTO `linkproblem` VALUES (1,554,1764),(2,1764,554),(3,554,168),(4,168,554),(5,554,177),(6,177,554),(7,554,182),(8,182,554);
+/*!40000 ALTER TABLE `linkproblem` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

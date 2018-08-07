@@ -39,7 +39,7 @@ public class DBWork {
         return all;
 	}
 
-	public List<WorkDetail> getProblemAllWork(Integer idproblem) {
+	public List<WorkDetail> getProblemAllWorkDetail(Integer idproblem) {
 		Session session = HibernateUtils.openCurrentSession();
 
 		session.beginTransaction();
@@ -134,6 +134,50 @@ public class DBWork {
         Work w = all.get(0);
         w.setWorkmark(mark);
         updateWork(w);
+		return true;
+	}
+
+	public boolean updateWorkReason(int idWork, int reason) {
+
+		Session session = HibernateUtils.openCurrentSession();
+		session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+		Root<Work> itemRoot = criteriaQuery.from(Work.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+		List<Work> all = session.createQuery(criteriaQuery).getResultList();
+		session.getTransaction().commit();
+		session.close();
+		if (all.size() == 0)
+			return false;
+
+		Work w = all.get(0);
+		w.setReason(reason);
+		if(reason == 0)
+			w.setReason(null);
+		updateWork(w);
+		return true;
+	}
+
+	public boolean updateWorkStarReason(int idWork, int idstarreason) {
+
+		Session session = HibernateUtils.openCurrentSession();
+		session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+		Root<Work> itemRoot = criteriaQuery.from(Work.class);
+		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+		List<Work> all = session.createQuery(criteriaQuery).getResultList();
+		session.getTransaction().commit();
+		session.close();
+		if (all.size() == 0)
+			return false;
+
+		Work w = all.get(0);
+		w.setIdstarreason(idstarreason);
+		if (idstarreason == 0)
+			w.setIdstarreason(null);
+		updateWork(w);
 		return true;
 	}
 

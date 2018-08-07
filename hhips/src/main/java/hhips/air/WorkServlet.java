@@ -39,6 +39,48 @@ public class WorkServlet {
         return res.toString();
     }
 
+    @PostMapping("/Work/reason")
+    public @ResponseBody
+    String setWorkReason(@RequestBody String stringToParse) {
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+
+            int idwork = jsonObject.getInt("idwork");
+            int reason = jsonObject.getInt("reason");
+
+            System.out.println("WorkServlet - post request - set work "+idwork+" reason to "+reason);
+
+            DBWork dbWork = new DBWork();
+            dbWork.updateWorkReason(idwork, reason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject res = new JSONObject();
+        res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
+        return res.toString();
+    }
+
+    @PostMapping("/Work/starreason")
+    public @ResponseBody
+    String setWorkStarReason(@RequestBody String stringToParse) {
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+
+            int idwork = jsonObject.getInt("idwork");
+            int idstarreason = jsonObject.getInt("idstarreason");
+
+            System.out.println("WorkServlet - post request - set work "+idwork+" star reason to "+idstarreason);
+
+            DBWork dbWork = new DBWork();
+            dbWork.updateWorkStarReason(idwork, idstarreason);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject res = new JSONObject();
+        res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
+        return res.toString();
+    }
+
     @PostMapping("/Work/active")
     public @ResponseBody
     String activePaperProblem(@RequestBody String stringToParse) {

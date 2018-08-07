@@ -32,6 +32,8 @@ public class ReportServlet {
         GenerateChartData(model, allS);
 
         dp.processWorkDetail4Paper(model, wd);
+
+        DaySummaryGenerator.InsertDaySummary(dp);
         return "reportday";
     }
 

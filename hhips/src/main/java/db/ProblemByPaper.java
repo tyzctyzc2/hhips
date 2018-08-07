@@ -135,6 +135,25 @@ public class ProblemByPaper  {
 	private String problemanswerstring;
 	private String problemanswerdetail;
 
+	Integer 	reason;
+	Integer    	idstarreason;
+
+	public Integer getReason() {
+		return reason;
+	}
+
+	public void setReason(Integer reason) {
+		this.reason = reason;
+	}
+
+	public Integer getIdstarreason() {
+		return idstarreason;
+	}
+
+	public void setIdstarreason(Integer idstarreason) {
+		this.idstarreason = idstarreason;
+	}
+
 	public Integer getIdproblem() {
 		return this.idproblem;
 	}

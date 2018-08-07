@@ -16,6 +16,7 @@ public class Work implements java.io.Serializable {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer idwork;
 	private Integer idproblem;
+
 	public Integer getIdproblem() {
 		return idproblem;
 	}
@@ -29,6 +30,16 @@ public class Work implements java.io.Serializable {
 	private String workdetail;
 	private Integer workmark;
 	private Integer reason;
+
+	Integer    idstarreason;
+
+	public Integer getIdstarreason() {
+		return idstarreason;
+	}
+
+	public void setIdstarreason(Integer idstarreason) {
+		this.idstarreason = idstarreason;
+	}
 
 	public enum WorkColumnName {idproblem,usedtime,workdetail,workdate,paperid};
 	

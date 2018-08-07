@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `starreason`
+-- Table structure for table `tag`
 --
 
-DROP TABLE IF EXISTS `starreason`;
+DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `starreason` (
-  `idstarreason` int(11) NOT NULL AUTO_INCREMENT,
-  `starreasonname` varchar(45) DEFAULT NULL,
-  `starreasonfactor` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idstarreason`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE `tag` (
+  `idtag` int(11) NOT NULL AUTO_INCREMENT,
+  `tagname` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idtag`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `starreason`
+-- Dumping data for table `tag`
 --
 
-LOCK TABLES `starreason` WRITE;
-/*!40000 ALTER TABLE `starreason` DISABLE KEYS */;
-INSERT INTO `starreason` VALUES (1,'书写认真',1),(2,'过程严谨',2),(3,'努力思考',4),(4,'过程有进步',1),(5,'顽强坚持',1);
-/*!40000 ALTER TABLE `starreason` ENABLE KEYS */;
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求');
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

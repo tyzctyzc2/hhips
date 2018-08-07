@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Chapter List</title>
+        <title>战绩</title>
         <link href="./jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" media="all">
         <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
         <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
@@ -240,7 +240,7 @@
                 }
             },
 
-            colors: ['#F6C', '#6CF', '#06C', '#036', '#000'],
+            colors: ['#80FF00', '#00FFFF', '#8000FF', '#036', '#000'],
 
             // Define the data points. All series have a dummy year
             // of 1970/71 in order to be compared on the same x axis. Note
@@ -256,7 +256,7 @@
                     ${usedTimeHis}
                 ]
             }, {
-                name: "Problem",
+                name: "Problem * 10",
                 data: [
                     ${problemHis}
                 ]

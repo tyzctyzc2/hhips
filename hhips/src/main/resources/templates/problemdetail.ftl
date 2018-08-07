@@ -1,13 +1,13 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>Chapter View</title>
+	<title>${sourceName}-${chapterIndex}-${chapterName}-${problemdetail.problemindex}</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
 	    <#include "/header.ftl">
-	    <h1><a href="./Chapter?sourceid=${problemdetail.problemchapterid}" style="text-decoration: none">${sourceName}</a></h1>
+	    <h1><a href="./Chapter?sourceid=${sourceId}" style="text-decoration: none">${sourceName}</a></h1>
         <h1><a href="./Chapter?chapterid=${problemdetail.problemchapterid}" style="text-decoration: none">${chapterIndex} - ${chapterName}</a></h1>
 		<#if problemdetail.problemlevel == 1>
             <h1>${problemdetail.problemindex} -- ☆</h1>
@@ -46,7 +46,7 @@
 								<p>${works[i].workdate?string("yyyyMMdd")}</p>
 							</td>
 							<td class="edge">
-                                <p>${works[i].usedtime/60}</p>
+                                <p>${works[i].usedtime?c}</p>
                             </td>
 							<#if works[i].workmark??>
                                 <#if works[i].workmark == 0>
@@ -56,6 +56,11 @@
                                 </#if>
                             <#else>
                                 <td class="edge"><p class="orange">待批</p></td>
+                            </#if>
+                            <#if works[i].idstarreason??>
+                                <td class="edge"><p class="right">🌟${works[i].starreasonname}</p></td>
+                            <#else>
+                                <td class="edge"> </td>
                             </#if>
 							<td class="edge">
 							    <#if works[i].workdetail?contains('t')>

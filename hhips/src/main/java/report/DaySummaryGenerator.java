@@ -45,7 +45,7 @@ public class DaySummaryGenerator extends Thread {
         }
     }
 
-    private void InsertDaySummary(DayReportProcessor dp) {
+    static public void InsertDaySummary(DayReportProcessor dp) {
         DaySummary daySummary = new DaySummary();
 
         daySummary.setOnday(dp.forDay);
@@ -68,8 +68,11 @@ public class DaySummaryGenerator extends Thread {
             List<DaySummary> all = session.createQuery(criteriaQuery).getResultList();
 
             if (all.size() > 0) {
-                daySummary.iddaysummary = all.get(0).iddaysummary;
-                session.update(daySummary);
+                DaySummary du = all.get(0);
+                du.setScore(daySummary.getScore());
+                du.setTotalminutes(daySummary.getTotalminutes());
+                du.setTotalproblem(daySummary.getTotalproblem());
+                session.update(du);
             }
             else {
                 session.save(daySummary);

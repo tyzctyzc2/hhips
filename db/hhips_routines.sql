@@ -122,6 +122,8 @@ SET character_set_client = utf8;
  1 AS `papername`,
  1 AS `idwork`,
  1 AS `workdetail`,
+ 1 AS `reason`,
+ 1 AS `idstarreason`,
  1 AS `usedtime`,
  1 AS `workmark`,
  1 AS `workdate`,
@@ -331,7 +333,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_paperproblem` AS select `p`.`idproblem` AS `idproblem`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`problemindex` AS `problemindex`,`p`.`problemmodule` AS `problemmodule`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`pp`.`problemstatus` AS `problemstatus`,`pp`.`paperproblemid` AS `paperproblemid`,`per`.`idpaper` AS `idpaper`,`per`.`isactive` AS `isactive`,`per`.`papername` AS `papername`,`w`.`idwork` AS `idwork`,`w`.`workdetail` AS `workdetail`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workmark` AS `workmark`,`w`.`workdate` AS `workdate`,`m`.`modulename` AS `modulename` from ((((`paperproblem` `pp` join `problem` `p` on((`pp`.`problemid` = `p`.`idproblem`))) join `paper` `per` on((`pp`.`paperid` = `per`.`idpaper`))) left join `work` `w` on((`pp`.`idwork` = `w`.`idwork`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) */;
+/*!50001 VIEW `v_paperproblem` AS select `p`.`idproblem` AS `idproblem`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`problemindex` AS `problemindex`,`p`.`problemmodule` AS `problemmodule`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`pp`.`problemstatus` AS `problemstatus`,`pp`.`paperproblemid` AS `paperproblemid`,`per`.`idpaper` AS `idpaper`,`per`.`isactive` AS `isactive`,`per`.`papername` AS `papername`,`w`.`idwork` AS `idwork`,`w`.`workdetail` AS `workdetail`,`w`.`reason` AS `reason`,`w`.`idstarreason` AS `idstarreason`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workmark` AS `workmark`,`w`.`workdate` AS `workdate`,`m`.`modulename` AS `modulename` from ((((`paperproblem` `pp` join `problem` `p` on((`pp`.`problemid` = `p`.`idproblem`))) join `paper` `per` on((`pp`.`paperid` = `per`.`idpaper`))) left join `work` `w` on((`pp`.`idwork` = `w`.`idwork`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -453,4 +455,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-29 21:29:10
+-- Dump completed on 2018-08-07 22:00:36

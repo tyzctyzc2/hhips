@@ -26,7 +26,7 @@ public class PaperServlet {
     String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
     @GetMapping("/Paper/active")
     public @ResponseBody String getActivePaper(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID) {
-
+        logger.info("PaperServlet - get active !");
         model.addAttribute("today", StringHelper.GetDateString());
 
         DBPaper dbPaper = new DBPaper();
@@ -76,6 +76,7 @@ public class PaperServlet {
 
             if (jsonObject.has("isactive") == true) {
                 System.out.println("PaperServlet - change paper isactive");
+                logger.info("PaperServlet - change paper isactive");
                 doChangePaperIsactive(jsonObject.getInt("idpaper"), jsonObject.getInt("isactive"));
                 res.append(JSON_RESPONSE_KEY_SUCCESS, true);
                 return res.toString();
@@ -83,6 +84,7 @@ public class PaperServlet {
             }
             else if (jsonObject.has("papername") == true) {
                 System.out.println("PaperServlet - create new paper");
+                logger.info("PaperServlet - create new paper");
                 doCreateNewPaper(jsonObject.getString("papername"));
                 res.append(JSON_RESPONSE_KEY_SUCCESS, true);
                 return res.toString();

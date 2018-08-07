@@ -4,6 +4,7 @@ import db.DBProblem;
 import db.DBProblemManagement;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.Map;
 @Controller
 //@RequestMapping("/hhipsair")
 public class ProblemServlet {
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ProblemServlet.class);
     @GetMapping("/Problem")
     public String processProblemGet(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID,
                                     @RequestParam(value="chapterid", required=false, defaultValue="0") int chapterID,
@@ -23,7 +25,7 @@ public class ProblemServlet {
                                     @RequestParam(value="active", required=false, defaultValue="") String active,
                                     @RequestParam(value="idpaper", required=false, defaultValue="") String idpaper) {
         System.out.println("ProblemServlet - problem request");
-
+        logger.info("ProblemServlet - problem request");
         model.addAttribute("today", StringHelper.GetDateString());
 
         if (paperID.compareTo("0") !=0)
@@ -77,15 +79,18 @@ public class ProblemServlet {
 
     private String getPaperRelated(Model model, String paperID, int showAnswer, int noFormat) {
         System.out.println("ProblemServlet - get paper problem request " + paperID);
+        logger.info("ProblemServlet - get paper problem request " + paperID);
 
         if (showAnswer != 0)
             showAnswer = 1;
         if (paperID.indexOf("-1") > -1) {
             System.out.println("ProblemServlet -- get all paper list");
+            logger.info("ProblemServlet -- get all paper list");
             return getPaperList(model);
         }
         else {
             System.out.println("ProblemServlet -- <getPaperRelated>get paper list of " + paperID);
+            logger.info("ProblemServlet -- <getPaperRelated>get paper list of " + paperID);
             return getPaperProblemList(model, paperID, showAnswer, noFormat);
         }
     }

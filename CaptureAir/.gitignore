@@ -1,0 +1,9 @@
+/bin/
+
+
+### IntelliJ IDEA ###
+*.suo
+
+### NetBeans ###
+/bin/
+/obj/

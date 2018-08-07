@@ -16,28 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `starreason`
+-- Table structure for table `tag4problem`
 --
 
-DROP TABLE IF EXISTS `starreason`;
+DROP TABLE IF EXISTS `tag4problem`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `starreason` (
-  `idstarreason` int(11) NOT NULL AUTO_INCREMENT,
-  `starreasonname` varchar(45) DEFAULT NULL,
-  `starreasonfactor` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idstarreason`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE `tag4problem` (
+  `idtag4problem` int(11) NOT NULL AUTO_INCREMENT,
+  `idtag` int(11) DEFAULT NULL,
+  `idproblem` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idtag4problem`),
+  KEY `idproblem_idx` (`idproblem`),
+  KEY `idtag_idx` (`idtag`),
+  CONSTRAINT `idproblem` FOREIGN KEY (`idproblem`) REFERENCES `problem` (`idproblem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idtag` FOREIGN KEY (`idtag`) REFERENCES `tag` (`idtag`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `starreason`
+-- Dumping data for table `tag4problem`
 --
 
-LOCK TABLES `starreason` WRITE;
-/*!40000 ALTER TABLE `starreason` DISABLE KEYS */;
-INSERT INTO `starreason` VALUES (1,'书写认真',1),(2,'过程严谨',2),(3,'努力思考',4),(4,'过程有进步',1),(5,'顽强坚持',1);
-/*!40000 ALTER TABLE `starreason` ENABLE KEYS */;
+LOCK TABLES `tag4problem` WRITE;
+/*!40000 ALTER TABLE `tag4problem` DISABLE KEYS */;
+INSERT INTO `tag4problem` VALUES (1,1,112),(2,2,554),(3,2,1764),(4,2,168),(5,2,177),(6,2,182),(7,3,364);
+/*!40000 ALTER TABLE `tag4problem` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

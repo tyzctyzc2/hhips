@@ -39,7 +39,7 @@ public class PageMaker {
 		for(int i =0;i<problems.size();++i) {
 			ProblemWithLastWork pp = problems.get(i);
 			DBWork ww = new DBWork();
-			List<WorkDetail> thisW = ww.getProblemAllWork(pp.getIdproblem());
+			List<WorkDetail> thisW = ww.getProblemAllWorkDetail(pp.getIdproblem());
 			allWork.add(thisW);
 		}
 		model.addAttribute("works", allWork);
@@ -121,7 +121,7 @@ public class PageMaker {
 		model.addAttribute("problemdetail", p);
 	
 		DBWork myDBWork = new DBWork();
-		List<Work> allWork = myDBWork.getProblemAllWork(problemID);
+		List<WorkDetail> allWork = myDBWork.getProblemAllWorkDetail(problemID);
 		root.put("worklength", allWork.size()-1);
 		root.put("works", allWork);
 
@@ -172,15 +172,24 @@ public class PageMaker {
 		List<ProblemByPaper> problems = myDBProblem.getPaperProblemList(activeParameter);
 
 		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
+		List<Integer> problemStar = new ArrayList<>();
 		for(int i =0;i<problems.size();++i) {
 			ProblemByPaper pp = problems.get(i);
 			DBWork ww = new DBWork();
 			List<WorkDetail> thisW = ww.getPaperProblemWork(Integer.parseInt(activeParameter), pp.getIdproblem());
 			allWork.add(thisW);
+
+			int thisStar = 0;
+			for (WorkDetail wwd:thisW) {
+				if (wwd.getIdstarreason() !=null)
+					thisStar = wwd.getIdstarreason();
+			}
+			problemStar.add(thisStar);
 		}
 
 		model.addAttribute("problems", problems);
 		model.addAttribute("works", allWork);
+        model.addAttribute("stars", problemStar);
 		
 		System.out.println("paper problem ==== " + problems.size());
 	

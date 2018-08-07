@@ -3,7 +3,7 @@
 	<meta charset="utf-8"/>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
-	<title>Source List</title>
+	<title>题源</title>
 </head>
 	<body>
 		<#include "/header.ftl">

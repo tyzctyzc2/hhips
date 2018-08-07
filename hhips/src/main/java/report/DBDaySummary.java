@@ -2,6 +2,7 @@ package report;
 
 import db.HibernateUtils;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,10 +17,15 @@ public class DBDaySummary {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<DaySummary> criteriaQuery = criteriaBuilder.createQuery(DaySummary.class);
         Root<DaySummary> itemRoot = criteriaQuery.from(DaySummary.class);
-        criteriaQuery.select(itemRoot);//.where(criteriaBuilder.equal(itemRoot.get("idproblem"), problemID));
+        criteriaQuery.orderBy(criteriaBuilder.asc(itemRoot.get("onday")));
+        criteriaQuery.select(itemRoot);
         List<DaySummary> all =  session.createQuery(criteriaQuery).getResultList();
 
         session.getTransaction().commit();
+
+        for (DaySummary ds : all){
+            ds.setTotalproblem(ds.getTotalproblem() * 10);
+        }
         return all;
     }
 }

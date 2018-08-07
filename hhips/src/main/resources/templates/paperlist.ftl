@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>Source List</title>
+	<title>卷卷列表</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>

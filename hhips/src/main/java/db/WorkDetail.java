@@ -60,6 +60,26 @@ public class WorkDetail {
     private Integer workmark;
     private Integer reason;
 
+    public String getStarreasonname() {
+        return starreasonname;
+    }
+
+    public void setStarreasonname(String starreasonname) {
+        this.starreasonname = starreasonname;
+    }
+
+    private String starreasonname;
+
+    public Integer getIdstarreason() {
+        return idstarreason;
+    }
+
+    public void setIdstarreason(Integer idstarreason) {
+        this.idstarreason = idstarreason;
+    }
+
+    private Integer idstarreason;
+
     public Integer getProblemchapterid() {
         return problemchapterid;
     }
