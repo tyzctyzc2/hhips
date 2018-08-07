@@ -46,7 +46,7 @@
                                     <action selector="changePaperButtonTouch:" destination="EKH-TK-Q3L" eventType="touchDown" id="WpC-Jz-MM5"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="startpic" translatesAutoresizingMaskIntoConstraints="NO" id="7xO-Gb-hFQ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start" translatesAutoresizingMaskIntoConstraints="NO" id="7xO-Gb-hFQ">
                                 <rect key="frame" x="466" y="120" width="92" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="Dbv-1b-FgX"/>
@@ -78,6 +78,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="startpic" width="540" height="720"/>
+        <image name="start" width="360" height="480"/>
     </resources>
 </document>
