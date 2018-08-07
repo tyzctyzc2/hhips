@@ -186,7 +186,7 @@
     NSString *timeString =[NSString stringWithFormat:@"%02d:%02d",mins,secs];
     self.timerLabel.text = timeString;
     
-    if (timeTick > 18)
+    if (timeTick > 1800)
     {
         //NSLog(@"timeTick > 1800-------");
         if (notAlarm == false)
@@ -195,7 +195,7 @@
             //notAlarm = true;
         }
     }
-    else if(timeTick > 12)
+    else if(timeTick > 1200)
     {
         //NSLog(@"timeTick > 1200-------");
         if (notAlarm == false)

@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "setbook/PuzzleController.m"
-            timestampString = "555062654.4458179"
+            timestampString = "555287142.8278691"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "208"
             endingLineNumber = "208"
-            landmarkName = "-touchesBegan:withEvent:"
-            landmarkType = "7">
+            landmarkName = "PuzzleController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
