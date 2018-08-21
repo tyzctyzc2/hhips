@@ -26,6 +26,16 @@ namespace CaptureAir
             pictureBoxB.Image = _b;
         }
 
+        public Image GetPictureA()
+        {
+            return pictureBoxA.Image;
+        }
+
+        public Image GetPictureB()
+        {
+            return pictureBoxB.Image;
+        }
+
         public void ResetPicture()
         {
             pictureBoxA.Image = null;

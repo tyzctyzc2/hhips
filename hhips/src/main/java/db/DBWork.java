@@ -29,13 +29,24 @@ public class DBWork {
 		Session session = HibernateUtils.openCurrentSession();
 		
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
-        Root<Work> itemRoot = criteriaQuery.from(Work.class);
-        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), problemID));
-        List<Work> all =  session.createQuery(criteriaQuery).getResultList();
-        
-        session.getTransaction().commit();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), problemID));
+			all = session.createQuery(criteriaQuery).getResultList();
+
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
         return all;
 	}
 
@@ -43,12 +54,22 @@ public class DBWork {
 		Session session = HibernateUtils.openCurrentSession();
 
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
-		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem));
-		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
-		session.getTransaction().commit();
+		List<WorkDetail> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
+			Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem));
+			all = session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
 
 		return all;
 	}
@@ -57,12 +78,22 @@ public class DBWork {
 		Session session = HibernateUtils.openCurrentSession();
 
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
-		Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem), criteriaBuilder.equal(itemRoot.get("idpaper"), idpaper));
-		List<WorkDetail> all =  session.createQuery(criteriaQuery).getResultList();
-		session.getTransaction().commit();
+		List<WorkDetail> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<WorkDetail> criteriaQuery = criteriaBuilder.createQuery(WorkDetail.class);
+			Root<WorkDetail> itemRoot = criteriaQuery.from(WorkDetail.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), idproblem), criteriaBuilder.equal(itemRoot.get("idpaper"), idpaper));
+			all = session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
 
 		return all;
 	}
@@ -121,13 +152,22 @@ public class DBWork {
 	
 		Session session = HibernateUtils.openCurrentSession();
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
-        Root<Work> itemRoot = criteriaQuery.from(Work.class);
-        criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
-        List<Work> all = session.createQuery(criteriaQuery).getResultList();
-        session.getTransaction().commit();
-        session.close();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+         	all=session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
         if (all.size() == 0)
         	return false;
         
@@ -141,13 +181,23 @@ public class DBWork {
 
 		Session session = HibernateUtils.openCurrentSession();
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
-		Root<Work> itemRoot = criteriaQuery.from(Work.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
-		List<Work> all = session.createQuery(criteriaQuery).getResultList();
-		session.getTransaction().commit();
-		session.close();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+			all = session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
 		if (all.size() == 0)
 			return false;
 
@@ -163,13 +213,23 @@ public class DBWork {
 
 		Session session = HibernateUtils.openCurrentSession();
 		session.beginTransaction();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
-		Root<Work> itemRoot = criteriaQuery.from(Work.class);
-		criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
-		List<Work> all = session.createQuery(criteriaQuery).getResultList();
-		session.getTransaction().commit();
-		session.close();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+			all = session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
 		if (all.size() == 0)
 			return false;
 

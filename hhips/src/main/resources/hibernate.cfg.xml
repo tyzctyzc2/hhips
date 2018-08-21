@@ -34,6 +34,9 @@
       <mapping class="db.Reason" />
       <mapping class="db.StarReason" />
       <mapping class="report.DaySummary" />
+      <mapping class="db.Tag" />
+      <mapping class="db.TagByProblem" />
+      <mapping class="db.TagProblemTable" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

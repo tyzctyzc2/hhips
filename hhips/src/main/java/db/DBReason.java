@@ -18,14 +18,23 @@ public class DBReason {
         Session session = HibernateUtils.openCurrentSession();
 
         session.beginTransaction();
+        List<Reason> all;
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Reason> criteriaQuery = criteriaBuilder.createQuery(Reason.class);
+            Root<Reason> itemRoot = criteriaQuery.from(Reason.class);
+            criteriaQuery.select(itemRoot);
+            all = session.createQuery(criteriaQuery).getResultList();
 
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Reason> criteriaQuery = criteriaBuilder.createQuery(Reason.class);
-        Root<Reason> itemRoot = criteriaQuery.from(Reason.class);
-        criteriaQuery.select(itemRoot);
-        List<Reason> all = session.createQuery(criteriaQuery).getResultList();
-
-        session.getTransaction().commit();
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
 
         allReasonList = all;
         return allReasonList;
@@ -38,14 +47,23 @@ public class DBReason {
         Session session = HibernateUtils.openCurrentSession();
 
         session.beginTransaction();
+        List<StarReason> all;
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<StarReason> criteriaQuery = criteriaBuilder.createQuery(StarReason.class);
+            Root<StarReason> itemRoot = criteriaQuery.from(StarReason.class);
+            criteriaQuery.select(itemRoot);
+            all = session.createQuery(criteriaQuery).getResultList();
 
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<StarReason> criteriaQuery = criteriaBuilder.createQuery(StarReason.class);
-        Root<StarReason> itemRoot = criteriaQuery.from(StarReason.class);
-        criteriaQuery.select(itemRoot);
-        List<StarReason> all = session.createQuery(criteriaQuery).getResultList();
-
-        session.getTransaction().commit();
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
 
         allStarReasonList = all;
         return allStarReasonList;

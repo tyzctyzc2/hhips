@@ -31,7 +31,7 @@ CREATE TABLE `tag4problem` (
   KEY `idtag_idx` (`idtag`),
   CONSTRAINT `idproblem` FOREIGN KEY (`idproblem`) REFERENCES `problem` (`idproblem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `idtag` FOREIGN KEY (`idtag`) REFERENCES `tag` (`idtag`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `tag4problem` (
 
 LOCK TABLES `tag4problem` WRITE;
 /*!40000 ALTER TABLE `tag4problem` DISABLE KEYS */;
-INSERT INTO `tag4problem` VALUES (1,1,112),(2,2,554),(3,2,1764),(4,2,168),(5,2,177),(6,2,182),(7,3,364);
+INSERT INTO `tag4problem` VALUES (2,2,554),(3,2,1764),(4,2,168),(5,2,177),(6,2,182),(7,3,364),(8,4,112),(9,1,112);
 /*!40000 ALTER TABLE `tag4problem` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-07 22:00:35
+-- Dump completed on 2018-08-21 21:08:18

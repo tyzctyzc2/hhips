@@ -40,9 +40,11 @@
             this.textBoxIP = new System.Windows.Forms.TextBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBoxLevel = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.button_copyP = new System.Windows.Forms.Button();
+            this.button_copyA = new System.Windows.Forms.Button();
             this.groupBoxLevel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,16 +162,16 @@
             this.groupBoxLevel.TabStop = false;
             this.groupBoxLevel.Text = "level";
             // 
-            // radioButton2
+            // radioButton4
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(44, 15);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(31, 17);
-            this.radioButton2.TabIndex = 13;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "2";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(44, 39);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(31, 17);
+            this.radioButton4.TabIndex = 15;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "4";
+            this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // radioButton3
             // 
@@ -182,22 +184,44 @@
             this.radioButton3.Text = "3";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // radioButton2
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(44, 39);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(31, 17);
-            this.radioButton4.TabIndex = 15;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "4";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(44, 15);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(31, 17);
+            this.radioButton2.TabIndex = 13;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "2";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // button_copyP
+            // 
+            this.button_copyP.Location = new System.Drawing.Point(110, 309);
+            this.button_copyP.Name = "button_copyP";
+            this.button_copyP.Size = new System.Drawing.Size(31, 49);
+            this.button_copyP.TabIndex = 14;
+            this.button_copyP.Text = "C";
+            this.button_copyP.UseVisualStyleBackColor = true;
+            this.button_copyP.Click += new System.EventHandler(this.button_copyP_Click);
+            // 
+            // button_copyA
+            // 
+            this.button_copyA.Location = new System.Drawing.Point(110, 365);
+            this.button_copyA.Name = "button_copyA";
+            this.button_copyA.Size = new System.Drawing.Size(31, 50);
+            this.button_copyA.TabIndex = 15;
+            this.button_copyA.Text = "C";
+            this.button_copyA.UseVisualStyleBackColor = true;
+            this.button_copyA.Click += new System.EventHandler(this.button_copyA_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(116, 482);
+            this.ClientSize = new System.Drawing.Size(153, 482);
+            this.Controls.Add(this.button_copyA);
+            this.Controls.Add(this.button_copyP);
             this.Controls.Add(this.groupBoxLevel);
             this.Controls.Add(this.textBoxIP);
             this.Controls.Add(this.textBoxChapterID);
@@ -237,6 +261,8 @@
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.Button button_copyP;
+        private System.Windows.Forms.Button button_copyA;
     }
 }
 

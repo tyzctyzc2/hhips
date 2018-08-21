@@ -26,7 +26,7 @@ CREATE TABLE `tag` (
   `idtag` int(11) NOT NULL AUTO_INCREMENT,
   `tagname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idtag`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求');
+INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求'),(4,'火车过桥'),(5,'平面想象'),(6,'步骤繁琐'),(7,'探索规律'),(8,'有序思考'),(9,'分而治之'),(10,'比例问题'),(11,'中转传递');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-07 22:00:35
+-- Dump completed on 2018-08-21 21:08:17

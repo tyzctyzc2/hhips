@@ -110,8 +110,6 @@ public class ProblemServlet {
         return "paperlist";
     }
 
-    String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
-
     @PostMapping("/Problem/update")
     public @ResponseBody String updateProblem(@RequestBody String stringToParse) {
         System.out.println("ProblemServlet -- post update new problem");
@@ -122,16 +120,16 @@ public class ProblemServlet {
             System.out.println("ProblemServlet - update problem request");
             Integer newProblemID =dbProblem.UpdateProblem(jsonObject);
             if (newProblemID == 0) {
-                res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
             }
             else {
-                res.append(JSON_RESPONSE_KEY_SUCCESS, true);
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
             }
 
         } catch (JSONException e) {
             System.out.println(stringToParse);
             e.printStackTrace();
-            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+            res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
         }
 
         return res.toString();
@@ -147,16 +145,16 @@ public class ProblemServlet {
             System.out.println("ProblemServlet - create new problem request");
             Integer newProblemID =dbProblem.PushProblem(jsonObject);
             if (newProblemID == 0) {
-                res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
             }
             else {
-                res.append(JSON_RESPONSE_KEY_SUCCESS, true);
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
             }
 
         } catch (JSONException e) {
             System.out.println(stringToParse);
             e.printStackTrace();
-            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+            res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
         }
 
         return res.toString();
@@ -181,7 +179,7 @@ public class ProblemServlet {
         }
 
         JSONObject res = new JSONObject();
-        res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
         return res.toString();
     }
 

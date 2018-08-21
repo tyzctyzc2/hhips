@@ -2,8 +2,10 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>${sourceName}-${chapterIndex}-${chapterName}-${problemdetail.problemindex}</title>
-	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<link href="./jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" media="all">
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
+    <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
 </head>
 	<body>
 	    <#include "/header.ftl">
@@ -24,6 +26,29 @@
         <#list inActivePaper as paper>
             <p>${paper.papername}</p>
         </#list>
+        <table style="font-size:  x-large;">
+            <tr>
+            <#list myTags as tag>
+                <td class="edgeRound">
+                    <a href="./tag?tagid=${tag.idtag}" style="text-decoration: none">${tag.tagname}</a>
+                </td>
+            </#list>
+            <td>
+                <button class="bigFont" type="button" onclick="showTag()">Change Tag</button>
+            </td>
+            </tr>
+        </table>
+        <div id="dialog" title="Tag dialog" class="hide">
+            <table style="font-size:  x-large;">
+                <tr>
+                <#list allTags as tag>
+                    <td class="edgeRound picked">
+                        <div onclick="changeTag(${problemdetail.idproblem?c}, ${tag.idtag})">${tag.tagname}</div>
+                    </td>
+                </#list>
+                </tr>
+            </table>
+        </div>
 		<table>
 			<tr class="edge">
 				<td>
@@ -212,6 +237,40 @@
             $('#indexselect option[value='+lastindex+']').prop({selected: true});
             $('#moduleselect option[value='+lastmodule+']').prop({selected: true});
             $('#levelselect option[value='+lastlevel+']').prop({selected: true});
+        }
+
+        function showTag() {
+            $( "#dialog" ).dialog({
+                    modal: true,
+                  width: 800,
+                  height: 600});
+        }
+
+        function changeTag(problemID, tagID) {
+            $('#dialog').dialog('close')
+            var pData = {};
+            pData.idproblem = problemID;
+            pData.idtag = tagID;
+
+            console.log(JSON.stringify(pData));
+            console.log('==========');
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: "./tag/update",
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
+                    console.log('tag changed');
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    console.log(msg);
+                    window.location.reload()
+                }
+            })
         }
 
         var activeImage=1;

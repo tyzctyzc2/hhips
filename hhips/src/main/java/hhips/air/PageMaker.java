@@ -149,6 +149,13 @@ public class PageMaker {
 		List<ProblemByPaper> pbp = dbPaper.getProblemActivePaper(problemID);
 		model.addAttribute("inActivePaper", pbp);
 
+		DBTag dbTag=new DBTag();
+		List<TagByProblem> myTag = dbTag.getProblemTag(problemID);
+		model.addAttribute("myTags", myTag);
+
+		List<Tag> allTags = dbTag.getBaseTagMap();
+		model.addAttribute("allTags", allTags);
+
 		return root;
 	}
 	

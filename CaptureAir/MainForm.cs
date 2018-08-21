@@ -359,6 +359,16 @@ namespace CaptureAir
 
         }
 
+        private void button_copyP_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(myPreviewForm.GetPictureA());
+        }
+
+        private void button_copyA_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(myPreviewForm.GetPictureB());
+        }
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook,
           LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -373,5 +383,6 @@ namespace CaptureAir
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+
     }
 }
