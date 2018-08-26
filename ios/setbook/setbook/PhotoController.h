@@ -15,6 +15,7 @@
     AVCaptureStillImageOutputInternal *imageOutput;
     AVCaptureStillImageOutput *_stillImageOutput;
     AVCapturePhotoOutput *_avCaptureOutput;
+    AVCaptureStillImageOutput *_avStillCaptureOutput;
     
     NSString *_myProbelmID;
     NSString *_myPaperProblemID;
