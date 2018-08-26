@@ -3,7 +3,10 @@
    <meta charset="utf-8"/>
    <title>${papername}</title>
    <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+   <script type="text/javascript" src="./chart/highcharts.js"></script>
+   <script type="text/javascript" src="./chart/piechart4problem.js"></script>
    <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
+
 </head>
    <body>
        <#if showAnswer != 0>
@@ -19,6 +22,7 @@
 
       <#if showAnswer != 0>
          <#if max != -1>
+            <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
             <table>
                <#list 0..max as i>
                   <tr class="edge">
@@ -120,6 +124,11 @@
                </tr>
             </table>
             <#if showAnswer != 0>
+                <#if problems[i].problemstatus == 1>
+                    <button class="bigFont" type="button" onclick="activeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">De Active</button>
+                <#else>
+                    <button class="bigFont" type="button" onclick="activeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">Active</button>
+                </#if>
                <#if problems[i].workdetail??>
                   <table style="font-size:  x-large;">
                      <tr class="edge">
@@ -222,7 +231,33 @@
 
    </body>
    <script>
+        var problemDone = ${problemDone};
+        var problemNotStart = ${problemNotStart};
+        var problemNotPass = ${problemNotPass};
+        var problemTotal = ${problemTotal};
+
        var idpaper = ${idpaper};
+       function activeProblem(idproblem, paperproblemid) {
+            var pData = {};
+            pData.idproblem=idproblem;
+            pData.paperproblemid=paperproblemid;
+            pData.paperid=idpaper;
+            var url = "./Paper/problem/active";
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+       }
        function postWorkReason(idWork) {
             var pData = {};
             pData.idwork=idWork;

@@ -40,12 +40,22 @@
         </table>
         <div id="dialog" title="Tag dialog" class="hide">
             <table style="font-size:  x-large;">
-                <tr>
-                <#list allTags as tag>
-                    <td class="edgeRound picked">
-                        <div onclick="changeTag(${problemdetail.idproblem?c}, ${tag.idtag})">${tag.tagname}</div>
-                    </td>
+                <#list allTags as rowtag>
+                    <tr>
+                    <#list rowtag as tag>
+                        <td class="edgeRound picked">
+                            <div onclick="changeTag(${problemdetail.idproblem?c}, ${tag.idtag})">${tag.tagname}</div>
+                        </td>
+                    </#list>
+                    </tr>
                 </#list>
+            </table>
+            <table style="font-size:  x-large;">
+                <tr>
+                    <td>
+                        <input class="bigFont" type="text" id="newTagName" />
+                        <button class="bigFont" type="button" onclick="postTag()">+New Tag</button>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -246,6 +256,28 @@
                   height: 600});
         }
 
+        function postTag() {
+            var pData = {};
+            pData.tagname = $( "#newTagName" ).val();
+
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: "./tag/add",
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
+                    console.log('tag changed');
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    console.log(msg);
+                    window.location.reload()
+                }
+            })
+        }
         function changeTag(problemID, tagID) {
             $('#dialog').dialog('close')
             var pData = {};

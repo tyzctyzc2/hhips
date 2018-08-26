@@ -30,6 +30,32 @@ public class TagController {
         return "tagproblem";
     }
 
+    @PostMapping("/tag/add")
+    public @ResponseBody
+    String addTag(@RequestBody String stringToParse) {
+        logger.info("add tag " + stringToParse);
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+            DBTag dbTag = new DBTag();
+            boolean suc = dbTag.saveNewTag(jsonObject.getString("tagname"));
+            if (suc) {
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
+            }
+            else {
+                res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
+            }
+
+        } catch (JSONException e) {
+            System.out.println(stringToParse);
+            logger.error(e.getStackTrace().toString());
+            e.printStackTrace();
+            res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
+        }
+
+        return res.toString();
+    }
+
     @PostMapping("/tag/update")
     public @ResponseBody
     String updateProblem(@RequestBody String stringToParse) {

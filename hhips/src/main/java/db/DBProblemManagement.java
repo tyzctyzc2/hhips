@@ -314,6 +314,11 @@ public class DBProblemManagement {
 	}
 
 	public boolean insertPaperWholeChapter(int chapterID, int paperID) {
+		DBProblem dbProblem = new DBProblem();
+		List<ProblemWithLastWork> problemList = dbProblem.getProblemWithLastWorkByCharpter(chapterID);
+		for (int i = 0; i < problemList.size(); ++i) {
+			insertPaperProblem(problemList.get(i).getIdproblem(), paperID);
+		}
 		return true;
 	}
 

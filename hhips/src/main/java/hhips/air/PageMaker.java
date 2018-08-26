@@ -7,6 +7,7 @@ import java.util.Map;
 
 import db.*;
 import org.springframework.ui.Model;
+import uti.DmmUti;
 
 public class PageMaker {
 	public static Map<String, Object> prepareChapterProblems(Model model, int chapterID) {
@@ -35,13 +36,31 @@ public class PageMaker {
 		root.put("problems", problems);
 		model.addAttribute("problems", problems);
 
+		int doneProblem = 0;
+		int notPassProblem = 0;
+		int notTouchProblem = 0;
 		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
 		for(int i =0;i<problems.size();++i) {
 			ProblemWithLastWork pp = problems.get(i);
 			DBWork ww = new DBWork();
 			List<WorkDetail> thisW = ww.getProblemAllWorkDetail(pp.getIdproblem());
 			allWork.add(thisW);
+
+			if (thisW.size() == 0) {
+				notTouchProblem++;
+			}
+			else {
+				if (thisW.get(thisW.size()-1).getWorkmark()==0)
+					doneProblem++;
+				else
+					notPassProblem++;
+			}
 		}
+		model.addAttribute("problemDone", doneProblem);
+		model.addAttribute("problemNotPass", notPassProblem);
+		model.addAttribute("problemNotStart", notTouchProblem);
+		model.addAttribute("problemTotal", problems.size());
+
 		model.addAttribute("works", allWork);
 
 		if (problems.size() == 0) {
@@ -154,7 +173,8 @@ public class PageMaker {
 		model.addAttribute("myTags", myTag);
 
 		List<Tag> allTags = dbTag.getBaseTagMap();
-		model.addAttribute("allTags", allTags);
+		List<List<Tag>> chopedTag = DmmUti.chopped(allTags, 7);
+		model.addAttribute("allTags", chopedTag);
 
 		return root;
 	}
@@ -180,6 +200,9 @@ public class PageMaker {
 
 		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
 		List<Integer> problemStar = new ArrayList<>();
+		int doneProblem = 0;
+		int notPassProblem = 0;
+		int notTouchProblem = 0;
 		for(int i =0;i<problems.size();++i) {
 			ProblemByPaper pp = problems.get(i);
 			DBWork ww = new DBWork();
@@ -191,12 +214,27 @@ public class PageMaker {
 				if (wwd.getIdstarreason() !=null)
 					thisStar = wwd.getIdstarreason();
 			}
+
+			if (thisW.size() == 0) {
+				notTouchProblem++;
+			}
+			else {
+				if ((thisW.get(thisW.size()-1).getWorkmark()!=null) && thisW.get(thisW.size()-1).getWorkmark()==0)
+					doneProblem++;
+				else
+					notPassProblem++;
+			}
 			problemStar.add(thisStar);
 		}
 
 		model.addAttribute("problems", problems);
 		model.addAttribute("works", allWork);
         model.addAttribute("stars", problemStar);
+
+		model.addAttribute("problemDone", doneProblem);
+		model.addAttribute("problemNotPass", notPassProblem);
+		model.addAttribute("problemNotStart", notTouchProblem);
+		model.addAttribute("problemTotal", problems.size());
 		
 		System.out.println("paper problem ==== " + problems.size());
 	

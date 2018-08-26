@@ -33,6 +33,8 @@ namespace CaptureAir
         LowLevelMouseProc myHookProcedure = myHookKeyProc;
         static IntPtr hook;
         static MainForm myMainWin;
+        static int myLastKeyPressed = 0;
+        Timer myTimerInSecond;
 
         public MainForm()
         {
@@ -87,32 +89,48 @@ namespace CaptureAir
             hook = SetWindowsHookEx(WH_KEYBOARD_LL, myHookProcedure, GetModuleHandle("user32"), 0);
             if (hook == IntPtr.Zero) throw new System.ComponentModel.Win32Exception();
 
+            myTimerInSecond = new Timer();
+            myTimerInSecond.Interval = 1000;
+            myTimerInSecond.Tick += new EventHandler(myTimerInSecond_Tick);
+            myTimerInSecond.Start();
+
             myMainWin = this;
+
+            AllocConsole();
+        }
+
+        void myTimerInSecond_Tick(object sender, EventArgs e)
+        {
+            if (MainForm.myLastKeyPressed == 0)
+                return;
+
+            switch (MainForm.myLastKeyPressed)
+            {
+                case 'Z':
+                    myMainWin.button_problem_Click(null, null);
+                    break;
+                case 'X':
+                    myMainWin.button_problem_plus_Click(null, null);
+                    break;
+                case 'A':
+                    myMainWin.button_answer_Click(null, null);
+                    break;
+                case 'S':
+                    myMainWin.button_answer_plus_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+            MainForm.myLastKeyPressed = 0;
         }
 
         private static IntPtr myHookKeyProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
+            Console.WriteLine("some key was pressed");
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = System.Runtime.InteropServices.Marshal.ReadInt32(lParam);
-                switch (vkCode)
-                {
-                    case 'Z':
-                        myMainWin.button_problem_Click(null, null);
-                        break;
-                    case 'X':
-                        myMainWin.button_problem_plus_Click(null, null);
-                        break;
-                    case 'A':
-                        myMainWin.button_answer_Click(null, null);
-                        break;
-                    case 'S':
-                        myMainWin.button_answer_plus_Click(null, null);
-                        break;
-                    default:
-                        break;
-                }
-                Console.WriteLine((Keys)vkCode);
+                myLastKeyPressed = vkCode;
             }
 
             return CallNextHookEx(hook, nCode, wParam, lParam);
@@ -383,6 +401,10 @@ namespace CaptureAir
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
 
     }
 }

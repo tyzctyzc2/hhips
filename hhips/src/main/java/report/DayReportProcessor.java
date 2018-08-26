@@ -342,8 +342,13 @@ public class DayReportProcessor {
             curWork.setWorkmark(1);
 
         }
-        long pass = (curWork.getWorkdate().getTime() - curWork.getStartdate().getTime()) / 1000 / 60;
-        curWork.setUsedtime((int) (long) pass);
+        if (wd.size() > 1) {
+            long pass = (curWork.getWorkdate().getTime() - curWork.getStartdate().getTime()) / 1000 / 60;
+            curWork.setUsedtime((int) (long) pass);
+        }
+        else {
+            curWork.setUsedtime(curWork.getUsedtime());
+        }
         processed.add(curWork);
 
         return processed;

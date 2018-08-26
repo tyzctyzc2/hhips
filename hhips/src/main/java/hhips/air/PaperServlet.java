@@ -45,7 +45,7 @@ public class PaperServlet {
     @PostMapping("/Paper/addchapter2paper")
     public @ResponseBody String addChapter2Paper(Model model, @RequestParam(value="chapterid", required=false, defaultValue="0") Integer chapterid,
                                                  @RequestParam(value="paperid", required=false, defaultValue="0") Integer paperid) {
-        logger.info("PaperServlet - [addchapter2paper] paper request " + paperid);
+         logger.info("PaperServlet - [addchapter2paper] paper request " + paperid);
         System.out.println("PaperServlet - [addchapter2paper] paper request " + paperid);
         JSONObject res = new JSONObject();
 
@@ -65,6 +65,27 @@ public class PaperServlet {
         DBProblemManagement pm = new DBProblemManagement();
         pm.changeAllPaperProblemStatus(paperID, 1);
         res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        return res.toString();
+    }
+
+    @PostMapping("/Paper/problem/active")
+    public @ResponseBody String activePaperProblem(@RequestBody String stringToParse) {
+        logger.info("PaperServlet - [activePaperProblem] paper problem request " + stringToParse);
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+
+
+            DBPaper dbPaper = new DBPaper();
+            dbPaper.togglePaperProblemActive(jsonObject.getInt("idproblem"),
+                    jsonObject.getInt("paperproblemid"),
+                    jsonObject.getInt("paperid"));
+
+            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        }
+        catch (Exception e) {
+
+        }
         return res.toString();
     }
 

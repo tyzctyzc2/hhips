@@ -3,6 +3,8 @@
 	<meta charset="utf-8"/>
 	<title>${chapterindex}--${chapername}</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./chart/highcharts.js"></script>
+	<script type="text/javascript" src="./chart/piechart4problem.js"></script>
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
@@ -11,6 +13,7 @@
 		    <h1>${sourcename}</h1>
         </a>
 		<h1>${chapterindex}--${chapername}</h1>
+		<div id="container" style="width: 400px; height: 300px; margin: 0 auto"></div>
 		<button type="button" onclick="addWhole2Paper(${chaperid})">Add all to Paper</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
@@ -291,6 +294,11 @@
 					<br/>
 	</body>
 	<script>
+	    var problemDone = ${problemDone};
+        var problemNotStart = ${problemNotStart};
+        var problemNotPass = ${problemNotPass};
+        var problemTotal = ${problemTotal};
+
 		window.onload = pageLoaded;
 		function pageLoaded() {
 			$('#indexselect option[value='+lastindex+']').next().prop({selected: true});
@@ -325,7 +333,7 @@
 
 		function addWhole2Paper(chapterid) {
             var paperid = $( "#paperselect" ).val();
-			var url = "./Paper/addchapterproblem?chapterid="+chapterid+"&paperid="+paperid;
+			var url = "./Paper/addchapter2paper?chapterid="+chapterid+"&paperid="+paperid;
 			console.log(url);
 			$.ajax({
 			    type: "POST",

@@ -7,9 +7,9 @@
         <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
 
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/series-label.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script type="text/javascript" src="./chart/highcharts.js"></script>
+        <script type="text/javascript" src="./chart/series-label.js"></script>
+        <script type="text/javascript" src="./chart/exporting.js"></script>
     </head>
     <body>
         <#include "/header.ftl">

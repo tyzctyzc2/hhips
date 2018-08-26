@@ -70,6 +70,30 @@ public class DBTag {
         return true;
     }
 
+    public boolean saveNewTag(String tagName) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        boolean suc = false;
+        session.beginTransaction();
+        try {
+            Tag t = new Tag();
+            t.setTagname(tagName);
+            session.save(t);
+            suc = true;
+        }
+        catch ( RuntimeException e ) {
+            suc = false;
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        allTagList = null;
+        return suc;
+    }
+
     public Tag getTag(int tagID) {
         Session session = HibernateUtils.openCurrentSession();
 
