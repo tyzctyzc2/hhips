@@ -40,6 +40,13 @@ namespace CaptureAir
         {
             this.components = new System.ComponentModel.Container();
             InitializeComponent();
+
+            int x = Screen.PrimaryScreen.WorkingArea.Right - 200;
+            int y = Screen.PrimaryScreen.WorkingArea.Bottom - 500;
+
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(x, y);
+
             this.TopMost = true;
             defaultColor = button_problem.BackColor;
 
@@ -96,7 +103,8 @@ namespace CaptureAir
 
             myMainWin = this;
 
-            AllocConsole();
+            
+            //AllocConsole();
         }
 
         void myTimerInSecond_Tick(object sender, EventArgs e)
