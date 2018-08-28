@@ -1,5 +1,6 @@
 package db;
 
+import javafx.util.Pair;
 import org.json.*;
 
 import db.HibernateUtils;
@@ -327,6 +328,56 @@ public class DBProblem {
 			session.close();
 		}
 		return problemID;
+	}
+
+	public Pair<Integer, Integer> getProblemBeforeAfter(Problem problem) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		List<Problem> all;
+		Pair<Integer, Integer> beforeAndAfter = new Pair<Integer, Integer>(0,0);
+		int before = 0;
+		int after = 0;
+
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Problem> criteriaQuery = criteriaBuilder.createQuery(Problem.class);
+			Root<Problem> itemRoot = criteriaQuery.from(Problem.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemchapterid"), problem.getProblemchapterid()));
+
+			all = session.createQuery(criteriaQuery).getResultList();
+
+			session.getTransaction().commit();
+
+			int index = -1;
+			for(int i = 0; i < all.size(); ++i) {
+				int curID = all.get(i).getIdproblem();
+				int myID = problem.getIdproblem();
+				if ( curID == myID) {
+					index = i;
+					break;
+				}
+			}
+
+			if (index > -1) {
+				if (index > 0)
+					before = all.get(index - 1).getIdproblem();
+				if (index < (all.size() - 1)) {
+					after = all.get(index+1).getIdproblem();
+				}
+
+				beforeAndAfter = new Pair<Integer, Integer>(before, after);
+			}
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
+		return beforeAndAfter;
 	}
 	
 	public List<ProblemWithLastWork> getProblemWithLastWorkByCharpter(int chapterID) {

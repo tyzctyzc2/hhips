@@ -9,20 +9,45 @@
 </head>
 	<body>
 	    <#include "/header.ftl">
-	    <h1><a href="./Chapter?sourceid=${sourceId}" style="text-decoration: none">${sourceName}</a></h1>
-        <h1><a href="./Chapter?chapterid=${problemdetail.problemchapterid}" style="text-decoration: none">${chapterIndex} - ${chapterName}</a></h1>
-		<#if problemdetail.problemlevel == 1>
-            <h1>${problemdetail.problemindex} -- ☆</h1>
-        </#if>
-        <#if problemdetail.problemlevel == 2>
-            <h1>${problemdetail.problemindex} -- ☆☆</h1>
-        </#if>
-        <#if problemdetail.problemlevel == 3>
-            <h1>${problemdetail.problemindex} -- ☆☆☆</h1>
-        </#if>
-        <#if problemdetail.problemlevel == 4>
-            <h1>${problemdetail.problemindex} -- ☆☆☆☆</h1>
-        </#if>
+	    <table class="boldFont">
+	        <tr>
+	            <td>
+	                <#if before != 0>
+                        <div><a href="./Problem?problemid=${before?c}" style="text-decoration: none">前一题</a></div>
+                    </#if></td>
+                <td>
+                    <#if after != 0>
+                        <div><a href="./Problem?problemid=${after?c}" style="text-decoration: none">&nbsp;&nbsp;&nbsp;&nbsp;后一题</a></div>
+                    </#if>
+                </td>
+	        </tr>
+	    </table>
+	    <table class="bigFont boldFont">
+            <tr>
+                <td>
+                    <div class="bigFont"><a href="./Chapter?sourceid=${sourceId}" style="text-decoration: none">${sourceName}--></a></div>
+                </td>
+                <td>
+                    <div class="bigFont"><a href="./Chapter?chapterid=${problemdetail.problemchapterid}" style="text-decoration: none">&nbsp;&nbsp;${chapterIndex} - ${chapterName}</a></div>
+                </td>
+                <td>
+                    <#if problemdetail.problemlevel == 1>
+                        <div>-->    ${problemdetail.problemindex} (☆)</div>
+                    </#if>
+                    <#if problemdetail.problemlevel == 2>
+                        <div>-->    ${problemdetail.problemindex} (☆☆)</div>
+                    </#if>
+                    <#if problemdetail.problemlevel == 3>
+                        <div>-->    ${problemdetail.problemindex} (☆☆☆)</div>
+                    </#if>
+                    <#if problemdetail.problemlevel == 4>
+                        <div>-->    ${problemdetail.problemindex} (☆☆☆☆)</div>
+                    </#if>
+                </td>
+            </tr>
+        </table>
+
+
         <#list inActivePaper as paper>
             <p>${paper.papername}</p>
         </#list>

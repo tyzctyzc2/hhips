@@ -17,12 +17,21 @@
             <button class="bigFont" type="button" onclick="activeWholePaper(${idpaper})">Active All Problem in Paper</button>
             </div>
         </#if>
-
-        <h1>${papername}</h1>
+        <div>
+        <a href="./Problem?paperid=${idpaper}&noFormat=1">
+            <p>${papername}</p>
+        </a>
+        </div>
 
       <#if showAnswer != 0>
          <#if max != -1>
-            <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+            <table>
+                <tr>
+                    <td>
+                        <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                    </td>
+                </tr>
+            </table>
             <table>
                <#list 0..max as i>
                   <tr class="edge">
@@ -235,6 +244,7 @@
         var problemNotStart = ${problemNotStart};
         var problemNotPass = ${problemNotPass};
         var problemTotal = ${problemTotal};
+        var timeTotal = ${totalTime};
 
        var idpaper = ${idpaper};
        function activeProblem(idproblem, paperproblemid) {

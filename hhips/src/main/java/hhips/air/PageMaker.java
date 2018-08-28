@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import db.*;
+import javafx.util.Pair;
 import org.springframework.ui.Model;
 import uti.DmmUti;
 
@@ -39,12 +40,17 @@ public class PageMaker {
 		int doneProblem = 0;
 		int notPassProblem = 0;
 		int notTouchProblem = 0;
+		int totalTime = 0;
 		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
 		for(int i =0;i<problems.size();++i) {
 			ProblemWithLastWork pp = problems.get(i);
 			DBWork ww = new DBWork();
 			List<WorkDetail> thisW = ww.getProblemAllWorkDetail(pp.getIdproblem());
 			allWork.add(thisW);
+
+			for (WorkDetail wwd:thisW) {
+				totalTime = totalTime + wwd.getUsedtime();
+			}
 
 			if (thisW.size() == 0) {
 				notTouchProblem++;
@@ -60,6 +66,8 @@ public class PageMaker {
 		model.addAttribute("problemNotPass", notPassProblem);
 		model.addAttribute("problemNotStart", notTouchProblem);
 		model.addAttribute("problemTotal", problems.size());
+		float totalTimeF = (float) totalTime / 60;
+		model.addAttribute("totalTime", totalTimeF);
 
 		model.addAttribute("works", allWork);
 
@@ -130,6 +138,10 @@ public class PageMaker {
 	public static Map<String, Object> prepareProblemDetail(Model model, int problemID) {
 		DBProblem myDBProblem = new DBProblem(); 
 		Problem p = myDBProblem.getProblemDetail(problemID);
+
+        Pair<Integer, Integer> beforeAndAfter = myDBProblem.getProblemBeforeAfter(p);
+        model.addAttribute("before", beforeAndAfter.getKey());
+        model.addAttribute("after", beforeAndAfter.getValue());
 
 		model.addAttribute("lastindex", p.getProblemindex());
 		model.addAttribute("lastmodule", p.getProblemmodule());
@@ -203,6 +215,7 @@ public class PageMaker {
 		int doneProblem = 0;
 		int notPassProblem = 0;
 		int notTouchProblem = 0;
+		int totalTime = 0;
 		for(int i =0;i<problems.size();++i) {
 			ProblemByPaper pp = problems.get(i);
 			DBWork ww = new DBWork();
@@ -211,6 +224,7 @@ public class PageMaker {
 
 			int thisStar = 0;
 			for (WorkDetail wwd:thisW) {
+				totalTime = totalTime + wwd.getUsedtime();
 				if (wwd.getIdstarreason() !=null)
 					thisStar = wwd.getIdstarreason();
 			}
@@ -231,10 +245,12 @@ public class PageMaker {
 		model.addAttribute("works", allWork);
         model.addAttribute("stars", problemStar);
 
+		float totalTimeF = (float) totalTime / 60;
 		model.addAttribute("problemDone", doneProblem);
 		model.addAttribute("problemNotPass", notPassProblem);
 		model.addAttribute("problemNotStart", notTouchProblem);
 		model.addAttribute("problemTotal", problems.size());
+		model.addAttribute("totalTime", totalTimeF);
 		
 		System.out.println("paper problem ==== " + problems.size());
 	

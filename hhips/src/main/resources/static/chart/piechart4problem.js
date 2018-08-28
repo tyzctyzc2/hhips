@@ -5,7 +5,7 @@ $(document).ready(function() {
        plotShadow: false
     };
     var title = {
-      text: 'paper status (total: ' + problemTotal + ')'
+      text: 'paper status (total Problem: ' + problemTotal + ', Total Time: '+timeTotal +')'
     };
     var tooltip = {
       pointFormat: '{series.name}: <b>{point.y}</b>'

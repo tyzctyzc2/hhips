@@ -13,7 +13,13 @@
 		    <h1>${sourcename}</h1>
         </a>
 		<h1>${chapterindex}--${chapername}</h1>
-		<div id="container" style="width: 400px; height: 300px; margin: 0 auto"></div>
+		<table>
+            <tr>
+                <td>
+                    <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                </td>
+            </tr>
+        </table>
 		<button type="button" onclick="addWhole2Paper(${chaperid})">Add all to Paper</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
@@ -298,6 +304,7 @@
         var problemNotStart = ${problemNotStart};
         var problemNotPass = ${problemNotPass};
         var problemTotal = ${problemTotal};
+        var timeTotal = ${totalTime};
 
 		window.onload = pageLoaded;
 		function pageLoaded() {

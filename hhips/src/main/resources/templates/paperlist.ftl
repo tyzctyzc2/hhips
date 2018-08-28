@@ -9,7 +9,7 @@
 		<#include "/header.ftl">
 		
 		<#if paperlength != -1>
-			<table style="font-size:  x-large;">
+			<table class='middleH' style="font-size:  x-large;">
 					<#list 0..paperlength as i>
 						<tr class="edge">
 							<td>
