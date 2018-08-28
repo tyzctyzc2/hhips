@@ -38,14 +38,14 @@
 {
     //NSLog(@"didRotateFromInterfaceOrientation");
     
-    UIDeviceOrientation orientation2 = [[UIDevice currentDevice] orientation];
+    /*UIDeviceOrientation orientation2 = [[UIDevice currentDevice] orientation];
     if (orientation2 == UIDeviceOrientationLandscapeLeft || orientation2 == UIDeviceOrientationLandscapeRight) {
         NSLog(@"PhotoController landscape!!!!!!!!");// portrait
         [self setupPreviewLayer];
     } else {
         NSLog(@"PhotoController portrait!!!!!!!!");// landscape
         [self setupPortraitPreviewLayer];
-    }
+    }*/
     
 }
 
@@ -168,9 +168,17 @@
     if ([session canAddInput:device_input])
         [session addInput:device_input];
     
+    double systemVersion = [UIDevice currentDevice].systemVersion.doubleValue;
     
-    _avCaptureOutput = [[AVCapturePhotoOutput alloc]init];
-    [session addOutput:_avCaptureOutput];
+    if (systemVersion >= 10.0) {
+        //IOS 11.4
+        _avCaptureOutput = [[AVCapturePhotoOutput alloc]init];
+        [session addOutput:_avCaptureOutput];
+    } else {
+        //IOS 9.3
+        _avStillCaptureOutput = [[AVCaptureStillImageOutput alloc]init];
+        [session addOutput:_avStillCaptureOutput];
+    }
 }
 
 - (void)setupPortraitPreviewLayer {
@@ -214,17 +222,50 @@
     
 }
 
-- (IBAction)takePhotoTouch:(id)sender {
-    NSLog(@"touch takeeeeeeeeeeee");
+- (void)setupCaptureOnIOS9 {
+    AVCaptureConnection *videoConnection = nil;
+    for (AVCaptureConnection *connection in _avStillCaptureOutput.connections) {
+        for (AVCaptureInputPort *port in [connection inputPorts]) {
+            if ([[port mediaType] isEqual:AVMediaTypeVideo] ) {
+                videoConnection = connection;
+                break;
+            }
+        }
+        if (videoConnection) { break; }
+    }
     
-    
-    
+    __weak typeof(self) weakSelf = self;
+    [_avStillCaptureOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
+        
+        NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
+        imageString = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+        
+        self.photoButton.enabled = false;
+        [session stopRunning];
+    }];
+}
+
+- (void) setupCaptureOnIOS11 {
     NSDictionary *setDic = @{AVVideoCodecKey:AVVideoCodecJPEG};
     AVCapturePhotoSettings *_outputSettings = [AVCapturePhotoSettings photoSettingsWithFormat:setDic];
     
     [_avCaptureOutput setPhotoSettingsForSceneMonitoring:_outputSettings];
-    
     [_avCaptureOutput capturePhotoWithSettings:_outputSettings delegate:self];
+}
+
+- (IBAction)takePhotoTouch:(id)sender {
+    NSLog(@"touch takeeeeeeeeeeee");
+    
+    
+    double systemVersion = [UIDevice currentDevice].systemVersion.doubleValue;
+    
+    if( systemVersion >= 10.0 ) {
+        [self setupCaptureOnIOS11];
+    } else {
+        [self setupCaptureOnIOS9];
+    }
+    
+    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"御笔亲批"message:@"你确定提交你的御笔亲批吗？"preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [session startRunning];
