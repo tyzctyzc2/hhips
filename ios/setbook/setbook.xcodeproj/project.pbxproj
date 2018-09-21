@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7504F15E2146A92D003A4A2B /* LifeTimeCounter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7504F15D2146A92D003A4A2B /* LifeTimeCounter.storyboard */; };
 		7525CE0B20F9E2F00065E479 /* PaperSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7565BC4320F971CB00FFA692 /* PaperSelectController.m */; };
-		752AF185211580FC000AE218 /* MyUINavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 752AF18421157FFF000AE218 /* MyUINavigationController.m */; };
 		75339AE220A1B05F0037EA16 /* HttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 75339AE120A1B05F0037EA16 /* HttpHelper.m */; };
 		753438FB2070D144007E9867 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 753438FA2070D144007E9867 /* Photo.storyboard */; };
 		753438FE2070D697007E9867 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 753438FD2070D697007E9867 /* PhotoController.m */; };
+		753CD17A2142A6C600D310F0 /* LifeSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 753CD1792142A6C600D310F0 /* LifeSelect.storyboard */; };
+		753CD17D2142AA3A00D310F0 /* LifeSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 753CD17C2142A72000D310F0 /* LifeSelectController.m */; };
+		753D62F1214A6A1300C9FFF6 /* LifeTimeCounterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504F1602146AB2D003A4A2B /* LifeTimeCounterController.m */; };
 		7547F06E20FB3F4300156F2E /* MyBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7547F06D20FB3EE500156F2E /* MyBaseViewController.m */; };
 		7548A86120D0C6A4008875AA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7548A86020D0C6A4008875AA /* Settings.bundle */; };
 		7565BC4520F9724700FFA692 /* PaperSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7565BC4420F9724700FFA692 /* PaperSelect.storyboard */; };
@@ -44,13 +47,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		752AF18321157F54000AE218 /* MyUINavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUINavigationController.h; sourceTree = "<group>"; };
-		752AF18421157FFF000AE218 /* MyUINavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUINavigationController.m; sourceTree = "<group>"; };
+		7504F15D2146A92D003A4A2B /* LifeTimeCounter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LifeTimeCounter.storyboard; sourceTree = "<group>"; };
+		7504F15F2146AAD4003A4A2B /* LifeTimeCounterController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifeTimeCounterController.h; sourceTree = "<group>"; };
+		7504F1602146AB2D003A4A2B /* LifeTimeCounterController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LifeTimeCounterController.m; sourceTree = "<group>"; };
 		75339AE020A1B05F0037EA16 /* HttpHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpHelper.h; sourceTree = "<group>"; };
 		75339AE120A1B05F0037EA16 /* HttpHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HttpHelper.m; sourceTree = "<group>"; };
 		753438FA2070D144007E9867 /* Photo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photo.storyboard; sourceTree = "<group>"; };
 		753438FC2070D632007E9867 /* PhotoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoController.h; sourceTree = "<group>"; };
 		753438FD2070D697007E9867 /* PhotoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoController.m; sourceTree = "<group>"; };
+		753CD1792142A6C600D310F0 /* LifeSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LifeSelect.storyboard; sourceTree = "<group>"; };
+		753CD17B2142A6F300D310F0 /* LifeSelectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifeSelectController.h; sourceTree = "<group>"; };
+		753CD17C2142A72000D310F0 /* LifeSelectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LifeSelectController.m; sourceTree = "<group>"; };
 		7547F06C20FB23A400156F2E /* MyBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBaseViewController.h; sourceTree = "<group>"; };
 		7547F06D20FB3EE500156F2E /* MyBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBaseViewController.m; sourceTree = "<group>"; };
 		7548A86020D0C6A4008875AA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -102,6 +109,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7504F15C2146A7AD003A4A2B /* life */ = {
+			isa = PBXGroup;
+			children = (
+				753CD17B2142A6F300D310F0 /* LifeSelectController.h */,
+				753CD17C2142A72000D310F0 /* LifeSelectController.m */,
+				753CD1792142A6C600D310F0 /* LifeSelect.storyboard */,
+				7504F15D2146A92D003A4A2B /* LifeTimeCounter.storyboard */,
+				7504F15F2146AAD4003A4A2B /* LifeTimeCounterController.h */,
+				7504F1602146AB2D003A4A2B /* LifeTimeCounterController.m */,
+			);
+			path = life;
+			sourceTree = "<group>";
+		};
 		75A672CC206BA04900826BE1 = {
 			isa = PBXGroup;
 			children = (
@@ -126,10 +146,9 @@
 		75A672D7206BA04900826BE1 /* setbook */ = {
 			isa = PBXGroup;
 			children = (
+				7504F15C2146A7AD003A4A2B /* life */,
 				75A672D8206BA04900826BE1 /* AppDelegate.h */,
 				75A672D9206BA04900826BE1 /* AppDelegate.m */,
-				752AF18321157F54000AE218 /* MyUINavigationController.h */,
-				752AF18421157FFF000AE218 /* MyUINavigationController.m */,
 				75830D9E2070839E00B54D03 /* PuzzleController.h */,
 				75830D9C2070838200B54D03 /* PuzzleController.m */,
 				757B99B8206E4A4E00F0C020 /* Puzzle.storyboard */,
@@ -277,11 +296,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7504F15E2146A92D003A4A2B /* LifeTimeCounter.storyboard in Resources */,
 				757B99B9206E4A4E00F0C020 /* Puzzle.storyboard in Resources */,
 				753438FB2070D144007E9867 /* Photo.storyboard in Resources */,
 				7548A86120D0C6A4008875AA /* Settings.bundle in Resources */,
 				75A672E2206BA04900826BE1 /* Assets.xcassets in Resources */,
 				75A672E0206BA04900826BE1 /* Main.storyboard in Resources */,
+				753CD17A2142A6C600D310F0 /* LifeSelect.storyboard in Resources */,
 				7565BC4520F9724700FFA692 /* PaperSelect.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,9 +330,10 @@
 			files = (
 				75A672DD206BA04900826BE1 /* ViewController.m in Sources */,
 				7547F06E20FB3F4300156F2E /* MyBaseViewController.m in Sources */,
+				753CD17D2142AA3A00D310F0 /* LifeSelectController.m in Sources */,
 				75339AE220A1B05F0037EA16 /* HttpHelper.m in Sources */,
 				75A672E8206BA04900826BE1 /* main.m in Sources */,
-				752AF185211580FC000AE218 /* MyUINavigationController.m in Sources */,
+				753D62F1214A6A1300C9FFF6 /* LifeTimeCounterController.m in Sources */,
 				75830D9D2070838200B54D03 /* PuzzleController.m in Sources */,
 				75A672DA206BA04900826BE1 /* AppDelegate.m in Sources */,
 				7525CE0B20F9E2F00065E479 /* PaperSelectController.m in Sources */,
@@ -477,7 +499,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8P755HD7DT;
 				INFOPLIST_FILE = setbook/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dmm.setbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,7 +514,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8P755HD7DT;
 				INFOPLIST_FILE = setbook/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dmm.setbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";

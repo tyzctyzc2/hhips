@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface MyBaseViewController : UIViewController {
+    NSString *wantPaperId;
     
 }
-
+- (void)setPaperID:(NSString *)paperID;
+- (void)beautyButton:(UIButton *)button;
+- (void)switchToMain;
+- (void)beautyCancelButton:(UIButton *)button;
+- (void)beautyStartButton:(UIButton *)button;
 @end

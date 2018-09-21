@@ -16,6 +16,5 @@
 }
 - (IBAction)buttonStart:(id)sender;
 
-- (void)setPaperID:(NSString *)paperID;
 @end
 

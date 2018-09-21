@@ -24,7 +24,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="ButtonA"/>
                                 <connections>
-                                    <action selector="buttonATouch:" destination="hBS-NR-DKy" eventType="touchDown" id="xJp-Ru-ggA"/>
+                                    <action selector="buttonATouch:" destination="hBS-NR-DKy" eventType="touchUpInside" id="V3C-hs-f5i"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qbT-kO-cFP">
@@ -33,7 +33,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="ButtonB"/>
                                 <connections>
-                                    <action selector="buttonBTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="I9f-Lh-dM4"/>
+                                    <action selector="buttonBTouch:" destination="hBS-NR-DKy" eventType="touchUpInside" id="Wxt-8T-Hn4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44K-Ml-cNM">
@@ -42,7 +42,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="ButtonD"/>
                                 <connections>
-                                    <action selector="buttonDTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="TBj-IF-if2"/>
+                                    <action selector="buttonDTouch:" destination="hBS-NR-DKy" eventType="touchUpInside" id="MiP-Cg-ai1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bj0-T4-gsE">
@@ -51,7 +51,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="ButtonC"/>
                                 <connections>
-                                    <action selector="buttonCTouch:" destination="hBS-NR-DKy" eventType="touchDown" id="ixZ-vE-RS4"/>
+                                    <action selector="buttonCTouch:" destination="hBS-NR-DKy" eventType="touchUpInside" id="ghE-Aq-pgJ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRs-vn-DeA" userLabel="EButton">
@@ -60,7 +60,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="ButtonE"/>
                                 <connections>
-                                    <action selector="buttonETouch:" destination="hBS-NR-DKy" eventType="touchDown" id="57b-Fw-uHS"/>
+                                    <action selector="buttonETouch:" destination="hBS-NR-DKy" eventType="touchUpInside" id="pEg-6k-a8Q"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -70,11 +70,11 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="aButton" destination="ItK-JR-TVk" id="Zih-Qe-sL4"/>
-                        <outlet property="bButton" destination="qbT-kO-cFP" id="rAh-51-B3E"/>
-                        <outlet property="cButton" destination="Bj0-T4-gsE" id="TH0-te-GnL"/>
-                        <outlet property="dButton" destination="44K-Ml-cNM" id="L7v-4X-bdU"/>
-                        <outlet property="eButton" destination="IRs-vn-DeA" id="Pds-zV-4hQ"/>
+                        <outlet property="aButton" destination="ItK-JR-TVk" id="Sdn-T4-0nb"/>
+                        <outlet property="bButton" destination="qbT-kO-cFP" id="MoR-fE-u8f"/>
+                        <outlet property="cButton" destination="Bj0-T4-gsE" id="imE-sO-SQC"/>
+                        <outlet property="dButton" destination="44K-Ml-cNM" id="hge-F5-8PU"/>
+                        <outlet property="eButton" destination="IRs-vn-DeA" id="wM4-yl-ePA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7P-VL-IKj" userLabel="First Responder" sceneMemberID="firstResponder"/>

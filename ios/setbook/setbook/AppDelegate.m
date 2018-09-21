@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "MyUINavigationController.h"
+//#import "MyUINavigationController.h"
 
 @interface AppDelegate (){
     //private NavigationController controller;
@@ -25,9 +25,9 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
     
-    //self.navController=[[UINavigationController alloc]initWithRootViewController:vc];
+    self.navController=[[UINavigationController alloc]initWithRootViewController:vc];
     
-    self.navController=[[MyUINavigationController alloc]initWithRootViewController:vc];
+    //self.navController=[[MyUINavigationController alloc]initWithRootViewController:vc];
     
     [self.window setRootViewController: self.navController];
     

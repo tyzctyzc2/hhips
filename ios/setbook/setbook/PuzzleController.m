@@ -19,7 +19,7 @@
     NSTimer *timer;
     Boolean notAlarm;
     
-    NSString *wantPaperId;
+    
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *giveupButton;
@@ -32,10 +32,6 @@
 @end
 
 @implementation PuzzleController
-
-- (void)setPaperID:(NSString *)paperID {
-    wantPaperId = paperID;
-}
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -252,16 +248,6 @@
     [alertController addAction:cancelAction];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-
-- (void) switchToMain {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-    ViewController *mv = (ViewController *)vc;
-    [mv updateTodayLearnTime:timeTick];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:NULL];
 }
 
 -(void) doGiveUp {

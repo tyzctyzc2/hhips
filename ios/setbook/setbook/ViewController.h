@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyBaseViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : MyBaseViewController
 
 - (IBAction)buttonStart:(id)sender;
 - (void)updateTodayLearnTime:(int)moreTime;

@@ -20,6 +20,7 @@ static NSString *targetPaperId;
 @property (strong, nonatomic) IBOutlet UIButton *startButton;
 @property (strong, nonatomic) IBOutlet UILabel *todayLabel;
 @property (strong, nonatomic) IBOutlet UIButton *changePaperButton;
+@property (strong, nonatomic) IBOutlet UIButton *lifeButton;
 
 
 @end
@@ -70,14 +71,10 @@ static NSString *targetPaperId;
     [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
     [UINavigationController attemptRotationToDeviceOrientation];
     
-    // Do any additional setup after loading the view, typically from a nib.
-    self.startButton.layer.borderWidth =2.0f;
-    self.startButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.startButton.layer.cornerRadius=16.0f;
-    
-    self.changePaperButton.layer.borderWidth =2.0f;
-    self.changePaperButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.changePaperButton.layer.cornerRadius=16.0f;
+    [super beautyButton:_startButton];
+    [self beautyButton:_changePaperButton];
+    [self beautyButton:_lifeButton];
+    //_lifeButton.hidden = true;
     
     int mins,secs;
     mins=totalLearnTimeToday/60;
@@ -85,7 +82,11 @@ static NSString *targetPaperId;
     NSString *timeString =[NSString stringWithFormat:@"%02d:%02d",mins,secs];
     self.todayLabel.text = timeString;
     
+    //UINavigationController *controllerChain = [[UINavigationController alloc] initWithRootViewController:self];
+    //[super setControllerChain:controllerChain];
+    
 }
+
 - (void)goToSelectPaper {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"PaperSelect" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"PaperSelect"];
@@ -135,6 +136,16 @@ static NSString *targetPaperId;
 
 - (IBAction)changePaperButtonTouch:(id)sender {
     [self goToSelectPaper];
+}
+- (IBAction)lifeButtonTouch:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"LifeSelect" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"LifeSelect"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    
+    MyBaseViewController *pc = (MyBaseViewController *)vc;
+    
+    [self presentViewController:vc animated:NO completion:NULL];
+    
 }
 
 

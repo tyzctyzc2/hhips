@@ -1,17 +1,15 @@
 //
-//  PaperSelectController.h
+//  LifeSelect.h
 //  setbook
 //
-//  Created by Steve Wang on 2018/7/14.
+//  Created by Steve Wang on 2018/9/7.
 //  Copyright © 2018 Steve Wang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "MyBaseViewController.h"
 
-@import AVFoundation;
-
-@interface PaperSelectController : MyBaseViewController {
+@interface LifeSelectController : MyBaseViewController {
 
     
 }

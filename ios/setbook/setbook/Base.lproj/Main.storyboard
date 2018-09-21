@@ -35,12 +35,13 @@
                                     <action selector="buttonTouch:" destination="EKH-TK-Q3L" eventType="touchUpInside" id="20D-6i-Qra"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gS3-7B-b1e">
-                                <rect key="frame" x="20" y="702" width="66" height="46"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gS3-7B-b1e">
+                                <rect key="frame" x="20" y="673" width="148" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="66" id="K0i-U0-rAN"/>
-                                    <constraint firstAttribute="height" constant="46" id="RiD-1c-ylf"/>
+                                    <constraint firstAttribute="width" constant="100" id="K0i-U0-rAN"/>
+                                    <constraint firstAttribute="height" constant="60" id="RiD-1c-ylf"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="换卷卷"/>
                                 <connections>
                                     <action selector="changePaperButtonTouch:" destination="EKH-TK-Q3L" eventType="touchDown" id="WpC-Jz-MM5"/>
@@ -53,11 +54,25 @@
                                     <constraint firstAttribute="width" constant="92" id="dQM-su-VML"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7c-hj-KFU">
+                                <rect key="frame" x="904" y="688" width="100" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="DXP-Li-qta"/>
+                                    <constraint firstAttribute="width" constant="100" id="gwx-wU-iQD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="起居注"/>
+                                <connections>
+                                    <action selector="lifeButtonTouch:" destination="EKH-TK-Q3L" eventType="touchDown" id="qnR-8Q-Os0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7xO-Gb-hFQ" firstAttribute="centerX" secondItem="zCR-Ta-6ga" secondAttribute="centerX" id="8fx-bU-cvT"/>
                             <constraint firstItem="gS3-7B-b1e" firstAttribute="leading" secondItem="Ful-Pc-tfc" secondAttribute="leading" constant="20" id="HVh-FF-uYK"/>
+                            <constraint firstItem="Ful-Pc-tfc" firstAttribute="bottom" secondItem="X7c-hj-KFU" secondAttribute="bottom" constant="20" id="KLh-KN-S83"/>
+                            <constraint firstItem="Ful-Pc-tfc" firstAttribute="trailing" secondItem="X7c-hj-KFU" secondAttribute="trailing" constant="20" id="TTq-TZ-OSH"/>
                             <constraint firstItem="7xO-Gb-hFQ" firstAttribute="top" secondItem="Ful-Pc-tfc" secondAttribute="top" constant="100" id="kYl-wr-8zp"/>
                             <constraint firstItem="19F-li-axG" firstAttribute="centerX" secondItem="zCR-Ta-6ga" secondAttribute="centerX" id="oCN-Fl-eE6"/>
                             <constraint firstItem="19F-li-axG" firstAttribute="centerY" secondItem="zCR-Ta-6ga" secondAttribute="centerY" id="q6r-hh-jDd"/>
@@ -68,6 +83,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="1024"/>
                     <connections>
                         <outlet property="changePaperButton" destination="gS3-7B-b1e" id="u5o-iw-Vhf"/>
+                        <outlet property="lifeButton" destination="X7c-hj-KFU" id="bcF-Dd-hbQ"/>
                         <outlet property="startButton" destination="19F-li-axG" id="SyJ-Hr-95n"/>
                     </connections>
                 </viewController>

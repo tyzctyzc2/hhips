@@ -7,7 +7,7 @@
 //
 
 #import "PaperSelectController.h"
-#import "PuzzleController.h"
+#import "MyBaseViewController.h"
 #import "HttpHelper.h"
 #import "ViewController.h"
 
@@ -31,25 +31,11 @@
     
     [self getActivePaper];
     
-    self.aButton.layer.borderWidth =2.0f;
-    self.aButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.aButton.layer.cornerRadius=16.0f;
-    
-    self.bButton.layer.borderWidth =2.0f;
-    self.bButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.bButton.layer.cornerRadius=16.0f;
-    
-    self.cButton.layer.borderWidth =2.0f;
-    self.cButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.cButton.layer.cornerRadius=16.0f;
-    
-    self.dButton.layer.borderWidth =2.0f;
-    self.dButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.dButton.layer.cornerRadius=16.0f;
-    
-    self.eButton.layer.borderWidth =2.0f;
-    self.eButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.eButton.layer.cornerRadius=16.0f;
+    [super beautyButton:_aButton];
+    [super beautyButton:_bButton];
+    [super beautyButton:_cButton];
+    [super beautyButton:_dButton];
+    [super beautyButton:_eButton];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
@@ -175,7 +161,7 @@
      UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Puzzle"];
      vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
-    PuzzleController *pc = (PuzzleController *)vc;
+    MyBaseViewController *pc = (MyBaseViewController *)vc;
     [pc setPaperID:paperID];
     
      [self presentViewController:vc animated:YES completion:NULL];

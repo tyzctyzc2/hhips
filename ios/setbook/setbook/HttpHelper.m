@@ -66,6 +66,33 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
 
 }
 
+-(NSString *)getJSONResponse:(NSString *)url {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
+    NSString *baseAddress = [NSString stringWithFormat:baseUrl ,address];
+    NSString *fullUrl = [NSString stringWithFormat:@"%@%@", baseAddress ,url];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[NSURL
+                                                 URLWithString:fullUrl]];
+    
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"text/json"
+   forHTTPHeaderField:@"Content-type"];
+    
+    NSError *error = nil;
+    NSHTTPURLResponse *responseCode = nil;
+    
+    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+    
+    if([responseCode statusCode] != 200){
+        NSInteger myInteger = [responseCode statusCode];
+        NSLog(@"Error getting getJSONResponse , HTTP status code %d", (int)myInteger);
+        return nil;
+    }
+    
+    return [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
+}
+
 - (NSString *)getActivePaper {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
@@ -133,32 +160,6 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     }
     return true;
 }
-
-/*- (Boolean)deactiveProblem: (NSString *)problemID pID: (NSString *)paperProblemID {
-    
-    NSString *fullUrl = [NSString stringWithFormat:@"%@Problem?problemstatus=2&problemid=%@&paperproblemid=%@", baseUrl , problemID, paperProblemID];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[NSURL
-                                                 URLWithString:fullUrl]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/json"
-   forHTTPHeaderField:@"Content-type"];
-    
-    NSError *error = nil;
-    NSHTTPURLResponse *responseCode = nil;
-    
-    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
-    
-    if([responseCode statusCode] != 200){
-        NSInteger myInteger = [responseCode statusCode];
-        NSLog(@"Error post work , HTTP status code %d", (int)myInteger);
-        NSLog(@"%@", fullUrl);
-        NSLog(@"%@", oResponseData);
-        return false;
-    }
-    return true;
-}*/
 
 - (void) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
