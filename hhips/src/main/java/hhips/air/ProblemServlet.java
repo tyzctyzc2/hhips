@@ -22,11 +22,12 @@ public class ProblemServlet {
                                     @RequestParam(value="showanswer", required=false, defaultValue="0") int showAnswer,
                                     @RequestParam(value="noFormat", required=false, defaultValue="0") int noFormat,
                                     @RequestParam(value="problemid", required=false, defaultValue="0") String problemId,
-                                    @RequestParam(value="active", required=false, defaultValue="") String active,
+                                    @RequestParam(value="active", required=false, defaultValue="0") String active,
                                     @RequestParam(value="idpaper", required=false, defaultValue="") String idpaper) {
         System.out.println("ProblemServlet - problem request");
         logger.info("ProblemServlet - problem request");
         model.addAttribute("today", StringHelper.GetDateString());
+        model.addAttribute("active", Integer.parseInt(active));
 
         if (paperID.compareTo("0") !=0)
             return getPaperRelated(model, paperID, showAnswer, noFormat);

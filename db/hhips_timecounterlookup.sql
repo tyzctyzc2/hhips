@@ -16,27 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tag`
+-- Table structure for table `timecounterlookup`
 --
 
-DROP TABLE IF EXISTS `tag`;
+DROP TABLE IF EXISTS `timecounterlookup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tag` (
-  `idtag` int(11) NOT NULL AUTO_INCREMENT,
-  `tagname` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idtag`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+CREATE TABLE `timecounterlookup` (
+  `idtimecounterlookup` int(11) NOT NULL AUTO_INCREMENT,
+  `timecounterdescription` varchar(45) DEFAULT NULL,
+  `timecounterimage` varchar(45) DEFAULT NULL,
+  `timecountertype` int(11) DEFAULT '1' COMMENT '1=time based counter\n2=value based counter',
+  PRIMARY KEY (`idtimecounterlookup`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tag`
+-- Dumping data for table `timecounterlookup`
 --
 
-LOCK TABLES `tag` WRITE;
-/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求'),(4,'火车过桥'),(5,'平面想象'),(6,'步骤繁琐'),(7,'探索规律'),(8,'有序思考'),(9,'分而治之'),(10,'比例问题'),(11,'中转传递'),(12,'水中拾物'),(13,'易错周期'),(14,'扶梯问题'),(15,'不定方程'),(16,'六边形'),(17,'周期附体'),(18,'数列数表'),(19,'以追当遇'),(20,'巧算');
-/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+LOCK TABLES `timecounterlookup` WRITE;
+/*!40000 ALTER TABLE `timecounterlookup` DISABLE KEYS */;
+INSERT INTO `timecounterlookup` VALUES (1,'早膳','201809\\20180908_t1.jpg',1),(2,'晚膳','201809\\20180908_t2.jpg',1),(3,'刷牙','201809\\20180908_t3.jpg',1),(4,'仰卧起坐','201809\\20180908_t4.jpg',2),(5,'跳绳','201809\\20180908_t5.jpg',2);
+/*!40000 ALTER TABLE `timecounterlookup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

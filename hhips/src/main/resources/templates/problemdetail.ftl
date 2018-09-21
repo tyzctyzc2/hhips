@@ -6,6 +6,7 @@
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
     <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
 </head>
 	<body>
 	    <#include "/header.ftl">
@@ -215,6 +216,10 @@
                         <option value="J03">J03</option>
                         <option value="J04">J04</option>
                         <option value="J05">J05</option>
+                        <option value="J06">J06</option>
+                        <option value="J07">J07</option>
+                        <option value="J08">J08</option>
+                        <option value="J09">J09</option>
                         <option value="T01">T01</option>
                         <option value="T02">T02</option>
                         <option value="T03">T03</option>
@@ -281,28 +286,6 @@
                   height: 600});
         }
 
-        function postTag() {
-            var pData = {};
-            pData.tagname = $( "#newTagName" ).val();
-
-            $.ajax({
-                type: "POST", // 上传文件要用POST
-                url: "./tag/add",
-                dataType : "json",
-                processData: false,  // 注意：不要 process data
-                contentType: false,  // 注意：不设置 contentType
-                data: JSON.stringify(pData),
-                success: function(msg) {
-                    console.log('tag changed');
-                    console.log(msg);
-                    window.location.reload();
-                },
-                error: function(msg) {
-                    console.log(msg);
-                    window.location.reload()
-                }
-            })
-        }
         function changeTag(problemID, tagID) {
             $('#dialog').dialog('close')
             var pData = {};

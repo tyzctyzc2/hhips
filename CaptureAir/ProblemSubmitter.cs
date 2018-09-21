@@ -13,6 +13,9 @@ namespace CaptureAir
         public string problemdetail;
         public string problemanswerdetail;
 
+        public string problemdetailb;
+        public string problemdetailc;
+
         public int problemlevel;
         public string problemchapterid;
         public string problemindex;
@@ -27,6 +30,8 @@ namespace CaptureAir
                           "\"problemanswerstring\":\"" + "" + "\"," +
                           "\"problemchapterid\":" + problemchapterid + "," +
                           "\"problemdetail\":\"" + problemdetail + "\"," +
+                          "\"problemdetailb\":\"" + problemdetailb + "\"," +
+                          "\"problemdetailc\":\"" + problemdetailc + "\"," +
                           "\"problemindex\":\"" + problemindex + "\"," +
                           "\"problemlevel\":\"" + problemlevel + "\"," +
                           "\"problemmodule\":\"" + problemmodule + "\"}";

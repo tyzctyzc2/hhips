@@ -17,10 +17,16 @@
             <button class="bigFont" type="button" onclick="activeWholePaper(${idpaper})">Active All Problem in Paper</button>
             </div>
         </#if>
-        <div>
-        <a href="./Problem?paperid=${idpaper}&noFormat=1">
-            <p>${papername}</p>
-        </a>
+        <div class="sameLine">
+            <a href="./Problem?paperid=${idpaper}&noFormat=1">
+                <p>${papername}</p>
+            </a>
+            <a href="./Problem?paperid=${idpaper}&active=1">
+                <p>(A)</p>
+            </a>
+            <a href="./Problem?paperid=${idpaper}&noFormat=1&active=1">
+                <p>(AN)</p>
+            </a>
         </div>
 
       <#if showAnswer != 0>
@@ -32,15 +38,15 @@
                     </td>
                 </tr>
             </table>
-            <table>
+            <table class="dmmtable">
                <#list 0..max as i>
-                  <tr class="edge">
-                     <td class="edge">
+                  <tr>
+                     <td>
                         <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
                         <p>${problems[i].problemindex}&nbsp;&nbsp;</p>
                         </a>
                      </td>
-                     <td class="edge">
+                     <td>
                                 <#if problems[i].problemlevel == 1>
                                     <p>☆</p>
                                 </#if>
@@ -54,10 +60,10 @@
                                     <p>☆☆☆☆</p>
                                 </#if>
                             </td>
-                            <td class="edge">
+                            <td>
                                 <p>${problems[i].modulename}&nbsp;&nbsp;</p>
                             </td>
-                            <td class="edge">
+                            <td class="picked" onclick="activeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">
                                 <#if problems[i].problemstatus == 1>
                                     <p class="wrong">Active</p>
                                 <#else>
@@ -66,10 +72,10 @@
                             </td>
 
                         <#if problems[i].workdetail??>
-                           <td class="edge">
+                           <td>
                               <p>${works[i]?size} &nbsp;&nbsp;</p>
                            </td>
-                           <td class="edge">
+                           <td>
                                 <#if (stars[i] > 0)>
                                     <p class="right">🌟</p>
                                 </#if>
@@ -84,32 +90,32 @@
                                  <td><p class="wrong">未通过</p></td>
                               </#if>
                                     <#else>
-                                        <td><p class="orange edge">待批</p></td>
+                                        <td><p class="orange">待批</p></td>
                            </#if>
-                           <td><p class="right edge">${problems[i].workdate}</p></td>
+                           <td><p class="right">${problems[i].workdate}</p></td>
                         <#else>
-                           <td class="edge">
-                              <p>未做</p>
+                           <td>
+                              <button type="button" onclick="removeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">Remove</button>
                            </td>
                         </#if>
-                        <td class="edge">
+                        <td>
                             <#list works[i] as work>
                                 <#if work.workmark??>
                                     <#if work.workmark == 0>
                                         <#if work.usedtime == 0>
-                                            <p class="edge" style="height: 20px; float:left; width:10px;background-color:green">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:10px;background-color:green">${work.usedtime?c}</p>
                                         <#else>
-                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
                                                 </#if>
                                             <#else>
                                                 <#if work.usedtime == 0>
-                                                    <p class="edge" style="height: 20px; float:left; width:10px;background-color:red">${work.usedtime?c}</p>
+                                                    <p style="height: 20px; float:left; width:10px;background-color:red">${work.usedtime?c}</p>
                                                 <#else>
-                                                    <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                                    <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
                                                 </#if>
                                             </#if>
                                         <#else>
-                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
                                         </#if>
                                     </#list>
 
@@ -122,16 +128,73 @@
 
       <#if max != -1>
          <#list 0..max as i>
-            <table style="font-size:  x-large;">
-               <span id=jump_${problems[i].idproblem?c}></span>
-               <tr>
-                  <td>
-                     <a href="./Problem?problemid=${problems[i].idproblem?c}">
-                        <img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
-                     </a>
-                  </td>
-               </tr>
-            </table>
+            <#if active == 0>
+                <table style="font-size:  x-large;">
+                   <span id=jump_${problems[i].idproblem?c}></span>
+                   <tr>
+                      <td>
+                            <div class="picked" onclick="window.open('./Problem?problemid=${problems[i].idproblem?c}')">
+                                <img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
+                            </div>
+                            <#if problems[i].problemdetailb??>
+                                <img id="myImage" class="center-fit" src=.\${problems[i].problemdetailb} />
+                            </#if>
+                            <#if problems[i].problemdetailc??>
+                                <img id="myImage" class="center-fit" src=.\${problems[i].problemdetailc} />
+                            </#if>
+                      </td>
+                   </tr>
+                   <#if noFormat == 0>
+                      <tr>
+                          <td>
+                              <br></br>
+                          </td>
+                          <td>
+                              <br></br>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <br></br>
+                          </td>
+                          <td>
+                              <br></br>
+                          </td>
+                      </tr>
+                    </#if>
+                </table>
+            <#else>
+                <#if active == problems[i].problemstatus>
+                    <table style="font-size:  x-large;">
+                       <span id=jump_${problems[i].idproblem?c}></span>
+                       <tr>
+                          <td>
+                                <div class="picked" onclick="window.open('./Problem?problemid=${problems[i].idproblem?c}')">
+                                    <img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
+                                </div>
+                          </td>
+                       </tr>
+                       <#if noFormat == 0>
+                           <tr>
+                               <td>
+                                   <br></br>
+                               </td>
+                               <td>
+                                   <br></br>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   <br></br>
+                               </td>
+                               <td>
+                                   <br></br>
+                               </td>
+                           </tr>
+                       </#if>
+                    </table>
+                </#if>
+            </#if>
             <#if showAnswer != 0>
                 <#if problems[i].problemstatus == 1>
                     <button class="bigFont" type="button" onclick="activeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">De Active</button>
@@ -140,7 +203,7 @@
                 </#if>
                <#if problems[i].workdetail??>
                   <table style="font-size:  x-large;">
-                     <tr class="edge">
+                     <tr>
                         <td>
                            ${problems[i].usedtime?c}
                         </td>
@@ -162,7 +225,7 @@
                      </tr>
                   </table>
                   <table style="font-size:  x-large;">
-                     <tr class="edge">
+                     <tr>
                         <td>
                            <img id="myImage3" class="center-fit" src=.\${problems[i].workdetail} />
                         </td>
@@ -210,31 +273,13 @@
                   </table>
                </#if>
                <table style="font-size:  x-large;">
-                  <tr class="edge">
+                  <tr>
                      <td>
                         <img id="myImage2" class="center-fit" src=.\${problems[i].problemanswerdetail} />
                      </td>
                   </tr>
                </table>
             </#if>
-            <#if noFormat == 0>
-                    <tr>
-                        <td>
-                            <br></br>
-                        </td>
-                        <td>
-                            <br></br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <br></br>
-                        </td>
-                        <td>
-                            <br></br>
-                        </td>
-                    </tr>
-                </#if>
          </#list>
       </#if>
 
@@ -246,7 +291,29 @@
         var problemTotal = ${problemTotal};
         var timeTotal = ${totalTime};
 
-       var idpaper = ${idpaper};
+        var idpaper = ${idpaper};
+        function removeProblem(idproblem, paperproblemid) {
+            var pData = {};
+            pData.idproblem=idproblem;
+            pData.paperproblemid=paperproblemid;
+            pData.paperid=idpaper;
+            var url = "./Paper/problem/remove";
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+        }
+
        function activeProblem(idproblem, paperproblemid) {
             var pData = {};
             pData.idproblem=idproblem;

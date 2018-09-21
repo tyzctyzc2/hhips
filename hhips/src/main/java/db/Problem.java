@@ -17,7 +17,7 @@ public class Problem implements java.io.Serializable {
 	private static final long serialVersionUID = -7257495385290311167L;
 
 	public enum ProblemColumnName { idproblem, sourcechapter, 
-		problemlevel,problemdetail,problemindex ,problemcisactive,
+		problemlevel,problemdetail,problemdetailb, problemdetailc, problemindex ,problemcisactive,
 		problemanswerstring,problemanswerdetail,problemmodule,problemchapterid};
 
 	@Id
@@ -43,6 +43,25 @@ public class Problem implements java.io.Serializable {
 
 	private Integer problemlevel;
 	private String problemdetail;
+
+	public String getProblemdetailb() {
+		return problemdetailb;
+	}
+
+	public void setProblemdetailb(String problemdetailb) {
+		this.problemdetailb = problemdetailb;
+	}
+
+	public String getProblemdetailc() {
+		return problemdetailc;
+	}
+
+	public void setProblemdetailc(String problemdetailc) {
+		this.problemdetailc = problemdetailc;
+	}
+
+	private String problemdetailb;
+	private String problemdetailc;
 	private String problemindex;
 	private Integer problemcisactive;
 	private String problemanswerstring;

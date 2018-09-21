@@ -10,11 +10,11 @@
 		
 		
 		<#if sourcelength != -1>
-			<table class='middleH' style="font-size:  x-large;">
+			<table class="dmmtable" style="font-size:  x-large;">
 					<#list 0..sourcelength as i>
-						<tr class="edge">
+						<tr>
 							<td>
-								<p>${sources[i].idsource?c}---</p>
+								<p>${sources[i].idsource?c}</p>
 							</td>
 							<td>
 								<a href="./Chapter?sourceid=${sources[i].idsource?c}" style="text-decoration: none">

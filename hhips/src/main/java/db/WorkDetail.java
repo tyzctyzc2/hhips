@@ -60,6 +60,16 @@ public class WorkDetail {
     private Integer workmark;
     private Integer reason;
 
+    public String getProblemindex() {
+        return problemindex;
+    }
+
+    public void setProblemindex(String problemindex) {
+        this.problemindex = problemindex;
+    }
+
+    String problemindex;
+
     public String getStarreasonname() {
         return starreasonname;
     }

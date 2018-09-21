@@ -26,6 +26,10 @@ public class PageMaker {
 		String sourceName = myProblemManagementDB.getSourceName(cp.getSourceid());
 		model.addAttribute("sourcename", sourceName);
 		model.addAttribute("sourceid", cp.getSourceid());
+		DBChapter dbChapter = new DBChapter();
+		Pair<Integer, Integer> beforeAndAfter = dbChapter.getChapterBeforeAfter(chapterID, cp.getSourceid());
+		model.addAttribute("before", beforeAndAfter.getKey());
+		model.addAttribute("after", beforeAndAfter.getValue());
 
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("chapername", chapterName);
@@ -56,7 +60,7 @@ public class PageMaker {
 				notTouchProblem++;
 			}
 			else {
-				if (thisW.get(thisW.size()-1).getWorkmark()==0)
+				if (thisW.get(thisW.size()-1).getWorkmark() !=null && thisW.get(thisW.size()-1).getWorkmark()==0)
 					doneProblem++;
 				else
 					notPassProblem++;

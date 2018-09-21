@@ -9,11 +9,11 @@
 		<#include "/header.ftl">
 		<h1><a href="./Chapter?sourceid=${sourceid}" style="text-decoration: none">${sourcename}</a></h1>
 		<#if chapterlength != -1>
-			<table style="font-size:  x-large;">
+			<table class="dmmtable" style="font-size:  x-large;">
 					<#list 0..chapterlength as i>
-						<tr class="edge">
+						<tr>
 							<td>
-								<p>${chapters[i].sourcechapterindex}---</p>
+								<p>${chapters[i].sourcechapterindex}</p>
 							</td>
 							<td>
 								<a href="./Chapter?chapterid=${chapters[i].idsourcechapter?c}" style="text-decoration: none">
@@ -51,7 +51,6 @@
 				success: function(msg) {
 			    	console.log(msg);
 			    	window.location.reload();
-			    	console.log('dddddddddd');
 				},
 				fail: function(msg) {
 			    	console.log(msg);

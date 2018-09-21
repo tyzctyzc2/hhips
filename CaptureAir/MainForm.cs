@@ -12,7 +12,7 @@ namespace CaptureAir
 {
     public partial class MainForm : Form
     {
-        enum CaptureStatus { CAPTURE_NOT, CAPTURE_PROBLEM, CAPTURE_PROBLEM_PLUS, CAPTURE_ANSWER, CPATURE_ANSWER_PLUS };
+        enum CaptureStatus { CAPTURE_NOT, CAPTURE_PROBLEM, CAPTURE_PROBLEM_PLUS, CAPTURE_ANSWER, CPATURE_ANSWER_PLUS, CAPTURE_PROBLEMB, CAPTURE_PROBLEMB_PLUS, CAPTURE_PROBLEMC, CAPTURE_PROBLEMC_PLUS };
         CaptureStatus myCaptureStatus = CaptureStatus.CAPTURE_NOT;
 
         Color defaultColor;
@@ -23,6 +23,8 @@ namespace CaptureAir
         ProblemSubmitter mySubmitter = new ProblemSubmitter();
 
         List<Bitmap> myProblemPartBitmap = new List<Bitmap>();
+        List<Bitmap> myProblembPartBitmap = new List<Bitmap>();
+        List<Bitmap> myProblemcPartBitmap = new List<Bitmap>();
         List<Bitmap> myAnswerPartBitmap = new List<Bitmap>();
 
         //shortcut
@@ -51,6 +53,9 @@ namespace CaptureAir
             defaultColor = button_problem.BackColor;
 
             MouseCaptureHookForm.myCaptureDone = afterCaptureDone;
+
+            comboBox_module.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_index.DropDownStyle = ComboBoxStyle.DropDownList;
 
             comboBox_module.Items.Add("1-计算");
             comboBox_module.Items.Add("2-计数");
@@ -103,8 +108,6 @@ namespace CaptureAir
 
             myMainWin = this;
 
-            
-            //AllocConsole();
         }
 
         void myTimerInSecond_Tick(object sender, EventArgs e)
@@ -114,17 +117,32 @@ namespace CaptureAir
 
             switch (MainForm.myLastKeyPressed)
             {
-                case 'Z':
+                case '1':
                     myMainWin.button_problem_Click(null, null);
                     break;
-                case 'X':
+                case '2':
                     myMainWin.button_problem_plus_Click(null, null);
                     break;
-                case 'A':
+                case '3':
+                    myMainWin.button_problemb_Click(null, null);
+                    break;
+                case '4':
+                    myMainWin.button_problemb_plus_Click(null, null);
+                    break;
+                case '5':
+                    myMainWin.button_problemc_Click(null, null);
+                    break;
+                case '6':
+                    myMainWin.button_problemc_plus_Click(null, null);
+                    break;
+                case 'Q':
                     myMainWin.button_answer_Click(null, null);
                     break;
-                case 'S':
+                case 'W':
                     myMainWin.button_answer_plus_Click(null, null);
+                    break;
+                case 'E':
+                    myMainWin.button_submit_Click(null, null);
                     break;
                 default:
                     break;
@@ -212,6 +230,26 @@ namespace CaptureAir
                     myProblemPartBitmap.Add(MouseCaptureHookForm.lastCapturedPic);
                     myPreviewForm.SetPictureA(MergeBitmap(myProblemPartBitmap));
                     break;
+                case CaptureStatus.CAPTURE_PROBLEMB:
+                    mySubmitter.problemdetailb = img;
+                    this.myPreviewForm.SetPictureA2(MouseCaptureHookForm.lastCapturedPic);
+                    myProblembPartBitmap.Clear();
+                    myProblembPartBitmap.Add(MouseCaptureHookForm.lastCapturedPic);
+                    break;
+                case CaptureStatus.CAPTURE_PROBLEMB_PLUS:
+                    myProblembPartBitmap.Add(MouseCaptureHookForm.lastCapturedPic);
+                    myPreviewForm.SetPictureA2(MergeBitmap(myProblembPartBitmap));
+                    break;
+                case CaptureStatus.CAPTURE_PROBLEMC:
+                    mySubmitter.problemdetailc = img;
+                    this.myPreviewForm.SetPictureA3(MouseCaptureHookForm.lastCapturedPic);
+                    myProblemcPartBitmap.Clear();
+                    myProblemcPartBitmap.Add(MouseCaptureHookForm.lastCapturedPic);
+                    break;
+                case CaptureStatus.CAPTURE_PROBLEMC_PLUS:
+                    myProblemcPartBitmap.Add(MouseCaptureHookForm.lastCapturedPic);
+                    myPreviewForm.SetPictureA3(MergeBitmap(myProblemcPartBitmap));
+                    break;
                 default:
                     return;
             }
@@ -285,6 +323,10 @@ namespace CaptureAir
             StopCapture(button_answer_plus);
             StopCapture(button_problem);
             StopCapture(button_problem_plus);
+            StopCapture(button_problemb);
+            StopCapture(button_problemb_plus);
+            StopCapture(button_problemc);
+            StopCapture(button_problemc_plus);
         }
    
         private void StartCapture(Button _button, CaptureStatus captureStatus)
@@ -331,6 +373,54 @@ namespace CaptureAir
             }
         }
 
+        private void button_problemb_Click(object sender, EventArgs e)
+        {
+            if (myCaptureStatus == CaptureStatus.CAPTURE_NOT)
+            {
+                StartCapture(button_problemb, CaptureStatus.CAPTURE_PROBLEMB);
+            }
+            else if (myCaptureStatus == CaptureStatus.CAPTURE_PROBLEMB)
+            {
+                StopCapture(button_problemb);
+            }
+        }
+
+        private void button_problemb_plus_Click(object sender, EventArgs e)
+        {
+            if (myCaptureStatus == CaptureStatus.CAPTURE_NOT)
+            {
+                StartCapture(button_problemb_plus, CaptureStatus.CAPTURE_PROBLEMB_PLUS);
+            }
+            else if (myCaptureStatus == CaptureStatus.CAPTURE_PROBLEMB_PLUS)
+            {
+                StopCapture(button_problemb_plus);
+            }
+        }
+
+        private void button_problemc_Click(object sender, EventArgs e)
+        {
+            if (myCaptureStatus == CaptureStatus.CAPTURE_NOT)
+            {
+                StartCapture(button_problemc, CaptureStatus.CAPTURE_PROBLEMC);
+            }
+            else if (myCaptureStatus == CaptureStatus.CAPTURE_PROBLEMC)
+            {
+                StopCapture(button_problemc);
+            }
+        }
+
+        private void button_problemc_plus_Click(object sender, EventArgs e)
+        {
+            if (myCaptureStatus == CaptureStatus.CAPTURE_NOT)
+            {
+                StartCapture(button_problemc_plus, CaptureStatus.CAPTURE_PROBLEMC_PLUS);
+            }
+            else if (myCaptureStatus == CaptureStatus.CAPTURE_PROBLEMC_PLUS)
+            {
+                StopCapture(button_problemc_plus);
+            }
+        }    
+
         private void button_answer_Click(object sender, EventArgs e)
         {
             if (myCaptureStatus == CaptureStatus.CAPTURE_NOT)
@@ -366,7 +456,20 @@ namespace CaptureAir
             mySubmitter.problemdetail = myPreviewForm.GetPictureAString();
             mySubmitter.problemanswerdetail = myPreviewForm.GetPictureBString();
 
+            if (mySubmitter.problemanswerdetail == null)
+            {
+                MessageBox.Show("No problem answer image!");
+                return;
+            }
+
+            if (mySubmitter.problemdetail == null)
+            {
+                MessageBox.Show("No problem image!");
+                return;
+            }
+
             string ip = this.textBoxIP.Text;
+            System.Diagnostics.Debug.WriteLine(ip);
 
             if (mySubmitter.Submit(ip) == true)
             {
@@ -375,7 +478,14 @@ namespace CaptureAir
                 item.Icon = System.Drawing.SystemIcons.Information;
                 item.ShowBalloonTip(3000, "Problem created!", "Problem created!", ToolTipIcon.Info);
 
-                comboBox_index.SelectedIndex = comboBox_index.SelectedIndex + 1;
+                try
+                {
+                    comboBox_index.SelectedIndex = comboBox_index.SelectedIndex + 1;
+                }
+                catch (Exception)
+                {
+                    
+                }
 
                 
 
@@ -412,7 +522,7 @@ namespace CaptureAir
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        static extern bool AllocConsole();  
 
     }
 }

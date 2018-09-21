@@ -312,6 +312,7 @@ public class DayReportProcessor {
 
         WorkDetail curWork = new WorkDetail();
         curWork.setStartdate(wd.get(0).getStartdate());
+        curWork.setUsedtime(wd.get(0).getUsedtime());
         curWork.setWorkmark(1);
         for (int i = 0; i < wd.size() - 1; ++i) {
             WorkDetail thisW = wd.get(i);

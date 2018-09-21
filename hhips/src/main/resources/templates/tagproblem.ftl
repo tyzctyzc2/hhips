@@ -87,9 +87,9 @@
                         </#if>
                     </td>
                     <td>
-                        <a href="./Problem?problemid=${p.idproblem?c}">
-                        <img id="myImage" class="center-fit" src=.\${p.problemdetail} />
-                        </a>
+                        <div class="picked" onclick="window.open('./Problem?problemid=${p.idproblem?c}')">
+                            <img id="myImage" class="center-fit" src=.\${p.problemdetail} />
+                        </div>
                     </td>
                 </tr>
             </table>

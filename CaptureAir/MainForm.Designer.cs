@@ -45,96 +45,100 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.button_copyP = new System.Windows.Forms.Button();
             this.button_copyA = new System.Windows.Forms.Button();
+            this.button_problemb = new System.Windows.Forms.Button();
+            this.button_problemc = new System.Windows.Forms.Button();
+            this.button_problemb_plus = new System.Windows.Forms.Button();
+            this.button_problemc_plus = new System.Windows.Forms.Button();
             this.groupBoxLevel.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox_module
             // 
             this.comboBox_module.FormattingEnabled = true;
-            this.comboBox_module.Location = new System.Drawing.Point(12, 12);
+            this.comboBox_module.Location = new System.Drawing.Point(4, 12);
             this.comboBox_module.Name = "comboBox_module";
-            this.comboBox_module.Size = new System.Drawing.Size(92, 21);
+            this.comboBox_module.Size = new System.Drawing.Size(68, 21);
             this.comboBox_module.TabIndex = 0;
             // 
             // button_problem
             // 
-            this.button_problem.Location = new System.Drawing.Point(12, 309);
+            this.button_problem.Location = new System.Drawing.Point(4, 166);
             this.button_problem.Name = "button_problem";
-            this.button_problem.Size = new System.Drawing.Size(50, 50);
+            this.button_problem.Size = new System.Drawing.Size(39, 50);
             this.button_problem.TabIndex = 1;
-            this.button_problem.Text = "P";
+            this.button_problem.Text = "P-1";
             this.button_problem.UseVisualStyleBackColor = true;
             this.button_problem.Click += new System.EventHandler(this.button_problem_Click);
             // 
             // button_problem_plus
             // 
-            this.button_problem_plus.Location = new System.Drawing.Point(68, 309);
+            this.button_problem_plus.Location = new System.Drawing.Point(49, 166);
             this.button_problem_plus.Name = "button_problem_plus";
-            this.button_problem_plus.Size = new System.Drawing.Size(36, 50);
+            this.button_problem_plus.Size = new System.Drawing.Size(44, 50);
             this.button_problem_plus.TabIndex = 2;
-            this.button_problem_plus.Text = "+";
+            this.button_problem_plus.Text = "+ 2";
             this.button_problem_plus.UseVisualStyleBackColor = true;
             this.button_problem_plus.Click += new System.EventHandler(this.button_problem_plus_Click);
             // 
             // button_answer_plus
             // 
-            this.button_answer_plus.Location = new System.Drawing.Point(68, 365);
+            this.button_answer_plus.Location = new System.Drawing.Point(49, 222);
             this.button_answer_plus.Name = "button_answer_plus";
-            this.button_answer_plus.Size = new System.Drawing.Size(36, 50);
+            this.button_answer_plus.Size = new System.Drawing.Size(44, 50);
             this.button_answer_plus.TabIndex = 4;
-            this.button_answer_plus.Text = "+";
+            this.button_answer_plus.Text = "+ (W)";
             this.button_answer_plus.UseVisualStyleBackColor = true;
             this.button_answer_plus.Click += new System.EventHandler(this.button_answer_plus_Click);
             // 
             // button_answer
             // 
-            this.button_answer.Location = new System.Drawing.Point(12, 365);
+            this.button_answer.Location = new System.Drawing.Point(4, 222);
             this.button_answer.Name = "button_answer";
-            this.button_answer.Size = new System.Drawing.Size(50, 50);
+            this.button_answer.Size = new System.Drawing.Size(39, 50);
             this.button_answer.TabIndex = 3;
-            this.button_answer.Text = "A";
+            this.button_answer.Text = "A (Q)";
             this.button_answer.UseVisualStyleBackColor = true;
             this.button_answer.Click += new System.EventHandler(this.button_answer_Click);
             // 
             // button_submit
             // 
-            this.button_submit.Location = new System.Drawing.Point(12, 421);
+            this.button_submit.Location = new System.Drawing.Point(91, 113);
             this.button_submit.Name = "button_submit";
-            this.button_submit.Size = new System.Drawing.Size(91, 49);
+            this.button_submit.Size = new System.Drawing.Size(42, 47);
             this.button_submit.TabIndex = 5;
-            this.button_submit.Text = "Submit";
+            this.button_submit.Text = "Save  (E)";
             this.button_submit.UseVisualStyleBackColor = true;
             this.button_submit.Click += new System.EventHandler(this.button_submit_Click);
             // 
             // comboBox_index
             // 
             this.comboBox_index.FormattingEnabled = true;
-            this.comboBox_index.Location = new System.Drawing.Point(11, 39);
+            this.comboBox_index.Location = new System.Drawing.Point(78, 12);
             this.comboBox_index.Name = "comboBox_index";
-            this.comboBox_index.Size = new System.Drawing.Size(92, 21);
+            this.comboBox_index.Size = new System.Drawing.Size(55, 21);
             this.comboBox_index.TabIndex = 7;
             // 
             // buttonReview
             // 
-            this.buttonReview.Location = new System.Drawing.Point(12, 180);
+            this.buttonReview.Location = new System.Drawing.Point(4, 113);
             this.buttonReview.Name = "buttonReview";
-            this.buttonReview.Size = new System.Drawing.Size(92, 63);
+            this.buttonReview.Size = new System.Drawing.Size(81, 47);
             this.buttonReview.TabIndex = 9;
             this.buttonReview.Text = "Review";
             this.buttonReview.UseVisualStyleBackColor = true;
             // 
             // textBoxChapterID
             // 
-            this.textBoxChapterID.Location = new System.Drawing.Point(12, 66);
+            this.textBoxChapterID.Location = new System.Drawing.Point(4, 39);
             this.textBoxChapterID.Name = "textBoxChapterID";
-            this.textBoxChapterID.Size = new System.Drawing.Size(92, 20);
+            this.textBoxChapterID.Size = new System.Drawing.Size(45, 20);
             this.textBoxChapterID.TabIndex = 10;
             // 
             // textBoxIP
             // 
-            this.textBoxIP.Location = new System.Drawing.Point(12, 249);
+            this.textBoxIP.Location = new System.Drawing.Point(55, 39);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(92, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(78, 20);
             this.textBoxIP.TabIndex = 11;
             this.textBoxIP.Text = "127.0.0.1";
             // 
@@ -155,9 +159,9 @@
             this.groupBoxLevel.Controls.Add(this.radioButton3);
             this.groupBoxLevel.Controls.Add(this.radioButton2);
             this.groupBoxLevel.Controls.Add(this.radioButton1);
-            this.groupBoxLevel.Location = new System.Drawing.Point(12, 92);
+            this.groupBoxLevel.Location = new System.Drawing.Point(4, 65);
             this.groupBoxLevel.Name = "groupBoxLevel";
-            this.groupBoxLevel.Size = new System.Drawing.Size(92, 56);
+            this.groupBoxLevel.Size = new System.Drawing.Size(133, 42);
             this.groupBoxLevel.TabIndex = 13;
             this.groupBoxLevel.TabStop = false;
             this.groupBoxLevel.Text = "level";
@@ -165,7 +169,7 @@
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(44, 39);
+            this.radioButton4.Location = new System.Drawing.Point(106, 15);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(31, 17);
             this.radioButton4.TabIndex = 15;
@@ -176,7 +180,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 39);
+            this.radioButton3.Location = new System.Drawing.Point(74, 15);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(31, 17);
             this.radioButton3.TabIndex = 14;
@@ -187,7 +191,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(44, 15);
+            this.radioButton2.Location = new System.Drawing.Point(41, 15);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(31, 17);
             this.radioButton2.TabIndex = 13;
@@ -197,9 +201,9 @@
             // 
             // button_copyP
             // 
-            this.button_copyP.Location = new System.Drawing.Point(110, 309);
+            this.button_copyP.Location = new System.Drawing.Point(99, 166);
             this.button_copyP.Name = "button_copyP";
-            this.button_copyP.Size = new System.Drawing.Size(31, 49);
+            this.button_copyP.Size = new System.Drawing.Size(38, 49);
             this.button_copyP.TabIndex = 14;
             this.button_copyP.Text = "C";
             this.button_copyP.UseVisualStyleBackColor = true;
@@ -207,19 +211,63 @@
             // 
             // button_copyA
             // 
-            this.button_copyA.Location = new System.Drawing.Point(110, 365);
+            this.button_copyA.Location = new System.Drawing.Point(99, 221);
             this.button_copyA.Name = "button_copyA";
-            this.button_copyA.Size = new System.Drawing.Size(31, 50);
+            this.button_copyA.Size = new System.Drawing.Size(38, 50);
             this.button_copyA.TabIndex = 15;
             this.button_copyA.Text = "C";
             this.button_copyA.UseVisualStyleBackColor = true;
             this.button_copyA.Click += new System.EventHandler(this.button_copyA_Click);
             // 
+            // button_problemb
+            // 
+            this.button_problemb.Location = new System.Drawing.Point(4, 278);
+            this.button_problemb.Name = "button_problemb";
+            this.button_problemb.Size = new System.Drawing.Size(39, 50);
+            this.button_problemb.TabIndex = 16;
+            this.button_problemb.Text = "P\'-3";
+            this.button_problemb.UseVisualStyleBackColor = true;
+            this.button_problemb.Click += new System.EventHandler(this.button_problemb_Click);
+            // 
+            // button_problemc
+            // 
+            this.button_problemc.Location = new System.Drawing.Point(4, 334);
+            this.button_problemc.Name = "button_problemc";
+            this.button_problemc.Size = new System.Drawing.Size(39, 50);
+            this.button_problemc.TabIndex = 17;
+            this.button_problemc.Text = "P\'\'-5";
+            this.button_problemc.UseVisualStyleBackColor = true;
+            this.button_problemc.Click += new System.EventHandler(this.button_problemc_Click);
+            // 
+            // button_problemb_plus
+            // 
+            this.button_problemb_plus.Location = new System.Drawing.Point(49, 278);
+            this.button_problemb_plus.Name = "button_problemb_plus";
+            this.button_problemb_plus.Size = new System.Drawing.Size(44, 50);
+            this.button_problemb_plus.TabIndex = 18;
+            this.button_problemb_plus.Text = "+ 4";
+            this.button_problemb_plus.UseVisualStyleBackColor = true;
+            this.button_problemb_plus.Click += new System.EventHandler(this.button_problemb_plus_Click);
+            // 
+            // button_problemc_plus
+            // 
+            this.button_problemc_plus.Location = new System.Drawing.Point(49, 334);
+            this.button_problemc_plus.Name = "button_problemc_plus";
+            this.button_problemc_plus.Size = new System.Drawing.Size(44, 50);
+            this.button_problemc_plus.TabIndex = 19;
+            this.button_problemc_plus.Text = "+ 6";
+            this.button_problemc_plus.UseVisualStyleBackColor = true;
+            this.button_problemc_plus.Click += new System.EventHandler(this.button_problemc_plus_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(153, 482);
+            this.ClientSize = new System.Drawing.Size(142, 392);
+            this.Controls.Add(this.button_problemc_plus);
+            this.Controls.Add(this.button_problemb_plus);
+            this.Controls.Add(this.button_problemc);
+            this.Controls.Add(this.button_problemb);
             this.Controls.Add(this.button_copyA);
             this.Controls.Add(this.button_copyP);
             this.Controls.Add(this.groupBoxLevel);
@@ -263,6 +311,10 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Button button_copyP;
         private System.Windows.Forms.Button button_copyA;
+        private System.Windows.Forms.Button button_problemb;
+        private System.Windows.Forms.Button button_problemc;
+        private System.Windows.Forms.Button button_problemb_plus;
+        private System.Windows.Forms.Button button_problemc_plus;
     }
 }
 

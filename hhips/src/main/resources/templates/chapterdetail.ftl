@@ -9,6 +9,19 @@
 </head>
 	<body>
 		<#include "/header.ftl">
+		<table class="boldFont">
+            <tr>
+                <td>
+                    <#if before != 0>
+                        <div><a href="./Chapter?chapterid=${before?c}" style="text-decoration: none">前一章</a></div>
+                    </#if></td>
+                <td>
+                    <#if after != 0>
+                        <div><a href="./Chapter?chapterid=${after?c}" style="text-decoration: none">&nbsp;&nbsp;&nbsp;&nbsp;后一章</a></div>
+                    </#if>
+                </td>
+            </tr>
+        </table>
 		<a href="./Chapter?sourceid=${sourceid}" style="text-decoration: none">
 		    <h1>${sourcename}</h1>
         </a>
@@ -29,15 +42,15 @@
 			</select>
 		</#if>
 		<#if max != -1>
-            <table>
+            <table class="dmmtable">
                 <#list 0..max as i>
-                    <tr class="edge">
-                        <td class="edge">
+                    <tr>
+                        <td>
                             <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
                             <p>${problems[i].problemindex}&nbsp;&nbsp;</p>
                             </a>
                         </td>
-                        <td class="edge">
+                        <td>
                             <#if problems[i].problemlevel == 1>
                                 <p>☆</p>
                             </#if>
@@ -51,7 +64,7 @@
                                 <p>☆☆☆☆</p>
                             </#if>
                         </td>
-                        <td class="edge">
+                        <td>
                             <p>${problems[i].modulename}&nbsp;&nbsp;</p>
                         </td>
 
@@ -65,30 +78,30 @@
                                 <#else>
                                     <td><p class="orange">待批</p></td>
                                 </#if>
-                                <td class="edge">
+                                <td>
                                     <p>${problems[i].workdate?string("yyyy-MM-dd")} &nbsp;&nbsp;&nbsp;</p>
                                 </td>
-                                <td class="edge">
+                                <td>
                                     <p>${problems[i].problemtotalworktime?c} &nbsp;&nbsp;</p>
                                 </td>
-                                <td class="edge">
+                                <td>
                                     <p>${problems[i].problemtotalusetime?c}</p>
                                 </td>
                             <#else>
-                                <td class="edge">
+                                <td>
                                     <p>未做</p>
                                 </td>
                             </#if>
-                            <td class="edge">
+                            <td>
                                 <#list works[i] as work>
                                     <#if work.workmark??>
                                         <#if work.workmark == 0>
-                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
                                         <#else>
-                                            <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
                                         </#if>
                                     <#else>
-                                        <p class="edge" style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
+                                        <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
                                     </#if>
                                 </#list>
 
@@ -101,7 +114,7 @@
 			<#list 0..max as i>
 				<table>
 					<span id=jump_${problems[i].idproblem?c}></span>
-					<tr class="edge">
+					<tr>
 						<td>
 							<p>${problems[i].problemindex}</p>
 						</td>
@@ -122,9 +135,15 @@
 							</#if>
 						</td>
 						<td>
-							<a href="./Problem?problemid=${problems[i].idproblem?c}">
+                            <div class="picked" onclick="window.open('./Problem?problemid=${problems[i].idproblem?c}')">
 							<img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
-							</a>
+							<#if problems[i].problemdetailb??>
+							    <img id="myImage" class="center-fit" src=.\${problems[i].problemdetailb} />
+							</#if>
+							<#if problems[i].problemdetailc??>
+                                <img id="myImage" class="center-fit" src=.\${problems[i].problemdetailc} />
+                            </#if>
+                            </div>
 						</td>
 					</tr>	
 				</table>
@@ -288,6 +307,16 @@
 				</td>
 			</tr>
 			<tr>
+                <td>
+                    <div class="preview_box" id="problemviewb"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="preview_box" id="problemviewc"></div>
+                </td>
+            </tr>
+			<tr>
 				<td>
 					<div class="preview_box" id="answerview"></div>
 				</td>
@@ -295,6 +324,8 @@
 		</table>
 					<label id="problemlabel" class="active bigFont" for="img_input" onclick="toggleImage(1)">problem</label>
 					<label id="answerabel" class="bigFont" for="img_input" onclick="toggleImage(2)">answer</label>
+					<label id="problemlabelb" class="bigFont" for="img_input" onclick="toggleImage(3)">problemb</label>
+					<label id="problemlabelc" class="bigFont" for="img_input" onclick="toggleImage(4)">problemc</label>
 					<br/>
 					<br/>
 					<br/>
@@ -379,17 +410,33 @@
 		}
 		
 		var activeImage=1;
+		function deActiveAllImageButton() {
+		    $( "#answerabel" ).removeClass("active");
+		    $( "#problemlabel" ).removeClass("active");
+		    $( "#problemlabelb" ).removeClass("active");
+		    $( "#problemlabelc" ).removeClass("active");
+		}
 		function toggleImage(mode) {
 			if (mode==1) {
 				activeImage = 1;
+				deActiveAllImageButton();
 				$( "#problemlabel" ).addClass("active");
-				$( "#answerabel" ).removeClass("active");
 			}
-			else {
+			else if (mode==2){
 				activeImage = 2;
+				deActiveAllImageButton();
 				$( "#answerabel" ).addClass("active");
-				$( "#problemlabel" ).removeClass("active");
 			}
+			else if (mode==3){
+                activeImage = 3;
+                deActiveAllImageButton();
+                $( "#problemlabelb" ).addClass("active");
+            }
+            else if (mode==4){
+                activeImage = 4;
+                deActiveAllImageButton();
+                $( "#problemlabelc" ).addClass("active");
+            }
 		}
 		
 		var lastindex='${lastindex}';
@@ -397,11 +444,17 @@
 		var lastlevel='${lastlevel}';
 		var imgProblemString;
 		var imgAnswerString;
+		var imgProblemStringb;
+		var imgProblemStringc;
 		var chaperid = ${chaperid};
 		function postProblem() {
 			var pData = {};
 			pData.problemlevel = $( "#levelselect" ).val();
 			pData.problemdetail = imgProblemString.substr(22);
+			if (imgProblemStringb != undefined)
+			    pData.problemdetailb = imgProblemStringb.substr(22);
+			if (imgProblemStringc != undefined)
+			    pData.problemdetailc = imgProblemStringc.substr(22);
 			pData.problemanswerdetail = imgAnswerString.substr(22);
 			pData.problemchapterid = chaperid;
 			pData.problemindex=$( "#indexselect" ).val();
@@ -456,12 +509,25 @@
 		    	
 		    	window.scrollTo(0,10000);
 		    }
-		    else {
+		    else if (activeImage == 2){
 		    	imgAnswerString = arg.target.result;
 		    	var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
 		    	//console.log(img);
 		    	$("#answerview").empty().append(img);
 		    }
+		    else if (activeImage == 3){
+                imgProblemStringb = arg.target.result;
+                var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+                //console.log(img);
+                console.log('33333333');
+                $("#problemviewb").empty().append(img);
+            }
+            else if (activeImage == 4){
+                imgProblemStringc = arg.target.result;
+                var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+                //console.log(img);
+                $("#problemviewc").empty().append(img);
+            }
 		  }
 		});
 		
@@ -522,14 +588,29 @@
 					    	window.scrollTo(0,1000000);
 					    	toggleImage(2);
 					    }
-					    else {
+					    else if (activeImage == 2){
 					    	imgAnswerString = arg.target.result;
 					    	var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
 					    	//console.log(img);
-					    	
+					    	console.log('--------------------');
 					    	$("#answerview").empty().append(img);
 					    	window.scrollTo(0,1000000);
+					    	toggleImage(3);
 					    }
+					    else if (activeImage == 3){
+                            imgProblemStringb = arg.target.result;
+                            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+                            //console.log(img);
+                            console.log('33333333');
+                            $("#problemviewb").empty().append(img);
+                            toggleImage(4);
+                        }
+                        else if (activeImage == 4){
+                            imgProblemStringc = arg.target.result;
+                            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+                            //console.log(img);
+                            $("#problemviewc").empty().append(img);
+                        }
 		
 
 					  }

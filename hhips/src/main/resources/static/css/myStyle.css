@@ -29,7 +29,7 @@
     margin-top: 100px;
 }
 .edge {
-	box-shadow: 0px 0px 2px 2px rgba(0,0,255,.4);
+	box-shadow: 0px 0px 1px 1px rgba(0,0,255,1);
 	white-space: nowrap;
 }
 .edgeRound {
@@ -40,6 +40,9 @@
 }
 .oneLineText {
     white-space: nowrap;
+}
+.sameLine {
+    display: inline-flex;
 }
 .activeButton {
 	background-color: darkkhaki;
@@ -80,4 +83,27 @@
 .middleH {
     margin-left: auto;
     margin-right: auto;
+}
+.dmmtable{
+    width:100%;
+    border-collapse:collapse;
+}
+.dmmtable td{
+    padding:7px; border:#4e95f4 1px solid;
+}
+/* provide some minimal visual accomodation for IE8 and below */
+.dmmtable tr{
+    background: #53A4EC;
+}
+/*  Define the background color for all the ODD background rows  */
+.dmmtable tr:nth-child(odd){
+    background: #E0ECF8;
+}
+/*  Define the background color for all the EVEN background rows  */
+.dmmtable tr:nth-child(even){
+    background: #FCFCFD;
+}
+
+.dmmtable tr:hover {
+    background-color: #ffff99;
 }

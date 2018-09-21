@@ -112,7 +112,26 @@ public class ProblemWithLastWork {
 	String problemanswerdetail;
 	String problemanswerstring; 
 	Integer	problemcisactive; 
-	String problemdetail; 
+	String problemdetail;
+
+	public String getProblemdetailb() {
+		return problemdetailb;
+	}
+
+	public void setProblemdetailb(String problemdetailb) {
+		this.problemdetailb = problemdetailb;
+	}
+
+	public String getProblemdetailc() {
+		return problemdetailc;
+	}
+
+	public void setProblemdetailc(String problemdetailc) {
+		this.problemdetailc = problemdetailc;
+	}
+
+	String problemdetailb;
+	String problemdetailc;
 	String problemindex; 
 	Integer	problemlevel; 
 	Integer	problemmodule;

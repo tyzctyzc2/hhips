@@ -204,6 +204,7 @@ SET character_set_client = utf8;
  1 AS `starreasonname`,
  1 AS `starreasonfactor`,
  1 AS `problemlevel`,
+ 1 AS `problemindex`,
  1 AS `idmodule`,
  1 AS `modulename`,
  1 AS `idpaper`,
@@ -420,7 +421,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_workdetaillist` AS select `w`.`idwork` AS `idwork`,(`w`.`workdate` - interval `w`.`usedtime` second) AS `startdate`,`w`.`workdate` AS `workdate`,`w`.`idproblem` AS `idproblem`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdetail` AS `workdetail`,`w`.`workmark` AS `workmark`,`w`.`reason` AS `reason`,`w`.`idstarreason` AS `idstarreason`,`sr`.`starreasonname` AS `starreasonname`,`sr`.`starreasonfactor` AS `starreasonfactor`,`p`.`problemlevel` AS `problemlevel`,`m`.`idmodule` AS `idmodule`,`m`.`modulename` AS `modulename`,`pw`.`idpaper` AS `idpaper`,`pe`.`papername` AS `papername`,`p`.`problemchapterid` AS `problemchapterid` from (((((`work` `w` join `paperwork` `pw` on((`pw`.`idwork` = `w`.`idwork`))) join `problem` `p` on((`w`.`idproblem` = `p`.`idproblem`))) join `paper` `pe` on((`pw`.`idpaper` = `pe`.`idpaper`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) left join `starreason` `sr` on((`w`.`idstarreason` = `sr`.`idstarreason`))) order by (`w`.`workdate` - interval `w`.`usedtime` second) */;
+/*!50001 VIEW `v_workdetaillist` AS select `w`.`idwork` AS `idwork`,(`w`.`workdate` - interval `w`.`usedtime` second) AS `startdate`,`w`.`workdate` AS `workdate`,`w`.`idproblem` AS `idproblem`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdetail` AS `workdetail`,`w`.`workmark` AS `workmark`,`w`.`reason` AS `reason`,`w`.`idstarreason` AS `idstarreason`,`sr`.`starreasonname` AS `starreasonname`,`sr`.`starreasonfactor` AS `starreasonfactor`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemindex` AS `problemindex`,`m`.`idmodule` AS `idmodule`,`m`.`modulename` AS `modulename`,`pw`.`idpaper` AS `idpaper`,`pe`.`papername` AS `papername`,`p`.`problemchapterid` AS `problemchapterid` from (((((`work` `w` join `paperwork` `pw` on((`pw`.`idwork` = `w`.`idwork`))) join `problem` `p` on((`w`.`idproblem` = `p`.`idproblem`))) join `paper` `pe` on((`pw`.`idpaper` = `pe`.`idpaper`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) left join `starreason` `sr` on((`w`.`idstarreason` = `sr`.`idstarreason`))) order by (`w`.`workdate` - interval `w`.`usedtime` second) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -488,4 +489,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-21 21:08:18
+-- Dump completed on 2018-09-15 18:03:08

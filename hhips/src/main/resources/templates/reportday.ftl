@@ -25,55 +25,55 @@
                 <li><a href="#historysummary">History Summary</a></li>
             </ul>
             <div id="summary">
-                <p>总计：</p>
-                <table class=edge>
+                <h1>总计：</h1>
+                <table class="dmmtable">
                     <tr>
-                        <th class=edge>类别</th>
-                        <th class=edge>总时间</th>
-                        <th class=edge>次数</th>
-                        <th class=edge>Avg.</th>
+                        <th>类别</th>
+                        <th>总时间</th>
+                        <th>次数</th>
+                        <th>Avg.</th>
                     </tr>
                     <tr>
-                        <td class=edge>正确</td>
-                        <td class=edge>${totalCorrectUsedTime}</td>
-                        <td class=edge>${totalCorrectTime}</td>
-                        <td class=edge>${avgCorrect}</td>
+                        <td>正确</td>
+                        <td>${totalCorrectUsedTime}</td>
+                        <td>${totalCorrectTime}</td>
+                        <td>${avgCorrect}</td>
                     </tr>
                     <tr>
-                        <td class=edge>错误</td>
-                        <td class=edge>${totalWrongUsedTime}</td>
-                        <td class=edge>${totalWrongTime}</td>
-                        <td class=edge>${avgWrong}</td>
+                        <td>错误</td>
+                        <td>${totalWrongUsedTime}</td>
+                        <td>${totalWrongTime}</td>
+                        <td>${avgWrong}</td>
                     </tr>
                     <tr>
-                        <td class=edge>未知</td>
-                        <td class=edge>${totalUnknownUsedTime}</td>
-                        <td class=edge>${totalUnknownTime}</td>
-                        <td class=edge>${avgUnknown}</td>
+                        <td>未知</td>
+                        <td>${totalUnknownUsedTime}</td>
+                        <td>${totalUnknownTime}</td>
+                        <td>${avgUnknown}</td>
                     </tr>
                     <tr>
-                        <td class=edge>总计</td>
-                        <td class=edge>${totalUsedTime}</td>
-                        <td class=edge>${totalTimes}</td>
-                        <td class=edge>${avgTotal}</td>
+                        <td>总计</td>
+                        <td>${totalUsedTime}</td>
+                        <td>${totalTimes}</td>
+                        <td>${avgTotal}</td>
                     </tr>
                 </table>
-                <p>按卷卷综合：</p>
-                <table>
+                <h1>按卷卷综合：</h1>
+                <table class="dmmtable">
                     <tr>
-                        <th class=edge>卷卷</th>
-                        <th class=edge>总题目</th>
-                        <th class=edge>一击命中</th>
-                        <th class=edge>待改正</th>
-                        <th class=edge>总时间</th>
+                        <th>卷卷</th>
+                        <th>总题目</th>
+                        <th>一击命中</th>
+                        <th>待改正</th>
+                        <th>总时间</th>
                     </tr>
                     <#list papersummary as onepaper>
                     <tr>
-                        <td class=edge><a href="./Problem?showanswer=1&paperid=${onepaper.idpaper}" style="text-decoration: none"><p>${onepaper.paperName}</p></a></td>
-                        <td class=edge>${onepaper.totalWorkedProblem}</td>
-                        <td class=edge>${onepaper.oneTimeCorrectProblem}</td>
-                        <td class=edge>${onepaper.waitToFixProblem}</td>
-                        <td class=edge>${onepaper.totalWorkTime}</td>
+                        <td><a href="./Problem?showanswer=1&paperid=${onepaper.idpaper}" style="text-decoration: none"><p>${onepaper.paperName}</p></a></td>
+                        <td>${onepaper.totalWorkedProblem}</td>
+                        <td>${onepaper.oneTimeCorrectProblem}</td>
+                        <td>${onepaper.waitToFixProblem}</td>
+                        <td>${onepaper.totalWorkTime}</td>
                     </tr>
                     </#list>
                 </table>
@@ -96,7 +96,7 @@
                 <div>四星：30分钟以下+1</div>
             </div>
 
-            <table id="timesummary">
+            <table id="timesummary" class="dmmtable">
                 <#if maxseg != -1>
                     <#list 0..maxseg as i>
                         <tr>
@@ -104,19 +104,22 @@
                             <td>
                                 <#assign len=segworks[i].usedtime>
                                 <#if len==0>
-                                <#assign len=1>
+                                    <#assign len=1>
+                                </#if>
+                                <#if (len > 120)>
+                                    <#assign len=120>
                                 </#if>
                                 <#if segworks[i].workmark != 0>
-                                <p class="edge" style="height: 20px; float:left; width:${len?c}0px;background-color:green">${segworks[i].usedtime?c}</p>
+                                <p style="height: 20px; float:left; width:${len?c}0px;background-color:green">${segworks[i].usedtime?c}</p>
                                 <#else>
-                                <p class="edge" style="height: 20px; float:left; width:${len?c}0px;background-color:red">${segworks[i].usedtime?c}</p>
+                                <p style="height: 20px; float:left; width:${len?c}0px;background-color:red">${segworks[i].usedtime?c}</p>
                                 </#if>
                             </td>
                         </tr>
                     </#list>
                 </#if>
             </table>
-            <table id="papersummary">
+            <table id="papersummary" class="dmmtable">
                 <#if workbypaper?exists>
                     <#list workbypaper?keys as paperid>
                         <#assign paper = workbypaper[paperid]>
@@ -127,22 +130,23 @@
                                 <#list problem as work>
                                     <tr>
                                     <#if paperfirst==1>
-                                        <td class=edge>${work.papername}</td>
+                                        <td>${work.papername}</td>
                                         <#assign paperfirst=0>
                                     <#else>
-                                        <td class=edge></td>
+                                        <td></td>
                                     </#if>
                                     <#if workfirst==1>
-                                        <td class=edge>
+                                        <td>
                                             <a href="./Problem?problemid=${work.idproblem?c}">
                                                 <p>${work.idproblem?c}</p>
                                             </a>
                                         </td>
                                         <#assign workfirst=0>
                                     <#else>
-                                        <td class=edge></td>
+                                        <td></td>
                                     </#if>
-                                    <td class="edge">
+                                    <td >${work.problemindex}</td>
+                                    <td>
                                         <#if work.problemlevel == 1>
                                             <p>☆</p>
                                         </#if>
@@ -156,22 +160,22 @@
                                             <p>☆☆☆☆</p>
                                         </#if>
                                     </td>
-
-                                    <td class=edge>${work.startdate?time}</td>
-                                    <td class=edge>${work.workdate?time}</td>
-                                    <td class=edge>
+                                    <td >${work.modulename}</td>
+                                    <td >${work.startdate?time}</td>
+                                    <td >${work.workdate?time}</td>
+                                    <td >
                                     <#assign len=work.usedtime>
                                     <#if len==0>
                                         <#assign len=1>
                                     </#if>
                                     <#if work.workmark??>
                                         <#if work.workmark==0>
-                                            <p class="edge" style="height: 20px; float:left; width:${len?c}0px;background-color:green">${work.usedtime?c}</p>
+                                            <p  style="height: 20px; float:left; width:${len?c}0px;background-color:green">${work.usedtime?c}</p>
                                         <#else>
-                                            <p class="edge" style="height: 20px; float:left; width:${len?c}0px;background-color:red">${work.usedtime?c}</p>
+                                            <p style="height: 20px; float:left; width:${len?c}0px;background-color:red">${work.usedtime?c}</p>
                                         </#if>
                                     <#else>
-                                        <p class="edge" style="height: 20px; float:left; width:${len?c}0px;background-color:orange">${work.usedtime?c}</p>
+                                        <p style="height: 20px; float:left; width:${len?c}0px;background-color:orange">${work.usedtime?c}</p>
                                     </#if>
                                     </td>
                                     <td>

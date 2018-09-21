@@ -9,15 +9,15 @@
 		<#include "/header.ftl">
 		
 		<#if paperlength != -1>
-			<table class='middleH' style="font-size:  x-large;">
+			<table class="dmmtable" style="font-size:  x-large;">
 					<#list 0..paperlength as i>
-						<tr class="edge">
+						<tr>
 							<td>
-								<p>${papers[i].idpaper?c}---</p>
+								<p>${papers[i].idpaper?c}</p>
 							</td>
 							<td>
 								<a href="./Problem?paperid=${papers[i].idpaper?c}" style="text-decoration: none">
-									<p>${papers[i].papername} &nbsp;&nbsp;&nbsp;</p>
+									<p>打印版</p>
 								</a>
 							</td>
 							<td>
@@ -27,14 +27,13 @@
 							</td>
 							<#if papers[i].isactive == 1>
 								<td>
-									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
+									<button type="button" class="picked right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
 								</td>
 							<#else>
 								<td>
-									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
+									<button type="button" class="picked largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},1)">In Edit</button>
 								</td>
 							</#if>
-							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 2>
 								<td>
 									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},2)">Active</button>
@@ -44,7 +43,6 @@
 									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},2)">Active</button>
 								</td>
 							</#if>
-							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 3>
 								<td>
 									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},3)">Done</button>
@@ -54,7 +52,6 @@
 									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},3)">Done</button>
 								</td>
 							</#if>
-							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 4>
 								<td>
 									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},4)">Hold</button>
@@ -64,7 +61,6 @@
 									<button type="button" class="largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},4)">Hold</button>
 								</td>
 							</#if>
-							<td>&nbsp;&nbsp;</td>
 							<#if papers[i].isactive == 5>
 								<td>
 									<button type="button" class="right largeFont" onclick="changePaperStatus(${papers[i].idpaper?c},5)">Archive</button>

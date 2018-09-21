@@ -300,6 +300,20 @@ public class DBProblem {
 				}
 			}
 
+			if (jsonObject.has(ProblemColumnName.problemdetailb.toString())) {
+				if (jsonObject.getString(ProblemColumnName.problemdetailb.toString()).length() > 1) {
+					p.setProblemdetailb(FileHelper.saveBase64File(jsonObject.getString(ProblemColumnName.problemdetailb.toString()), "pb", pID));
+					needUpdate = true;
+				}
+			}
+
+			if (jsonObject.has(ProblemColumnName.problemdetailc.toString())) {
+				if (jsonObject.getString(ProblemColumnName.problemdetailc.toString()).length() > 1) {
+					p.setProblemdetailc(FileHelper.saveBase64File(jsonObject.getString(ProblemColumnName.problemdetailc.toString()), "pc", pID));
+					needUpdate = true;
+				}
+			}
+
 			if (needUpdate == false)
 				return pID;
 			updateProbelm(p);

@@ -89,6 +89,27 @@ public class PaperServlet {
         return res.toString();
     }
 
+    @PostMapping("/Paper/problem/remove")
+    public @ResponseBody String removePaperProblem(@RequestBody String stringToParse) {
+        logger.info("PaperServlet - [removePaperProblem] paper problem request " + stringToParse);
+        JSONObject res = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(stringToParse.toString());
+
+
+            DBPaper dbPaper = new DBPaper();
+            dbPaper.removePaperProblem(jsonObject.getInt("idproblem"),
+                    jsonObject.getInt("paperproblemid"),
+                    jsonObject.getInt("paperid"));
+
+            res.append(JSON_RESPONSE_KEY_SUCCESS, false);
+        }
+        catch (Exception e) {
+
+        }
+        return res.toString();
+    }
+
     @PostMapping("/Paper")
     public @ResponseBody String changePaperRequest(@RequestBody String stringToParse) {
         JSONObject res = new JSONObject();

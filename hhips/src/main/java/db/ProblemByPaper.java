@@ -130,6 +130,25 @@ public class ProblemByPaper  {
 
 	private Integer problemlevel;
 	private String problemdetail;
+
+	public String getProblemdetailb() {
+		return problemdetailb;
+	}
+
+	public void setProblemdetailb(String problemdetailb) {
+		this.problemdetailb = problemdetailb;
+	}
+
+	public String getProblemdetailc() {
+		return problemdetailc;
+	}
+
+	public void setProblemdetailc(String problemdetailc) {
+		this.problemdetailc = problemdetailc;
+	}
+
+	private String problemdetailb;
+	private String problemdetailc;
 	private String problemindex;
 	private Integer problemcisactive;
 	private String problemanswerstring;
