@@ -44,11 +44,17 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.button_copyP = new System.Windows.Forms.Button();
-            this.button_copyA = new System.Windows.Forms.Button();
             this.button_problemb = new System.Windows.Forms.Button();
             this.button_problemc = new System.Windows.Forms.Button();
             this.button_problemb_plus = new System.Windows.Forms.Button();
             this.button_problemc_plus = new System.Windows.Forms.Button();
+            this.button_chapterid_add = new System.Windows.Forms.Button();
+            this.button_chapterid_sub = new System.Windows.Forms.Button();
+            this.button_index_sub = new System.Windows.Forms.Button();
+            this.button_index_add = new System.Windows.Forms.Button();
+            this.button_reset = new System.Windows.Forms.Button();
+            this.button_update = new System.Windows.Forms.Button();
+            this.textBox_idproblem = new System.Windows.Forms.TextBox();
             this.groupBoxLevel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +63,7 @@
             this.comboBox_module.FormattingEnabled = true;
             this.comboBox_module.Location = new System.Drawing.Point(4, 12);
             this.comboBox_module.Name = "comboBox_module";
-            this.comboBox_module.Size = new System.Drawing.Size(68, 21);
+            this.comboBox_module.Size = new System.Drawing.Size(57, 21);
             this.comboBox_module.TabIndex = 0;
             // 
             // button_problem
@@ -102,7 +108,7 @@
             // 
             // button_submit
             // 
-            this.button_submit.Location = new System.Drawing.Point(91, 113);
+            this.button_submit.Location = new System.Drawing.Point(57, 113);
             this.button_submit.Name = "button_submit";
             this.button_submit.Size = new System.Drawing.Size(42, 47);
             this.button_submit.TabIndex = 5;
@@ -113,32 +119,32 @@
             // comboBox_index
             // 
             this.comboBox_index.FormattingEnabled = true;
-            this.comboBox_index.Location = new System.Drawing.Point(78, 12);
+            this.comboBox_index.Location = new System.Drawing.Point(80, 12);
             this.comboBox_index.Name = "comboBox_index";
-            this.comboBox_index.Size = new System.Drawing.Size(55, 21);
+            this.comboBox_index.Size = new System.Drawing.Size(42, 21);
             this.comboBox_index.TabIndex = 7;
             // 
             // buttonReview
             // 
             this.buttonReview.Location = new System.Drawing.Point(4, 113);
             this.buttonReview.Name = "buttonReview";
-            this.buttonReview.Size = new System.Drawing.Size(81, 47);
+            this.buttonReview.Size = new System.Drawing.Size(52, 47);
             this.buttonReview.TabIndex = 9;
             this.buttonReview.Text = "Review";
             this.buttonReview.UseVisualStyleBackColor = true;
             // 
             // textBoxChapterID
             // 
-            this.textBoxChapterID.Location = new System.Drawing.Point(4, 39);
+            this.textBoxChapterID.Location = new System.Drawing.Point(24, 39);
             this.textBoxChapterID.Name = "textBoxChapterID";
-            this.textBoxChapterID.Size = new System.Drawing.Size(45, 20);
+            this.textBoxChapterID.Size = new System.Drawing.Size(37, 20);
             this.textBoxChapterID.TabIndex = 10;
             // 
             // textBoxIP
             // 
-            this.textBoxIP.Location = new System.Drawing.Point(55, 39);
+            this.textBoxIP.Location = new System.Drawing.Point(91, 39);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(78, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(50, 20);
             this.textBoxIP.TabIndex = 11;
             this.textBoxIP.Text = "127.0.0.1";
             // 
@@ -209,16 +215,6 @@
             this.button_copyP.UseVisualStyleBackColor = true;
             this.button_copyP.Click += new System.EventHandler(this.button_copyP_Click);
             // 
-            // button_copyA
-            // 
-            this.button_copyA.Location = new System.Drawing.Point(99, 221);
-            this.button_copyA.Name = "button_copyA";
-            this.button_copyA.Size = new System.Drawing.Size(38, 50);
-            this.button_copyA.TabIndex = 15;
-            this.button_copyA.Text = "C";
-            this.button_copyA.UseVisualStyleBackColor = true;
-            this.button_copyA.Click += new System.EventHandler(this.button_copyA_Click);
-            // 
             // button_problemb
             // 
             this.button_problemb.Location = new System.Drawing.Point(4, 278);
@@ -259,16 +255,89 @@
             this.button_problemc_plus.UseVisualStyleBackColor = true;
             this.button_problemc_plus.Click += new System.EventHandler(this.button_problemc_plus_Click);
             // 
+            // button_chapterid_add
+            // 
+            this.button_chapterid_add.Location = new System.Drawing.Point(4, 39);
+            this.button_chapterid_add.Name = "button_chapterid_add";
+            this.button_chapterid_add.Size = new System.Drawing.Size(17, 21);
+            this.button_chapterid_add.TabIndex = 20;
+            this.button_chapterid_add.Text = "+";
+            this.button_chapterid_add.UseVisualStyleBackColor = true;
+            this.button_chapterid_add.Click += new System.EventHandler(this.button_chapterid_add_Click);
+            // 
+            // button_chapterid_sub
+            // 
+            this.button_chapterid_sub.Location = new System.Drawing.Point(67, 39);
+            this.button_chapterid_sub.Name = "button_chapterid_sub";
+            this.button_chapterid_sub.Size = new System.Drawing.Size(17, 21);
+            this.button_chapterid_sub.TabIndex = 21;
+            this.button_chapterid_sub.Text = "-";
+            this.button_chapterid_sub.UseVisualStyleBackColor = true;
+            this.button_chapterid_sub.Click += new System.EventHandler(this.button_chapterid_sub_Click);
+            // 
+            // button_index_sub
+            // 
+            this.button_index_sub.Location = new System.Drawing.Point(124, 12);
+            this.button_index_sub.Name = "button_index_sub";
+            this.button_index_sub.Size = new System.Drawing.Size(17, 21);
+            this.button_index_sub.TabIndex = 22;
+            this.button_index_sub.Text = "-";
+            this.button_index_sub.UseVisualStyleBackColor = true;
+            this.button_index_sub.Click += new System.EventHandler(this.button_index_sub_Click);
+            // 
+            // button_index_add
+            // 
+            this.button_index_add.Location = new System.Drawing.Point(62, 12);
+            this.button_index_add.Name = "button_index_add";
+            this.button_index_add.Size = new System.Drawing.Size(17, 21);
+            this.button_index_add.TabIndex = 23;
+            this.button_index_add.Text = "+";
+            this.button_index_add.UseVisualStyleBackColor = true;
+            this.button_index_add.Click += new System.EventHandler(this.button_index_add_Click);
+            // 
+            // button_reset
+            // 
+            this.button_reset.Location = new System.Drawing.Point(99, 334);
+            this.button_reset.Name = "button_reset";
+            this.button_reset.Size = new System.Drawing.Size(38, 50);
+            this.button_reset.TabIndex = 24;
+            this.button_reset.Text = "R";
+            this.button_reset.UseVisualStyleBackColor = true;
+            this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
+            // 
+            // button_update
+            // 
+            this.button_update.Location = new System.Drawing.Point(99, 113);
+            this.button_update.Name = "button_update";
+            this.button_update.Size = new System.Drawing.Size(42, 47);
+            this.button_update.TabIndex = 25;
+            this.button_update.Text = "Upd (R)";
+            this.button_update.UseVisualStyleBackColor = true;
+            this.button_update.Click += new System.EventHandler(this.button_update_Click);
+            // 
+            // textBox_idproblem
+            // 
+            this.textBox_idproblem.Location = new System.Drawing.Point(99, 301);
+            this.textBox_idproblem.Name = "textBox_idproblem";
+            this.textBox_idproblem.Size = new System.Drawing.Size(37, 20);
+            this.textBox_idproblem.TabIndex = 26;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(142, 392);
+            this.Controls.Add(this.textBox_idproblem);
+            this.Controls.Add(this.button_update);
+            this.Controls.Add(this.button_reset);
+            this.Controls.Add(this.button_index_add);
+            this.Controls.Add(this.button_index_sub);
+            this.Controls.Add(this.button_chapterid_sub);
+            this.Controls.Add(this.button_chapterid_add);
             this.Controls.Add(this.button_problemc_plus);
             this.Controls.Add(this.button_problemb_plus);
             this.Controls.Add(this.button_problemc);
             this.Controls.Add(this.button_problemb);
-            this.Controls.Add(this.button_copyA);
             this.Controls.Add(this.button_copyP);
             this.Controls.Add(this.groupBoxLevel);
             this.Controls.Add(this.textBoxIP);
@@ -310,11 +379,17 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Button button_copyP;
-        private System.Windows.Forms.Button button_copyA;
         private System.Windows.Forms.Button button_problemb;
         private System.Windows.Forms.Button button_problemc;
         private System.Windows.Forms.Button button_problemb_plus;
         private System.Windows.Forms.Button button_problemc_plus;
+        private System.Windows.Forms.Button button_chapterid_add;
+        private System.Windows.Forms.Button button_chapterid_sub;
+        private System.Windows.Forms.Button button_index_sub;
+        private System.Windows.Forms.Button button_index_add;
+        private System.Windows.Forms.Button button_reset;
+        private System.Windows.Forms.Button button_update;
+        private System.Windows.Forms.TextBox textBox_idproblem;
     }
 }
 

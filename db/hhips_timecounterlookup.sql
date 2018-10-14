@@ -27,8 +27,11 @@ CREATE TABLE `timecounterlookup` (
   `timecounterdescription` varchar(45) DEFAULT NULL,
   `timecounterimage` varchar(45) DEFAULT NULL,
   `timecountertype` int(11) DEFAULT '1' COMMENT '1=time based counter\n2=value based counter',
+  `maxtime` int(11) DEFAULT NULL,
+  `besttime` int(11) DEFAULT '0',
+  `bestcount` int(11) DEFAULT '500',
   PRIMARY KEY (`idtimecounterlookup`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +40,7 @@ CREATE TABLE `timecounterlookup` (
 
 LOCK TABLES `timecounterlookup` WRITE;
 /*!40000 ALTER TABLE `timecounterlookup` DISABLE KEYS */;
-INSERT INTO `timecounterlookup` VALUES (1,'早膳','201809\\20180908_t1.jpg',1),(2,'晚膳','201809\\20180908_t2.jpg',1),(3,'刷牙','201809\\20180908_t3.jpg',1),(4,'仰卧起坐','201809\\20180908_t4.jpg',2),(5,'跳绳','201809\\20180908_t5.jpg',2);
+INSERT INTO `timecounterlookup` VALUES (1,'早膳','201809\\20180908_t1.jpg',1,600,300,500),(2,'晚膳','201809\\20180908_t2.jpg',1,1800,1200,500),(3,'刷牙','201809\\20180908_t3.jpg',1,300,200,500),(4,'仰卧起坐','201809\\20180908_t4.jpg',2,60,0,35),(5,'跳绳','201809\\20180908_t5.jpg',2,60,0,180),(6,'吃水果','201809\\20180908_t6.jpg',1,900,600,0);
 /*!40000 ALTER TABLE `timecounterlookup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-15 18:03:07
+-- Dump completed on 2018-10-07  7:41:46

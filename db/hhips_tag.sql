@@ -26,7 +26,7 @@ CREATE TABLE `tag` (
   `idtag` int(11) NOT NULL AUTO_INCREMENT,
   `tagname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idtag`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求'),(4,'火车过桥'),(5,'平面想象'),(6,'步骤繁琐'),(7,'探索规律'),(8,'有序思考'),(9,'分而治之'),(10,'比例问题'),(11,'中转传递'),(12,'水中拾物'),(13,'易错周期'),(14,'扶梯问题'),(15,'不定方程'),(16,'六边形'),(17,'周期附体'),(18,'数列数表'),(19,'以追当遇'),(20,'巧算');
+INSERT INTO `tag` VALUES (1,'单位换算'),(2,'遇了再遇'),(3,'设而不求'),(4,'火车过桥'),(5,'平面想象'),(6,'步骤繁琐'),(7,'探索规律'),(8,'有序思考'),(9,'分而治之'),(10,'比例问题'),(11,'中转传递'),(12,'水中拾物'),(13,'易错周期'),(14,'扶梯问题'),(15,'不定方程'),(16,'六边形'),(17,'周期附体'),(18,'数列数表'),(19,'以追当遇'),(20,'巧算'),(21,'换元法'),(22,'方程技巧'),(23,'图形染色');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-15 18:03:07
+-- Dump completed on 2018-10-07  7:41:46

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>${chapterindex}--${chapername}</title>
+	<title>${chapterindex}--${chaptername}</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./chart/highcharts.js"></script>
 	<script type="text/javascript" src="./chart/piechart4problem.js"></script>
@@ -22,10 +22,7 @@
                 </td>
             </tr>
         </table>
-		<a href="./Chapter?sourceid=${sourceid}" style="text-decoration: none">
-		    <h1>${sourcename}</h1>
-        </a>
-		<h1>${chapterindex}--${chapername}</h1>
+        <#include "/chapterheader.ftl">
 		<table>
             <tr>
                 <td>
@@ -33,7 +30,7 @@
                 </td>
             </tr>
         </table>
-		<button type="button" onclick="addWhole2Paper(${chaperid})">Add all to Paper</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid})">Add all to Paper</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
 				<#list 0..maxpaper as i>
@@ -446,7 +443,7 @@
 		var imgAnswerString;
 		var imgProblemStringb;
 		var imgProblemStringc;
-		var chaperid = ${chaperid};
+		var chapterid = ${chapterid};
 		function postProblem() {
 			var pData = {};
 			pData.problemlevel = $( "#levelselect" ).val();
@@ -456,7 +453,7 @@
 			if (imgProblemStringc != undefined)
 			    pData.problemdetailc = imgProblemStringc.substr(22);
 			pData.problemanswerdetail = imgAnswerString.substr(22);
-			pData.problemchapterid = chaperid;
+			pData.problemchapterid = chapterid;
 			pData.problemindex=$( "#indexselect" ).val();
 			pData.problemmodule=$( "#moduleselect" ).val();
 			pData.problemanswerstring=$( "#answerstring" ).val();

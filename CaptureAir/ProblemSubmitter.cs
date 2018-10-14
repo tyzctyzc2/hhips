@@ -21,7 +21,29 @@ namespace CaptureAir
         public string problemindex;
         public string problemmodule;
 
+        public string idproblem;
+
         ILog log = LogManager.GetLogger(typeof(ProblemSubmitter));
+
+        public bool Update(string ip)
+        {
+            string targetUrl = "http://" + ip + ":8080/hhipsair/Problem/update";
+            string data = "{\"problemanswerdetail\":\"" + problemanswerdetail + "\"," +
+                          "\"problemanswerstring\":\"" + "" + "\"," +
+                          "\"problemchapterid\":" + problemchapterid + "," +
+                          "\"problemdetail\":\"" + problemdetail + "\"," +
+                          "\"problemdetailb\":\"" + problemdetailb + "\"," +
+                          "\"problemdetailc\":\"" + problemdetailc + "\"," +
+                          "\"problemindex\":\"" + problemindex + "\"," +
+                          "\"problemlevel\":\"" + problemlevel + "\"," +
+                          "\"idproblem\":\"" + idproblem + "\"," +
+                          "\"problemmodule\":\"" + problemmodule + "\"}";
+
+
+            log.Info("targetUrl = " + targetUrl);
+            log.Debug("data = " + data);
+            return DoPostOnURL(targetUrl, data);
+        }
 
         public bool Submit(string ip)
         {

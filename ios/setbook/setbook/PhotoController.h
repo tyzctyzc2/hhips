@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyBaseViewController.h"
 @import AVFoundation;
 
-@interface PhotoController : UIViewController {
+@interface PhotoController : MyBaseViewController {
     AVCaptureSession *session;
     AVCaptureConnection *connection;
     AVCaptureStillImageOutputInternal *imageOutput;
@@ -17,14 +18,9 @@
     AVCapturePhotoOutput *_avCaptureOutput;
     AVCaptureStillImageOutput *_avStillCaptureOutput;
     
-    NSString *_myProbelmID;
-    NSString *_myPaperProblemID;
     NSString *imageString;
     
 }
-@property int timerTicks;
-@property NSString *myProbelmID;
-@property NSString *myPaperProblemID;
 @property (retain, nonatomic) AVCaptureVideoPreviewLayer *preview_layer;    
 
 @property (weak, nonatomic) IBOutlet UIImageView *previewImage;

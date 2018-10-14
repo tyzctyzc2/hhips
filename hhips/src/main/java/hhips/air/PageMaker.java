@@ -32,11 +32,9 @@ public class PageMaker {
 		model.addAttribute("after", beforeAndAfter.getValue());
 
 		Map<String, Object> root = new HashMap<String, Object>();
-		root.put("chapername", chapterName);
-		model.addAttribute("chapername", chapterName);
+		model.addAttribute("chaptername", chapterName);
 		model.addAttribute("chapterindex", cp.getSourcechapterindex());
-		root.put("chaperid", chapterID);
-		model.addAttribute("chaperid", chapterID);
+		model.addAttribute("chapterid", chapterID);
 		List<ProblemWithLastWork> problems = myDBProblem.getProblemWithLastWorkByCharpter(chp.getIdsourcechapter());
 		root.put("problems", problems);
 		model.addAttribute("problems", problems);

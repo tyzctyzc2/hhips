@@ -63,6 +63,8 @@ namespace CaptureAir
             comboBox_module.Items.Add("4-几何");
             comboBox_module.Items.Add("5-逻辑");
             comboBox_module.Items.Add("6-数论");
+            comboBox_module.Items.Add("10-语文");
+            comboBox_module.Items.Add("20-english");
             comboBox_module.SelectedIndex = 0;
 
             for (int i = 1; i < 9; ++i)
@@ -71,19 +73,19 @@ namespace CaptureAir
                 comboBox_index.Items.Add("L" + i.ToString()+"L");
             }
 
-            for (int i = 1; i < 35; ++i)
+            for (int i = 1; i < 41; ++i)
             {
                 comboBox_index.Items.Add(i.ToString().PadLeft(2, '0'));
             }
 
             for (int i = 1; i < 15; ++i)
             {
-                comboBox_index.Items.Add("T" + i.ToString());
+                comboBox_index.Items.Add("T" + i.ToString().PadLeft(2, '0'));
             }
 
             for (int i = 1; i < 9; ++i)
             {
-                comboBox_index.Items.Add("C" + i.ToString());
+                comboBox_index.Items.Add("C" + i.ToString().PadLeft(2, '0'));
             }
 
             for (int i = 1; i < 11; ++i)
@@ -144,6 +146,9 @@ namespace CaptureAir
                 case 'E':
                     myMainWin.button_submit_Click(null, null);
                     break;
+                case 'R':
+                    myMainWin.button_update_Click(null, null);
+                    break;
                 default:
                     break;
             }
@@ -174,7 +179,7 @@ namespace CaptureAir
 
         private void IniSubmitter()
         {
-            radioButton3.Checked = true;
+            radioButton2.Checked = true;
             mySubmitter.problemlevel = GetLevel();
         }
 
@@ -189,6 +194,63 @@ namespace CaptureAir
             else
                 return 4;
         }
+
+        private void button_index_add_Click(object sender, EventArgs e)
+        {
+            int ii = this.comboBox_index.SelectedIndex;
+
+            ii++;
+            try
+            {
+                this.comboBox_index.SelectedIndex = ii;
+            }
+            catch
+            {
+            }
+        }
+
+        private void button_index_sub_Click(object sender, EventArgs e)
+        {
+            int ii = this.comboBox_index.SelectedIndex;
+
+            ii--;
+            if (ii > -1)
+                this.comboBox_index.SelectedIndex = ii;
+        }
+
+        private void button_chapterid_add_Click(object sender, EventArgs e)
+        {
+            string tt = this.textBoxChapterID.Text;
+            try
+            {
+                int ii = Int32.Parse(tt);
+                if (ii > 0)
+                {
+                    ii++;
+                    this.textBoxChapterID.Text = ii.ToString();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void button_chapterid_sub_Click(object sender, EventArgs e)
+        {
+            string tt = this.textBoxChapterID.Text;
+            try
+            {
+                int ii = Int32.Parse(tt);
+                if (ii > 0)
+                {
+                    ii--;
+                    this.textBoxChapterID.Text = ii.ToString();
+                }
+            }
+            catch
+            {
+            }
+        }  
 
         void afterCaptureDone()
         {
@@ -445,16 +507,31 @@ namespace CaptureAir
             }
         }
 
+        private void button_update_Click(object sender, EventArgs e)
+        {
+            grabData();
+
+            mySubmitter.idproblem = this.textBox_idproblem.Text;
+            
+            string ip = this.textBoxIP.Text;
+            System.Diagnostics.Debug.WriteLine(ip);
+
+            if (mySubmitter.Update(ip) == true)
+            {
+                var item = new NotifyIcon(this.components);
+                item.Visible = true;
+                item.Icon = System.Drawing.SystemIcons.Information;
+                item.ShowBalloonTip(3000, "Problem updated!", "Problem updated!", ToolTipIcon.Info);
+
+                //reset all for next submit
+                mySubmitter = new ProblemSubmitter();
+            }
+
+        }
+
         private void button_submit_Click(object sender, EventArgs e)
         {
-            //grab value first
-            string module = comboBox_module.SelectedItem.ToString().Substring(0, 1);
-            mySubmitter.problemmodule = module;
-            mySubmitter.problemlevel = GetLevel();
-            mySubmitter.problemindex = comboBox_index.SelectedItem.ToString();
-            mySubmitter.problemchapterid = this.textBoxChapterID.Text;
-            mySubmitter.problemdetail = myPreviewForm.GetPictureAString();
-            mySubmitter.problemanswerdetail = myPreviewForm.GetPictureBString();
+            grabData();
 
             if (mySubmitter.problemanswerdetail == null)
             {
@@ -487,12 +564,33 @@ namespace CaptureAir
                     
                 }
 
-                
-
                 //reset all for next submit
                 mySubmitter = new ProblemSubmitter();
             }
 
+        }
+
+        private void grabData()
+        {
+            //grab value first
+            int pos = comboBox_module.SelectedItem.ToString().IndexOf("-");
+            string module = comboBox_module.SelectedItem.ToString().Substring(0, pos);
+            mySubmitter.problemmodule = module;
+            mySubmitter.problemlevel = GetLevel();
+            mySubmitter.problemindex = comboBox_index.SelectedItem.ToString();
+            mySubmitter.problemchapterid = this.textBoxChapterID.Text;
+            mySubmitter.problemdetail = myPreviewForm.GetPictureAString();
+            mySubmitter.problemdetailb = myPreviewForm.GetPictureA2String();
+            mySubmitter.problemdetailc = myPreviewForm.GetPictureA3String();
+            mySubmitter.problemanswerdetail = myPreviewForm.GetPictureBString();
+        }
+
+        private void button_reset_Click(object sender, EventArgs e)
+        {
+            this.myPreviewForm.SetPictureA(null);
+            this.myPreviewForm.SetPictureB(null);
+            this.myPreviewForm.SetPictureA2(null);
+            this.myPreviewForm.SetPictureA3(null);
         }
 
         private void button_copyP_Click(object sender, EventArgs e)
@@ -522,7 +620,6 @@ namespace CaptureAir
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();  
-
+        static extern bool AllocConsole();        
     }
 }

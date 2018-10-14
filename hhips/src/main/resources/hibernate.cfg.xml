@@ -38,6 +38,8 @@
       <mapping class="db.TagByProblem" />
       <mapping class="db.TagProblemTable" />
       <mapping class="life.TimeCounterLookup" />
+      <mapping class="life.TimeCounterDetail" />
+      <mapping class="db.ChapterNote" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

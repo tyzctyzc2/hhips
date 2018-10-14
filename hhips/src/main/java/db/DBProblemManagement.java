@@ -16,7 +16,9 @@ import org.json.JSONObject;
 
 import db.Chapter.ChapterColumnName;
 import db.Work.WorkColumnName;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DBProblemManagement {
 
 	public DBProblemManagement() {

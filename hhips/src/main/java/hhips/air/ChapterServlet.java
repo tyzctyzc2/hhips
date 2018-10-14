@@ -3,17 +3,24 @@ package hhips.air;
 import db.Chapter;
 import db.DBProblem;
 import db.DBProblemManagement;
+import db.SourceChapterSummary;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uti.StringHelper;
 
+import java.util.List;
+
 @Controller
 //@RequestMapping("/hhipsair")
 public class ChapterServlet {
+    @Autowired
+    DBProblemManagement dbProblemManagement;
+
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ChapterServlet.class);
     @GetMapping("/Chapter")
     public String processChapterGet(Model model, @RequestParam(value="sourceid", required=false, defaultValue="") String sourceid,
@@ -28,6 +35,12 @@ public class ChapterServlet {
             return getChapterProblems(model, chapterid);
 
         return "error";
+    }
+
+    @GetMapping("/chapter/insource")
+    @ResponseBody
+    public List<SourceChapterSummary> getChapterListInSource(@RequestParam(value="sourceid", required=true, defaultValue="1") Integer sourceid) {
+        return dbProblemManagement.getChapterSummaryList(sourceid);
     }
 
     private String getChapterProblems(Model model, String chapterIDString) {

@@ -8,7 +8,6 @@
 
 #import "PuzzleController.h"
 #import "PhotoController.h"
-#import "ViewController.h"
 #import "HttpHelper.h"
 #import "AppDelegate.h"
 #import <AudioToolbox/AudioToolbox.h>
@@ -61,7 +60,10 @@
     self.cancelButton.layer.cornerRadius=16.0f;
     
     notAlarm = false;
-   
+}
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return YES;
 }
 
 -(void) viewWillDisappear:(BOOL)animated{
@@ -85,8 +87,11 @@
 }
 
 - (void)getActiveProblemInPaper {
+    if ([super getPaperID] == nil) {
+        return;
+    }
     HttpHelper *httpH = [HttpHelper new];
-    NSString *res = [httpH getNextActiveProblemInPaper:wantPaperId];
+    NSString *res = [httpH getNextActiveProblemInPaper:[super getPaperID]];
     //NSLog(res);
     
     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
@@ -159,10 +164,6 @@
      
      self.problemImg.image = ret;
 }
-- (IBAction)buttonTouch:(id)sender {
-    NSLog(@"touch uppppp");
-    
-}
 
 -(void)myTicker{
     //increment the timer
@@ -203,16 +204,9 @@
 }
 
 - (IBAction)puzzleDoneTouch:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Photo" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Photo"];
-    PhotoController *pc = (PhotoController *)vc;
-    pc.myProbelmID=myProbelmID;
-    pc.myPaperProblemID = myPaperProblemID;
-    pc.timerTicks = timeTick;
-    
-    
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:NULL];
+    [super setProblemId:myProbelmID];
+    [super setPaperProblemId:myPaperProblemID];
+    [super setPassTicks:timeTick];
 }
 
 

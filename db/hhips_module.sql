@@ -26,7 +26,7 @@ CREATE TABLE `module` (
   `idmodule` int(11) NOT NULL AUTO_INCREMENT,
   `modulename` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idmodule`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `module` (
 
 LOCK TABLES `module` WRITE;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'计算'),(2,'计数'),(3,'应用题'),(4,'几何'),(5,'逻辑'),(6,'数论'),(10,'语文');
+INSERT INTO `module` VALUES (1,'计算'),(2,'计数'),(3,'应用题'),(4,'几何'),(5,'逻辑'),(6,'数论'),(10,'语文'),(20,'english');
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-15 18:03:07
+-- Dump completed on 2018-10-07  7:41:46

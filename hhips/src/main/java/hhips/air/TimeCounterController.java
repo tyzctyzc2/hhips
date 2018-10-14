@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uti.FileHelper;
@@ -43,5 +44,17 @@ public class TimeCounterController {
         ll.setTimecounterimage(FileHelper.getBase64String(ll.getTimecounterimage()));
 
         return  ll.toString();
+    }
+
+    @PostMapping("/life/newdetail")
+    public @ResponseBody
+    String saveCounterDetail(Model model, @RequestParam(value="idtimecounterlookup", required=true) Integer idtimecounterlookup,
+                             @RequestParam(value="timecountevalue", required=true) Integer timecountevalue) {
+        logger.info("TimeCounterController - post saveCounterDetail !");
+
+        DBTimeLookup dbTimer = new DBTimeLookup();
+        dbTimer.createNewTimeLookupValue(idtimecounterlookup, timecountevalue);
+
+        return  "1";
     }
 }

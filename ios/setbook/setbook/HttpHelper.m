@@ -71,6 +71,7 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
     NSString *baseAddress = [NSString stringWithFormat:baseUrl ,address];
     NSString *fullUrl = [NSString stringWithFormat:@"%@%@", baseAddress ,url];
+    NSLog(fullUrl);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[NSURL
                                                  URLWithString:fullUrl]];

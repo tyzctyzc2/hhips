@@ -21,6 +21,11 @@
 								</a>
 							</td>
 							<td>
+                                <a href="./note?chapterid=${chapters[i].idsourcechapter?c}" style="text-decoration: none">
+                                    <p>笔记(${chapters[i].chapternotecount})</p>
+                                </a>
+                            </td>
+							<td>
                                 <p>${chapters[i].chapterproblemcount}</p>
                             </td>
 						</tr>	

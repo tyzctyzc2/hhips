@@ -9,7 +9,6 @@
 #import "PaperSelectController.h"
 #import "MyBaseViewController.h"
 #import "HttpHelper.h"
-#import "ViewController.h"
 
 @interface PaperSelectController () {
     NSString *idpapers[5];
@@ -51,6 +50,10 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     //NSLog(@"PaperSelectController supportedInterfaceOrientations");
     return UIInterfaceOrientationMaskLandscapeRight;
+}
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return YES;
 }
 
 - (void)getActivePaper {
@@ -148,8 +151,8 @@
 
 - (UIViewController *)updateMainPaperID:(NSString *)paperID {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-    ViewController *mv = (ViewController *)vc;
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Study"];
+    MyBaseViewController *mv = (MyBaseViewController *)vc;
     [mv setPaperID:paperID];
     return vc;
 }
@@ -157,14 +160,14 @@
 -(void)paperPicked:(NSString *) paperID {
     [self updateMainPaperID:paperID];
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
+    /*UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
      UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Puzzle"];
      vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
     MyBaseViewController *pc = (MyBaseViewController *)vc;
     [pc setPaperID:paperID];
-    
-     [self presentViewController:vc animated:YES completion:NULL];
+    [self presentViewController:vc animated:YES completion:NULL];*/
+    //[self switchToMain];
     
 }
 

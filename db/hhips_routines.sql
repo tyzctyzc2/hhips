@@ -73,6 +73,8 @@ SET character_set_client = utf8;
  1 AS `problemanswerstring`,
  1 AS `problemcisactive`,
  1 AS `problemdetail`,
+ 1 AS `problemdetailb`,
+ 1 AS `problemdetailc`,
  1 AS `problemindex`,
  1 AS `problemlevel`,
  1 AS `problemmodule`,
@@ -109,6 +111,8 @@ SET character_set_client = utf8;
  1 AS `idproblem`,
  1 AS `problemlevel`,
  1 AS `problemdetail`,
+ 1 AS `problemdetailb`,
+ 1 AS `problemdetailc`,
  1 AS `problemchapterid`,
  1 AS `problemindex`,
  1 AS `problemmodule`,
@@ -261,7 +265,8 @@ SET character_set_client = utf8;
  1 AS `sourceid`,
  1 AS `sourcechapterindex`,
  1 AS `sourcechaptername`,
- 1 AS `chapterproblemcount`*/;
+ 1 AS `chapterproblemcount`,
+ 1 AS `chapternotecount`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -313,7 +318,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_chapterproblemwithlastwork` AS select `m`.`modulename` AS `modulename`,`w`.`idwork` AS `idwork`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdate` AS `workdate`,`w`.`workmark` AS `workmark`,`w`.`workdetail` AS `workdetail`,`w`.`reason` AS `reason`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`idproblem` AS `idproblem`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemindex` AS `problemindex`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemmodule` AS `problemmodule`,round((`s`.`problemtotalusetime` / 60),0) AS `problemtotalusetime`,`s`.`problemtotalworktime` AS `problemtotalworktime`,round(((`s`.`problemtotalusetime` - `w`.`usedtime`) / 60),0) AS `oldusedtime` from (((`problem` `p` join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) join `v_problem_chapersummary` `s` on((`p`.`idproblem` = `s`.`idproblem`))) left join `work` `w` on((`w`.`idwork` = (select `w2`.`idwork` from `work` `w2` where (`w2`.`idproblem` = `p`.`idproblem`) order by `w2`.`workdate` desc limit 1)))) */;
+/*!50001 VIEW `v_chapterproblemwithlastwork` AS select `m`.`modulename` AS `modulename`,`w`.`idwork` AS `idwork`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workdate` AS `workdate`,`w`.`workmark` AS `workmark`,`w`.`workdetail` AS `workdetail`,`w`.`reason` AS `reason`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`idproblem` AS `idproblem`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemdetailb` AS `problemdetailb`,`p`.`problemdetailc` AS `problemdetailc`,`p`.`problemindex` AS `problemindex`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemmodule` AS `problemmodule`,round((`s`.`problemtotalusetime` / 60),0) AS `problemtotalusetime`,`s`.`problemtotalworktime` AS `problemtotalworktime`,round(((`s`.`problemtotalusetime` - `w`.`usedtime`) / 60),0) AS `oldusedtime` from (((`problem` `p` join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) join `v_problem_chapersummary` `s` on((`p`.`idproblem` = `s`.`idproblem`))) left join `work` `w` on((`w`.`idwork` = (select `w2`.`idwork` from `work` `w2` where (`w2`.`idproblem` = `p`.`idproblem`) order by `w2`.`workdate` desc limit 1)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -349,7 +354,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_paperproblem` AS select `p`.`idproblem` AS `idproblem`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`problemindex` AS `problemindex`,`p`.`problemmodule` AS `problemmodule`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`pp`.`problemstatus` AS `problemstatus`,`pp`.`paperproblemid` AS `paperproblemid`,`per`.`idpaper` AS `idpaper`,`per`.`isactive` AS `isactive`,`per`.`papername` AS `papername`,`w`.`idwork` AS `idwork`,`w`.`workdetail` AS `workdetail`,`w`.`reason` AS `reason`,`w`.`idstarreason` AS `idstarreason`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workmark` AS `workmark`,`w`.`workdate` AS `workdate`,`m`.`modulename` AS `modulename` from ((((`paperproblem` `pp` join `problem` `p` on((`pp`.`problemid` = `p`.`idproblem`))) join `paper` `per` on((`pp`.`paperid` = `per`.`idpaper`))) left join `work` `w` on((`pp`.`idwork` = `w`.`idwork`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) */;
+/*!50001 VIEW `v_paperproblem` AS select `p`.`idproblem` AS `idproblem`,`p`.`problemlevel` AS `problemlevel`,`p`.`problemdetail` AS `problemdetail`,`p`.`problemdetailb` AS `problemdetailb`,`p`.`problemdetailc` AS `problemdetailc`,`p`.`problemchapterid` AS `problemchapterid`,`p`.`problemindex` AS `problemindex`,`p`.`problemmodule` AS `problemmodule`,`p`.`problemcisactive` AS `problemcisactive`,`p`.`problemanswerstring` AS `problemanswerstring`,`p`.`problemanswerdetail` AS `problemanswerdetail`,`pp`.`problemstatus` AS `problemstatus`,`pp`.`paperproblemid` AS `paperproblemid`,`per`.`idpaper` AS `idpaper`,`per`.`isactive` AS `isactive`,`per`.`papername` AS `papername`,`w`.`idwork` AS `idwork`,`w`.`workdetail` AS `workdetail`,`w`.`reason` AS `reason`,`w`.`idstarreason` AS `idstarreason`,round((`w`.`usedtime` / 60),0) AS `usedtime`,`w`.`workmark` AS `workmark`,`w`.`workdate` AS `workdate`,`m`.`modulename` AS `modulename` from ((((`paperproblem` `pp` join `problem` `p` on((`pp`.`problemid` = `p`.`idproblem`))) join `paper` `per` on((`pp`.`paperid` = `per`.`idpaper`))) left join `work` `w` on((`pp`.`idwork` = `w`.`idwork`))) join `module` `m` on((`p`.`problemmodule` = `m`.`idmodule`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -475,10 +480,14 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_chaptersummary` AS select `c`.`idsourcechapter` AS `idsourcechapter`,`c`.`sourceid` AS `sourceid`,`c`.`sourcechapterindex` AS `sourcechapterindex`,`c`.`sourcechaptername` AS `sourcechaptername`,count(`p`.`idproblem`) AS `chapterproblemcount` from (`sourcechapter` `c` left join `problem` `p` on((`p`.`problemchapterid` = `c`.`idsourcechapter`))) group by `c`.`idsourcechapter`,`c`.`sourcechapterindex`,`c`.`sourcechaptername`,`c`.`sourceid` order by `c`.`sourcechapterindex` */;
+/*!50001 VIEW `v_chaptersummary` AS select `c`.`idsourcechapter` AS `idsourcechapter`,`c`.`sourceid` AS `sourceid`,`c`.`sourcechapterindex` AS `sourcechapterindex`,`c`.`sourcechaptername` AS `sourcechaptername`,count(distinct `p`.`idproblem`) AS `chapterproblemcount`,count(distinct `cn`.`idchapternote`) AS `chapternotecount` from ((`sourcechapter` `c` left join `problem` `p` on((`p`.`problemchapterid` = `c`.`idsourcechapter`))) left join `chapternote` `cn` on((`p`.`problemchapterid` = `cn`.`idsourcechapter`))) group by `c`.`idsourcechapter`,`c`.`sourcechapterindex`,`c`.`sourcechaptername`,`c`.`sourceid`,`cn`.`idsourcechapter` order by `c`.`sourcechapterindex` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Dumping routines for database 'hhips'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -489,4 +498,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-15 18:03:08
+-- Dump completed on 2018-10-07  7:41:47

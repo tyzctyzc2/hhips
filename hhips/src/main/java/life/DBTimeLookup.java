@@ -1,14 +1,41 @@
 package life;
 
 import db.HibernateUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 public class DBTimeLookup {
+    public int createNewTimeLookupValue(int idtimecounterlookup, int value) {
+        TimeCounterDetail tcd = new TimeCounterDetail();
+        tcd.setIdtimecounterlookup(idtimecounterlookup);
+        tcd.setTimecountertime(new Date());
+        tcd.setTimecountevalue(value);
+
+        Session session = HibernateUtils.openCurrentSession();
+        Transaction tx = null;
+        int nId = 0;
+
+        try {
+            tx = session.beginTransaction();
+            nId = (Integer) session.save(tcd);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return nId;
+    }
+
     public TimeCounterLookup getTimeCounterLookup(int idtimecounterlookup) {
         Session session = HibernateUtils.openCurrentSession();
 

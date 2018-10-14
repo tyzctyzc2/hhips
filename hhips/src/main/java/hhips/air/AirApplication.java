@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 import static java.util.Locale.ROOT;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"report","hhips.air","db"})
 public class AirApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {

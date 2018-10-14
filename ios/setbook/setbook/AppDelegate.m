@@ -2,17 +2,13 @@
 //  AppDelegate.m
 //  setbook
 //
-//  Created by Steve Wang on 2018/3/28.
-//  Copyright © 2018年 Steve Wang. All rights reserved.
+//  Created by Steve Wang on 2018/10/1.
+//  Copyright © 2018 Steve Wang. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
-//#import "MyUINavigationController.h"
 
-@interface AppDelegate (){
-    //private NavigationController controller;
-}
+@interface AppDelegate ()
 
 @end
 
@@ -20,17 +16,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSLog(@"didFinishLaunchingWithOptions");
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-    
-    self.navController=[[UINavigationController alloc]initWithRootViewController:vc];
-    
-    //self.navController=[[MyUINavigationController alloc]initWithRootViewController:vc];
-    
-    [self.window setRootViewController: self.navController];
-    
+    // Override point for customization after application launch.
     return YES;
 }
 
@@ -44,7 +30,6 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    NSLog(@"applicationDidEnterBackground");
 }
 
 
@@ -55,8 +40,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
-    NSLog(@"applicationDidBecomeActive");
 }
 
 

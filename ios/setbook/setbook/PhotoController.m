@@ -20,9 +20,6 @@
 @end
 
 @implementation PhotoController
-- (void) setProblemID:(NSString *) _problemID {
-    self.myProbelmID = _problemID;
-}
 
 - (BOOL)shouldAutorotate {
     NSLog(@"PhotoController shouldAutorotate!!!!!!!!");// portrait
@@ -89,7 +86,7 @@
     photoTimeTick++;
     //if we wanted to count down we could have done "timeTick--"
     
-    int totalTimeTick = _timerTicks + photoTimeTick;
+    int totalTimeTick = [super getPassTicks] + photoTimeTick;
     
     //set a text label to display the time
     int mins,secs;
@@ -274,11 +271,11 @@
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         if(imageString != nil) {
-            int usedTime = _timerTicks;
+            int usedTime = [super getPassTicks];
             if (photoTimeTick > 120)
                 usedTime = usedTime + photoTimeTick;
             HttpHelper *httpH = [HttpHelper new];
-            Boolean suc = [httpH postProblemAnswer:_myProbelmID pID: imageString base64: _myPaperProblemID pPID: usedTime];
+            Boolean suc = [httpH postProblemAnswer:[super getProblemId] pID: imageString base64: [super getPaperProblemId] pPID: usedTime];
             
             if (suc) {
                 [self updateLabelMessage:@"Your answer is saved."];
@@ -289,10 +286,8 @@
                 self.photoButton.enabled = true;
                 return;
             }
-            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-            vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            [self presentViewController:vc animated:YES completion:NULL];
+            
+            [self.navigationController popToRootViewControllerAnimated:false];
         }
     }];
     [alertController addAction:cancelAction];

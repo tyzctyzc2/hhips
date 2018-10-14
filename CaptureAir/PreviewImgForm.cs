@@ -66,6 +66,8 @@ namespace CaptureAir
 
         public string GetPictureAString()
         {
+            if (this.pictureBoxA.Image == null)
+                return "";
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
                 this.pictureBoxA.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -100,6 +102,8 @@ namespace CaptureAir
 
         public string GetPictureBString()
         {
+            if (this.pictureBoxB.Image == null)
+                return "";
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
                 this.pictureBoxB.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);

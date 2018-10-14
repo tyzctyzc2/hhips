@@ -11,21 +11,62 @@
 
 @interface MyBaseViewController () {
     MyBaseViewController *controllerChain;
+    
+    UIImageView *tickerShowImg;
+    UIImageView *tickerHideImg;
+    
+    NSTimer *timer;
+    int timeTick;
+    int maxTick;
+    NSDate *startTime;
 }
 
 @end
 
 @implementation MyBaseViewController
+static NSString* wantPaperId = @"";
+static NSString* sProblemId = @"";
+static NSString* sPaperProblemId = @"";
+static int  sPassTicks = 0;
+
+-(void)updateToPicked:(NSString *)picked {
+    NSLog(@"base updateToPicked called");
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     NSString *cl =  NSStringFromClass([self class]);
-    NSLog(@"viewWillAppear%@", cl);
+    NSLog(@"viewWillAppear -- %@", cl);
+    
+    maxTick = 5;
 }
 
 - (void)setPaperID:(NSString *)paperID {
     wantPaperId = paperID;
+}
+-(NSString *)getPaperID {
+    return wantPaperId;
+}
+- (void)setProblemId:(NSString *)problemId {
+    sProblemId = problemId;
+}
+- (NSString *)getProblemId {
+    return sProblemId;
+}
+
+- (void)setPaperProblemId:(NSString *)paperProblemId {
+    sPaperProblemId = paperProblemId;
+}
+- (NSString *)getPaperProblemId {
+    return sPaperProblemId;
+}
+
+- (void)setPassTicks:(int)passTicks {
+    sPassTicks = passTicks;
+}
+- (int)getPassTicks {
+    return sPassTicks;
 }
 
 - (void)beautyButton:(UIButton *)button {
@@ -67,10 +108,39 @@
 }
 
 - (void) switchToMain {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:NO completion:NULL];
+    //[self dismissViewControllerAnimated:false completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:false];
+}
+
+- (void)showFlashImage:(UIImageView *)image2Show :(UIImageView *)image2Hide {
+    if (image2Hide != nil) {
+        image2Hide.hidden = true;
+    }
+    tickerShowImg = image2Show;
+    tickerHideImg = image2Hide;
+    image2Show.hidden = false;
+    startTime = [NSDate date];
+    
+    timeTick = 0;
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(showImageTicker) userInfo:nil repeats:YES];
+    [timer fire];
+}
+
+-(void)showImageTicker{
+    NSDate *curDate = [NSDate date];
+    NSTimeInterval dif = [curDate timeIntervalSinceDate:startTime];
+    timeTick = (int) lroundf(dif);
+    
+    if (timeTick > maxTick) {
+        tickerShowImg.hidden = true;
+        tickerShowImg = nil;
+        if (tickerHideImg !=nil) {
+            tickerHideImg.hidden = false;
+            tickerHideImg = nil;
+        }
+        [timer invalidate];
+    }
+    
 }
 
 @end

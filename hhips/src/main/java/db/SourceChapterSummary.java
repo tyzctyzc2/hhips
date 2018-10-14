@@ -15,6 +15,16 @@ public class SourceChapterSummary {
 
     private Integer chapterproblemcount;
 
+    public Integer getChapternotecount() {
+        return chapternotecount;
+    }
+
+    public void setChapternotecount(Integer chapternotecount) {
+        this.chapternotecount = chapternotecount;
+    }
+
+    private  Integer chapternotecount;
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer idsourcechapter;
