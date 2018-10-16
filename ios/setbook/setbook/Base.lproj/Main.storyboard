@@ -52,7 +52,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXJ-wc-Jhg">
-                                <rect key="frame" x="55" y="673" width="100" height="60"/>
+                                <rect key="frame" x="55" y="623" width="100" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="8VJ-kW-hzR"/>
                                     <constraint firstAttribute="width" constant="100" id="AFm-aI-qqW"/>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start" translatesAutoresizingMaskIntoConstraints="NO" id="idl-87-E1g">
-                                <rect key="frame" x="466" y="120" width="92" height="128"/>
+                                <rect key="frame" x="466" y="170" width="92" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="88x-E2-kIv"/>
                                     <constraint firstAttribute="width" constant="92" id="8py-ke-Rag"/>
@@ -132,7 +132,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Qf4-WV-8Nu"/>
                     </view>
-                    <navigationItem key="navigationItem" id="DZ2-ts-ij4"/>
+                    <navigationItem key="navigationItem" id="DZ2-ts-ij4">
+                        <barButtonItem key="rightBarButtonItem" title="    +    " id="ehp-eA-w92"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="JVC-HF-xXY" kind="show" identifier="zoom" id="FiG-RE-BOE"/>
                     </connections>
@@ -145,26 +147,24 @@
         <scene sceneID="edE-YJ-OjV">
             <objects>
                 <viewController id="JVC-HF-xXY" customClass="ZoomViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="yo9-HJ-kF4">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="8nK-0m-LPW">
                         <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nMd-VD-uNn">
-                                <rect key="frame" x="0.0" y="138" width="703.5" height="425"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="nMd-VD-uNn" secondAttribute="height" multiplier="118:85" id="z1x-Jd-ShJ"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Igt-x1-dl5">
+                                <rect key="frame" x="0.0" y="113" width="703.5" height="128"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gCp-L9-A7B" firstAttribute="trailing" secondItem="nMd-VD-uNn" secondAttribute="trailing" id="CVw-1q-jUw"/>
-                            <constraint firstItem="nMd-VD-uNn" firstAttribute="leading" secondItem="gCp-L9-A7B" secondAttribute="leading" id="Lkm-9i-fXR"/>
+                            <constraint firstItem="Igt-x1-dl5" firstAttribute="centerX" secondItem="8nK-0m-LPW" secondAttribute="centerX" id="Bnz-Xz-9ZJ"/>
+                            <constraint firstItem="1Gj-NT-Pn3" firstAttribute="trailing" secondItem="Igt-x1-dl5" secondAttribute="trailing" id="knM-hj-lCz"/>
+                            <constraint firstItem="Igt-x1-dl5" firstAttribute="centerY" secondItem="8nK-0m-LPW" secondAttribute="centerY" id="lVJ-OA-9MA"/>
+                            <constraint firstItem="Igt-x1-dl5" firstAttribute="leading" secondItem="1Gj-NT-Pn3" secondAttribute="leading" id="mrB-Ko-DMm"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="gCp-L9-A7B"/>
-                    </view>
+                        <viewLayoutGuide key="safeArea" id="1Gj-NT-Pn3"/>
+                    </scrollView>
                     <connections>
-                        <outlet property="mainImage" destination="nMd-VD-uNn" id="fxv-oV-DNm"/>
+                        <outlet property="mainImage" destination="Igt-x1-dl5" id="GBY-a2-sx0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ma4-Rw-Ojv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -466,6 +466,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="e4H-83-ASh"/>
-        <segue reference="RyL-nA-etj"/>
+        <segue reference="Cht-Gf-eMX"/>
     </inferredMetricsTieBreakers>
 </document>

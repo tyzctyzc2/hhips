@@ -10,9 +10,10 @@
 #import "HttpHelper.h"
 #import "MyDataStatic.h"
 
-@interface ZoomViewController ()
+@interface ZoomViewController (){
+    UISwipeGestureRecognizer *rightSwipe, *leftSwipe;
+}
 @property (nonatomic, strong) IBOutlet UIImageView *mainImage;
-
 
 @end
 
@@ -21,6 +22,25 @@
 -(void) viewDidLoad {
     self.dataStatic = [[MyDataStatic alloc] init];
     
+    leftSwipe = [[UISwipeGestureRecognizer alloc ]initWithTarget:self action:@selector(handleRightSwipe:)];
+    
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    
+    [self.mainImage addGestureRecognizer:leftSwipe];
+    
+    rightSwipe = [[UISwipeGestureRecognizer alloc ]initWithTarget:self action:@selector(handleLeftSwipe:)];
+    
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    
+    [self.mainImage addGestureRecognizer:rightSwipe];
+}
+
+- (void)handleRightSwipe:(UISwipeGestureRecognizer *)swipeGesture {
+    NSLog(@"swip to right");
+}
+
+- (void)handleLeftSwipe:(UISwipeGestureRecognizer *)swipeGesture {
+    NSLog(@"swip to left");
 }
 
 -(void) viewWillAppear:(BOOL)animated {
