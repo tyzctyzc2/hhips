@@ -8,17 +8,14 @@
 
 #import "PaperSelectController.h"
 #import "MyBaseViewController.h"
+#import "MyDataStatic.h"
 #import "HttpHelper.h"
 
 @interface PaperSelectController () {
     NSString *idpapers[5];
+    MyDataStatic *dataStaticM;
 }
 
-@property (strong, nonatomic) IBOutlet UIButton *aButton;
-@property (strong, nonatomic) IBOutlet UIButton *bButton;
-@property (strong, nonatomic) IBOutlet UIButton *cButton;
-@property (strong, nonatomic) IBOutlet UIButton *dButton;
-@property (strong, nonatomic) IBOutlet UIButton *eButton;
 @end
 
 @implementation PaperSelectController
@@ -29,12 +26,8 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [self getActivePaper];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    [super beautyButton:_aButton];
-    [super beautyButton:_bButton];
-    [super beautyButton:_cButton];
-    [super beautyButton:_dButton];
-    [super beautyButton:_eButton];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
@@ -59,11 +52,6 @@
 - (void)getActivePaper {
     HttpHelper *httpH = [HttpHelper new];
     NSString *res = [httpH getActivePaper];
-    [_aButton setHidden:true];
-    [_bButton setHidden:true];
-    [_cButton setHidden:true];
-    [_dButton setHidden:true];
-    [_eButton setHidden:true];
     
     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -74,6 +62,11 @@
         NSLog(@"Error parsing JSON: %@", e);
     } else {
         int i = 0;
+        CGFloat xPos = 100;
+        CGFloat buttonWidth = UIScreen.mainScreen.bounds.size.width - xPos * 2;
+        CGFloat buttonHight = 80;
+        CGFloat buttonSlot = 30;
+        
         for(NSString *item in jsonArray) {
             NSLog(@"Item: %@", item);
             
@@ -84,69 +77,37 @@
             NSString *name = [jsonObject valueForKey:@"papername"];
             id _Nullable ppid =[jsonObject valueForKey:@"idpaper"];
             NSString *myID = [NSString stringWithFormat:@"%@", ppid];
-            idpapers[i] = myID;
+            //idpapers[i] = myID;
             i++;
-            switch (i) {
-                case 1:
-                    [_aButton setTitle:name forState:UIControlStateNormal];
-                    [_aButton setHidden:false];
-                    break;
-                    
-                case 2:
-                    [_bButton setTitle:name forState:UIControlStateNormal];
-                    [_bButton setHidden:false];
-                    break;
-                    
-                case 3:
-                    [_cButton setTitle:name forState:UIControlStateNormal];
-                    [_cButton setHidden:false];
-                    break;
-                    
-                case 4:
-                    [_dButton setTitle:name forState:UIControlStateNormal];
-                    [_dButton setHidden:false];
-                    break;
-                    
-                case 5:
-                    [_eButton setTitle:name forState:UIControlStateNormal];
-                    [_eButton setHidden:false];
-                    break;
-                    
-                default:
-                    break;
-            }
+            
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+            [btn setTitle:name forState:UIControlStateNormal];
+            CGRect      buttonFrame = btn.frame;
+            buttonFrame.size = CGSizeMake(buttonWidth, buttonHight);
+            buttonFrame.origin = CGPointMake(xPos, buttonSlot + (i-1)*(buttonSlot+buttonHight));
+            [btn setFrame:buttonFrame];
+            
+            [btn setTag:[myID intValue]];
+            [btn addTarget:self action:@selector(paperPressed:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:btn];
+            [super beautyButton:btn];
         }
+        
+        CGSize ff = CGSizeMake(UIScreen.mainScreen.bounds.size.width, i*(buttonSlot+buttonHight) + buttonSlot);
+        UIScrollView *vv = (UIScrollView *)self.view;
+        [vv setContentSize:ff];
     }
     
 }
 
-- (IBAction)buttonATouch:(id)sender {
-    NSLog(@"touch buttonATouch");
-    [self paperPicked:idpapers[0]];
-}
-
-- (IBAction)buttonBTouch:(id)sender {
-    NSLog(@"touch buttonBTouch");
-    [self paperPicked:idpapers[1]];
-    
-}
-
-- (IBAction)buttonCTouch:(id)sender {
-    NSLog(@"touch buttonCTouch");
-    [self paperPicked:idpapers[2]];
-    
-}
-
-- (IBAction)buttonDTouch:(id)sender {
-    NSLog(@"touch buttonDTouch");
-    [self paperPicked:idpapers[3]];
-    
-}
-
-- (IBAction)buttonETouch:(id)sender {
-    NSLog(@"touch buttonETouch");
-    [self paperPicked:idpapers[4]];
-    
+- (IBAction)paperPressed:(UIButton *)sender {
+    //will switch to next controller
+    NSLog(@"%d----", sender.tag);
+    NSString *myID = [NSString stringWithFormat:@"%d", sender.tag];
+    MyBaseViewController *bv = [[MyBaseViewController alloc] init];
+    [bv setPaperID:myID];
+    [self performSegueWithIdentifier:@"problem" sender:self];
 }
 
 - (UIViewController *)updateMainPaperID:(NSString *)paperID {
@@ -159,15 +120,6 @@
 
 -(void)paperPicked:(NSString *) paperID {
     [self updateMainPaperID:paperID];
-    
-    /*UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Puzzle" bundle:nil];
-     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Puzzle"];
-     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    
-    MyBaseViewController *pc = (MyBaseViewController *)vc;
-    [pc setPaperID:paperID];
-    [self presentViewController:vc animated:YES completion:NULL];*/
-    //[self switchToMain];
     
 }
 

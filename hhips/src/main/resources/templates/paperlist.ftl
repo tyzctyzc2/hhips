@@ -7,7 +7,6 @@
 </head>
 	<body>
 		<#include "/header.ftl">
-		
 		<#if paperlength != -1>
 			<table class="dmmtable" style="font-size:  x-large;">
 					<#list 0..paperlength as i>
@@ -74,11 +73,17 @@
 					</#list>
 			</table>
 		</#if>
+		<div align="right">
+            <a href="./Problem?paperid=-2" style="text-decoration: none">
+                <p>历史卷</p>
+            </a>
+        </div>
 		<br>
 		</br>
 		<p>New Paper:</p>
 		<input class="bigFont" type="text" id="papername" />
 		<button class="bigFont" type="button" onclick="postPaper()">Create Paper</button>
+
 	</body>
 	<script>
 		function postPaper() {

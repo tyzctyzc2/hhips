@@ -18,6 +18,8 @@ static MyBaseViewController *sHookedController;
 static NSString *sChapterId;
 static NSNumber *sPickedNoteId;
 static NSMutableDictionary *notesImgMap;
+static int allNotesId[1000];
+static int notesCount;
 
 -(void) setHookedController:(MyBaseViewController *)_controller {
     sHookedController = _controller;
@@ -49,13 +51,34 @@ static NSMutableDictionary *notesImgMap;
     }
     
     notesImgMap[@(noteId)] = img;
+    allNotesId[notesCount] = noteId;
+    notesCount++;
 }
-
 -(UIImage *)getNoteMap:(int)noteId {
     return notesImgMap[@(noteId)];
 }
-
 -(void)clearNoteMap {
+    notesImgMap = [NSMutableDictionary dictionary];
+    notesCount = 0;
+}
+-(BOOL) moveToNextNote {
+    if (notesCount == 1)
+        return false;
     
+    for(int i = 0; i < notesCount; ++i) {
+        if (allNotesId[i] == sPickedNoteId.intValue) {
+            int newId = 0;
+            if (i == (notesCount - 1)) {
+                newId = allNotesId[0];
+            }
+            else {
+                newId = allNotesId[i+1];
+            }
+            [self setNoteId: [[NSNumber alloc] initWithInt:newId]];
+            break;
+        }
+    }
+    
+    return  true;
 }
 @end

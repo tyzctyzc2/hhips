@@ -22,9 +22,11 @@
 -(void) setNoteId:(NSNumber *)_nodeId;
 -(int)getNoteId;
 
+//notes map
 -(void) setNoteMap: (int)noteId noteId : (UIImage *) img;
 -(UIImage *) getNoteMap: (int)noteId;
 -(void) clearNoteMap;
+-(BOOL) moveToNextNote;
 
 @end
 

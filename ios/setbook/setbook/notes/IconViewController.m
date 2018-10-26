@@ -12,6 +12,7 @@
 
 @interface IconViewController ()
 //@property (nonatomic, strong) IBOutlet UIButton *backButton;
+@property CGFloat screenWidth;
 @end
 
 
@@ -23,6 +24,7 @@ int imgSizeY = 120;
 -(void)viewDidLoad {
     dataStaticM = [[MyDataStatic alloc] init];
     [dataStaticM setHookedController:self];
+    self.screenWidth = 0;
 }
 
 - (IBAction)goZoomButtonTouch:(id)sender {
@@ -34,6 +36,7 @@ int imgSizeY = 120;
 -(void) updateToPicked:(NSString *)picked {
     NSLog(@"get chapter notes %@", picked);
     [[self.view subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [dataStaticM clearNoteMap];
     
     HttpHelper *httpH = [HttpHelper new];
     NSString *fullResponse = [httpH getJSONResponse:[NSString stringWithFormat:@"/note/allchapternotes?chapterid=%@", picked]];
@@ -43,15 +46,18 @@ int imgSizeY = 120;
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
     
-    CGFloat screenWidth = self.view.frame.size.width;
-    
-    int countPerColumn = 5;
-    int slotX = (screenWidth - countPerColumn * imgSizeX) / (countPerColumn + 1);
-    if (slotX < 0) {
-        countPerColumn = 4;
-        slotX = (screenWidth - countPerColumn * imgSizeX) / (countPerColumn + 1);
+    if (self.screenWidth == 0) {
+        self.screenWidth = self.view.frame.size.width;
     }
     
+    int countPerColumn = 5;
+    int slotX = (self.screenWidth - countPerColumn * imgSizeX) / (countPerColumn + 1);
+    if (slotX < 0) {
+        countPerColumn = 4;
+        slotX = (self.screenWidth - countPerColumn * imgSizeX) / (countPerColumn + 1);
+    }
+    
+    NSLog(@"slotX = %d", slotX);
     int xStep = imgSizeX + slotX;
     int yStep = imgSizeY + 10;
     

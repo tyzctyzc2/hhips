@@ -88,6 +88,10 @@ public class ProblemServlet {
             System.out.println("ProblemServlet -- get all paper list");
             logger.info("ProblemServlet -- get all paper list");
             return getPaperList(model);
+        }else if (paperID.indexOf("-2") > -1) {
+            System.out.println("ProblemServlet -- get all archive paper list");
+            logger.info("ProblemServlet -- get all archive paper list");
+            return getArchivedPaperList(model);
         }
         else {
             System.out.println("ProblemServlet -- <getPaperRelated>get paper list of " + paperID);
@@ -108,6 +112,11 @@ public class ProblemServlet {
 
     private String getPaperList(Model model) {
         Map<String, Object> root = PageMaker.preparePaperList(model);
+        return "paperlist";
+    }
+
+    private String getArchivedPaperList(Model model) {
+        Map<String, Object> root = PageMaker.prepareArchivedPaperList(model);
         return "paperlist";
     }
 

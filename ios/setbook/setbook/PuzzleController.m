@@ -47,17 +47,9 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
     startTime = [NSDate date];
     
-    self.giveupButton.layer.borderWidth =2.0f;
-    self.giveupButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.giveupButton.layer.cornerRadius=16.0f;
-    
-    self.finishButton.layer.borderWidth =2.0f;
-    self.finishButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.finishButton.layer.cornerRadius=16.0f;
-    
-    self.cancelButton.layer.borderWidth =2.0f;
-    self.cancelButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.cancelButton.layer.cornerRadius=16.0f;
+    [self beautyButton:self.giveupButton];
+    [self beautyButton:self.finishButton];
+    [self beautyButton:self.cancelButton];
     
     notAlarm = false;
 }

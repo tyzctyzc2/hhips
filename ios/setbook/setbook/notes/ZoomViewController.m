@@ -14,6 +14,7 @@
     UISwipeGestureRecognizer *rightSwipe, *leftSwipe;
 }
 @property (nonatomic, strong) IBOutlet UIImageView *mainImage;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -24,15 +25,15 @@
     
     leftSwipe = [[UISwipeGestureRecognizer alloc ]initWithTarget:self action:@selector(handleRightSwipe:)];
     
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionUp;
     
-    [self.mainImage addGestureRecognizer:leftSwipe];
+    [self.scrollView addGestureRecognizer:leftSwipe];
     
     rightSwipe = [[UISwipeGestureRecognizer alloc ]initWithTarget:self action:@selector(handleLeftSwipe:)];
     
     rightSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
     
-    [self.mainImage addGestureRecognizer:rightSwipe];
+    [self.scrollView addGestureRecognizer:rightSwipe];
 }
 
 - (void)handleRightSwipe:(UISwipeGestureRecognizer *)swipeGesture {
@@ -41,21 +42,39 @@
 
 - (void)handleLeftSwipe:(UISwipeGestureRecognizer *)swipeGesture {
     NSLog(@"swip to left");
+    BOOL moved = [self.dataStatic moveToNextNote];
+    if (moved) {
+        [self updateNoteImage];
+    }
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
-    UIImage *img = [self.dataStatic getNoteMap:[self.dataStatic getNoteId]];
-    CGSize sourceFrame = [img size];
-    CGRect targetFrame = _mainImage.frame;
-    targetFrame.size.height = targetFrame.size.width * sourceFrame.height / sourceFrame.width;
-    [self.mainImage setFrame:targetFrame];
-    [self.mainImage setImage:[self.dataStatic getNoteMap:[self.dataStatic getNoteId]]];
+    [self updateNoteImage];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
-    
    
+}
+
+-(void) updateNoteImage {
+    UIImage *img = [self.dataStatic getNoteMap:[self.dataStatic getNoteId]];
+    CGSize sourceFrame = [img size];
+    CGRect targetFrame = _mainImage.frame;
+    targetFrame.origin.x = 0;
+    targetFrame.size.width = sourceFrame.width;
+    CGSize screenSize = UIScreen.mainScreen.bounds.size;
+    if (targetFrame.size.width > screenSize.width) {
+        targetFrame.size.width = screenSize.width;
+    }
+    targetFrame.size.height = targetFrame.size.width * sourceFrame.height / sourceFrame.width;
+    targetFrame.origin.y = 0;
+    [self.mainImage setFrame:targetFrame];
+    [self.mainImage setImage:[self.dataStatic getNoteMap:[self.dataStatic getNoteId]]];
+    
+    CGSize ff = CGSizeMake(targetFrame.size.width, targetFrame.size.height + 10);
+    [self.scrollView setContentSize:ff];
 }
 
 @end

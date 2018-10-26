@@ -73,9 +73,7 @@
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(myTicker) userInfo:nil repeats:YES];
     
-    self.photoButton.layer.borderWidth =2.0f;
-    self.photoButton.layer.borderColor= self.view.tintColor.CGColor;
-    self.photoButton.layer.cornerRadius=16.0f;
+    [self beautyButton:self.photoButton];
     
     photoTimeTick = 0;
     

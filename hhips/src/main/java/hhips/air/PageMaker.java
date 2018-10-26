@@ -192,7 +192,22 @@ public class PageMaker {
 
 		return root;
 	}
-	
+
+	public static Map<String, Object> prepareArchivedPaperList(Model model) {
+		DBPaper dbPaper = new DBPaper();
+
+		Map<String, Object> root = new HashMap<String, Object>();
+
+		List<Paper> allWork = dbPaper.getAllArchivedPapers();
+		root.put("paperlength", allWork.size()-1);
+		root.put("papers", allWork);
+
+		model.addAttribute("paperlength", allWork.size()-1);
+		model.addAttribute("papers", allWork);
+
+		return root;
+	}
+
 	public static Map<String, Object> preparePaperList(Model model) {
 		DBPaper dbPaper = new DBPaper();
 		
