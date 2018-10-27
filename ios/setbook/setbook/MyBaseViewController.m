@@ -42,6 +42,13 @@ static int  sPassTicks = 0;
     maxTick = 5;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSString *cl =  NSStringFromClass([self class]);
+    NSLog(@"viewWillDisappear -- %@", cl);
+}
+
 - (void)setPaperID:(NSString *)paperID {
     wantPaperId = paperID;
 }
