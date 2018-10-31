@@ -79,7 +79,11 @@
 }
 
 - (void)getActiveProblemInPaper {
-    if ([super getPaperID] == nil) {
+    NSString *paperId = [super getPaperID];
+    if (paperId == nil) {
+        return;
+    }
+    if ([paperId length]  == 0) {
         return;
     }
     HttpHelper *httpH = [HttpHelper new];
@@ -92,6 +96,12 @@
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
                                                         options:NSJSONReadingMutableContainers
                                                           error:nil];
+    
+    if (dic == nil) {
+        [super switchToMain];
+        return;
+    }
+    
     NSString *token = [dic valueForKey:@"problemdetail"];
     
     id _Nullable pid =[dic valueForKey:@"idproblem"];//paperproblemid
@@ -102,10 +112,7 @@
     
     if (pid == 0) {
         NSLog(@"No work today");
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:vc animated:YES completion:NULL];
+        [super switchToMain];
         return;
     }
     

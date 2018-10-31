@@ -76,7 +76,10 @@
             
             NSString *name = [jsonObject valueForKey:@"papername"];
             id _Nullable ppid =[jsonObject valueForKey:@"idpaper"];
+            id _Nullable problemCnt =[jsonObject valueForKey:@"totalproblem"];
+            id _Nullable doneCnt =[jsonObject valueForKey:@"totaldone"];
             NSString *myID = [NSString stringWithFormat:@"%@", ppid];
+            name = [NSString stringWithFormat:@"%@ (%@/%@)", name, problemCnt, doneCnt];
             //idpapers[i] = myID;
             i++;
             
