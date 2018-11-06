@@ -10,10 +10,12 @@
 #import "MyBaseViewController.h"
 #import "MyDataStatic.h"
 #import "HttpHelper.h"
+#import "paper/PaperFileHelper.h"
 
 @interface PaperSelectController () {
     NSString *idpapers[5];
     MyDataStatic *dataStaticM;
+    PaperFileHelper *myPaperHelper;
 }
 
 @end
@@ -22,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"PaperSelectController viewDidLoad");
+    myPaperHelper = [[PaperFileHelper alloc] init];
     // Do any additional setup after loading the view, typically from a nib.
     
     [self getActivePaper];
@@ -50,8 +52,7 @@
 }
 
 - (void)getActivePaper {
-    HttpHelper *httpH = [HttpHelper new];
-    NSString *res = [httpH getActivePaper];
+    NSString *res = [myPaperHelper getPaperList];
     
     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
     

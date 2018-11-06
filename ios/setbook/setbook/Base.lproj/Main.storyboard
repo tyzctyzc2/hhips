@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -70,6 +70,14 @@
                                     <constraint firstAttribute="width" constant="92" id="8py-ke-Rag"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXr-TW-mJ7">
+                                <rect key="frame" x="901" y="666" width="80" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="On Line"/>
+                                <connections>
+                                    <action selector="changeOnLineTouch:" destination="9pv-A4-QxB" eventType="touchDown" id="tt5-Kz-ElC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -85,13 +93,14 @@
                     <tabBarItem key="tabBarItem" title="学习" image="first" id="acW-dT-cKf" userLabel="Main"/>
                     <navigationItem key="navigationItem" id="wEE-Re-CmS"/>
                     <connections>
+                        <outlet property="changeOnLineButton" destination="hXr-TW-mJ7" id="M5N-zZ-lND"/>
                         <outlet property="changePaperButton" destination="UXJ-wc-Jhg" id="fn9-m9-eBf"/>
                         <outlet property="startButton" destination="BQA-bv-MB2" id="GGN-fd-3Pa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971" y="-320"/>
+            <point key="canvasLocation" x="970.89843749999989" y="-320.3125"/>
         </scene>
         <!--All Source-->
         <scene sceneID="x6C-BY-Lzu">
@@ -422,7 +431,7 @@
         <image name="wait" width="400" height="400"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vbU-3P-x2G"/>
+        <segue reference="e4H-83-ASh"/>
         <segue reference="Cht-Gf-eMX"/>
     </inferredMetricsTieBreakers>
 </document>

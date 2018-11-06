@@ -14,8 +14,13 @@
 - (NSString *)getNextActiveProblem;
 - (NSString *)getNextActiveProblemInPaper: (NSString *) paperID;
 - (NSString *)getActivePaper;
+
 - (Boolean) postProblemAnswer: (NSString *) problemID pID: (NSString *) problemDetail base64: (NSString *) paperProblemID pPID: (int) passSecond;
-- (void) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond ;
+- (Boolean) doPostProblemAnswerBody: (NSString *) postString;
+
+- (Boolean) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond ;
 - (NSString *)getJSONResponse: (NSString *) url;
+
+- (NSString *)getTimeString ;
 
 @end

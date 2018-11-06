@@ -10,6 +10,7 @@
 #import "PhotoController.h"
 #import "HttpHelper.h"
 #import "AppDelegate.h"
+#import "paper/PaperFileHelper.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface PuzzleController () {
@@ -18,7 +19,7 @@
     NSTimer *timer;
     Boolean notAlarm;
     
-    
+    PaperFileHelper *myPaperHelper;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *giveupButton;
@@ -39,6 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"PuzzleController viewDidLoad");
+    self->myPaperHelper = [[PaperFileHelper alloc] init];
     // Do any additional setup after loading the view, typically from a nib.
     
     [self getActiveProblemInPaper];
@@ -81,14 +83,14 @@
 - (void)getActiveProblemInPaper {
     NSString *paperId = [super getPaperID];
     if (paperId == nil) {
+        [super switchToMain];
         return;
     }
     if ([paperId length]  == 0) {
+        [super switchToMain];
         return;
     }
-    HttpHelper *httpH = [HttpHelper new];
-    NSString *res = [httpH getNextActiveProblemInPaper:[super getPaperID]];
-    //NSLog(res);
+    NSString*res = [self->myPaperHelper getNextActiveProblem:paperId];
     
     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -124,44 +126,6 @@
     UIImage *ret = [UIImage imageWithData:nsdataFromBase64String];
     
     self.problemImg.image = ret;
-}
-
-- (void)getActiveProblem {
-     HttpHelper *httpH = [HttpHelper new];
-     NSString *res = [httpH getNextActiveProblem];
-     //NSLog(res);
-     
-     NSData *jsonData = [res dataUsingEncoding:NSUTF8StringEncoding];
-     
-     
-     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
-     options:NSJSONReadingMutableContainers
-     error:nil];
-     NSString *token = [dic valueForKey:@"problemdetail"];
-     
-     id _Nullable pid =[dic valueForKey:@"idproblem"];//paperproblemid
-     myProbelmID = [NSString stringWithFormat:@"%@", pid];
-    
-    id _Nullable ppid =[dic valueForKey:@"paperproblemid"];//paperproblemid
-    myPaperProblemID =[NSString stringWithFormat:@"%@", ppid];
-    
-    if (pid == 0) {
-        NSLog(@"No work today");
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"Main"];
-        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:vc animated:YES completion:NULL];
-        return;
-    }
-     
-     NSLog(@"got problem to go, problem ID = %@", myProbelmID);
-     NSLog(@"got problem to go, problem paper ID = %@", myPaperProblemID);
-     
-     NSData *nsdataFromBase64String = [[NSData alloc]
-     initWithBase64EncodedString:token options:0];
-     UIImage *ret = [UIImage imageWithData:nsdataFromBase64String];
-     
-     self.problemImg.image = ret;
 }
 
 -(void)myTicker{

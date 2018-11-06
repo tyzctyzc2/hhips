@@ -130,7 +130,7 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     return newDateString;
 }
 
-- (Boolean) postProblemAnswer: (NSString *) problemID pID: (NSString *) problemDetail base64: (NSString *) paperProblemID pPID: (int) passSecond {
+- (Boolean) doPostProblemAnswerBody: (NSString *) postString {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
     NSString *baseAddress = [NSString stringWithFormat:baseUrl ,address];
@@ -138,10 +138,6 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[NSURL
                                                  URLWithString:fullUrl]];
-    
-    
-    
-    NSString *postString =[NSString stringWithFormat:@"{\"workdate\":\"%@\",\"idproblem\":%@,\"usedtime\":\"%d\",\"paperproblemid\":\"%@\",\"workdetail\":\"%@\"}", [self getTimeString], problemID ,passSecond,paperProblemID, problemDetail];
     
     [request setHTTPMethod:@"POST"];
     [request setValue:@"text/json"
@@ -162,7 +158,13 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     return true;
 }
 
-- (void) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond {
+- (Boolean) postProblemAnswer: (NSString *) problemID pID: (NSString *) problemDetail base64: (NSString *) paperProblemID pPID: (int) passSecond {
+    NSString *postString =[NSString stringWithFormat:@"{\"workdate\":\"%@\",\"idproblem\":%@,\"usedtime\":\"%d\",\"paperproblemid\":\"%@\",\"workdetail\":\"%@\"}", [self getTimeString], problemID ,passSecond,paperProblemID, problemDetail];
+    
+    return [self doPostProblemAnswerBody:postString];
+}
+
+- (Boolean) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
     NSString *baseAddress = [NSString stringWithFormat:baseUrl ,address];
@@ -186,7 +188,9 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
         NSInteger myInteger = [responseCode statusCode];
         NSLog(@"Error post work , HTTP status code %d", (int)myInteger);
         NSLog(@"%@", oResponseData);
-        return;
+        return false;
     }
+    
+    return true;
 }
 @end
