@@ -210,8 +210,7 @@
 -(void) doGiveUp {
     [self switchToMain];
     
-    HttpHelper *httpH = [HttpHelper new];
-    [httpH postProblemGiveup:myProbelmID pID: myPaperProblemID pPID: timeTick];
+    [self->myPaperHelper postProblemGiveup:myProbelmID pID:myPaperProblemID pPID:timeTick];
 }
 
 - (IBAction)buttonGiveup:(id)sender {

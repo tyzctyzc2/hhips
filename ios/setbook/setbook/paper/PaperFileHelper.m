@@ -120,7 +120,7 @@ static BOOL isOnLineMode = true;
     NSString *postString =[NSString stringWithFormat:@"{\"workdate\":\"%@\",\"idproblem\":%@,\"usedtime\":\"%d\",\"paperproblemid\":\"%@\"}", [self->myHttpHelper getTimeString], problemID, passSecond ,paperProblemID];
     NSString *fileName = [NSString stringWithFormat:@"work_%@", paperProblemID];
     [self saveFile:fileName fileBody:postString];
-    
+    [self listAllFile];
     return true;
 }
 
