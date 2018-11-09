@@ -14,7 +14,7 @@
         <scene sceneID="xGN-Hd-03G">
             <objects>
                 <navigationController id="IHP-GI-buU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="学习" image="first" id="hkF-Jf-r5G"/>
+                    <tabBarItem key="tabBarItem" title="学习" image="work" id="hkF-Jf-r5G"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="n1t-KC-ArM">
                         <rect key="frame" x="0.0" y="20" width="1024" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -60,7 +60,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="换卷卷"/>
                                 <connections>
-                                    <segue destination="jPd-0B-JuF" kind="show" id="Zg4-u1-USJ"/>
+                                    <segue destination="jPd-0B-JuF" kind="show" identifier="paper" id="Zg4-u1-USJ"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start" translatesAutoresizingMaskIntoConstraints="NO" id="idl-87-E1g">
@@ -90,7 +90,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Igw-Z0-epk"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="学习" image="first" id="acW-dT-cKf" userLabel="Main"/>
+                    <tabBarItem key="tabBarItem" title="学习" image="work" id="acW-dT-cKf" userLabel="Main"/>
                     <navigationItem key="navigationItem" id="wEE-Re-CmS"/>
                     <connections>
                         <outlet property="changeOnLineButton" destination="hXr-TW-mJ7" id="M5N-zZ-lND"/>
@@ -212,7 +212,7 @@
         <scene sceneID="qhl-X2-kRT">
             <objects>
                 <splitViewController storyboardIdentifier="SplitRoot" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lOf-Aq-Yrb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="笔记" image="second" id="gtQ-fv-Xfo"/>
+                    <tabBarItem key="tabBarItem" title="笔记" image="notes" id="gtQ-fv-Xfo"/>
                     <connections>
                         <segue destination="XoR-rB-omb" kind="relationship" relationship="masterViewController" id="NlE-bw-jJa"/>
                         <segue destination="irT-cz-Ad4" kind="relationship" relationship="detailViewController" id="bVV-Tw-moZ"/>
@@ -425,10 +425,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="notes" width="30" height="30"/>
         <image name="start" width="1080" height="1440"/>
         <image name="wait" width="400" height="400"/>
+        <image name="work" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="e4H-83-ASh"/>

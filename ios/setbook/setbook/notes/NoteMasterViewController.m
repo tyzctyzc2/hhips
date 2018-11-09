@@ -10,9 +10,12 @@
 #import "HttpHelper.h"
 #import "MyBaseViewController.h"
 #import "MyDataStatic.h"
+#import "PaperFileHelper.h"
 
-@interface NoteMasterViewController ()
-@property (nonatomic, strong) MyDataStatic *dataStaticM;
+@interface NoteMasterViewController () {
+MyDataStatic *dataStaticM;
+PaperFileHelper *myPaperHelper;
+}
 @end
 
 @implementation NoteMasterViewController
@@ -23,13 +26,33 @@ NSMutableArray *requiredSourceId;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    //[self.navigationController setNavigationBarHidden:true];
+    self->myPaperHelper = [[PaperFileHelper alloc]init];
+    
+    if ([self->myPaperHelper getOnLineMode] == false) {
+        [self showToastMessage:@"离线状态下笔记是不能工作的，回去做题吧，少年。"];
+        return;
+    }
+
+    
     [self prepareData];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.dataStaticM = [[MyDataStatic alloc] init];
+    self->dataStaticM = [[MyDataStatic alloc] init];
+}
+
+-(void)showToastMessage:(NSString *)message {
+    
+    UIAlertController *toast =[UIAlertController alertControllerWithTitle:nil
+                                                                  message:message
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:toast animated:YES completion:nil];
+    
+    int duration = 3; // in seconds
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [toast dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 -(void)prepareData {
@@ -93,7 +116,7 @@ NSMutableArray *requiredSourceId;
     else {
         NSLog(@"chapter picked...%d", thisId.intValue);
         
-        MyBaseViewController *target = [self.dataStaticM getHookedController];
+        MyBaseViewController *target = [self->dataStaticM getHookedController];
         if (target != nil) {
             int chI = 0 - thisId.intValue;
             NSString *idS = [NSString stringWithFormat:@"%d", chI];

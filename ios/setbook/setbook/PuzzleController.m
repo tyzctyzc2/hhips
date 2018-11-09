@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "paper/PaperFileHelper.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "PaperSelectController.h"
 
 @interface PuzzleController () {
     int timeTick;
@@ -80,14 +81,20 @@
     });
 }
 
+-(void)switchToPaper {
+    NSLog(@"switch to paper");
+    PaperSelectController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"PaperSelect"];
+    [self.navigationController pushViewController:controller animated:NO];
+}
+
 - (void)getActiveProblemInPaper {
     NSString *paperId = [super getPaperID];
     if (paperId == nil) {
-        [super switchToMain];
+        [self switchToPaper];
         return;
     }
     if ([paperId length]  == 0) {
-        [super switchToMain];
+        [self switchToPaper];
         return;
     }
     NSString*res = [self->myPaperHelper getNextActiveProblem:paperId];
@@ -100,7 +107,7 @@
                                                           error:nil];
     
     if (dic == nil) {
-        [super switchToMain];
+        [self switchToPaper];
         return;
     }
     

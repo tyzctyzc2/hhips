@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "setbook/FirstViewController.m"
-            timestampString = "563194491.289106"
+            timestampString = "563461397.1170681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -112,6 +112,22 @@
             startingLineNumber = "116"
             endingLineNumber = "116"
             landmarkName = "-postProblemGiveup:pID:pPID:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "setbook/PuzzleController.m"
+            timestampString = "563462166.9015549"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "-getActiveProblemInPaper"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
