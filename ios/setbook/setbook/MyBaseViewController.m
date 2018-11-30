@@ -77,10 +77,19 @@ static int  sPassTicks = 0;
 }
 
 - (void)beautyButton:(UIButton *)button {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
     int h = button.frame.size.height;
     CGRect s = button.frame;
     s.size.width = s.size.height * 8;
-    //[button setFrame:s];
+    if (screenHeight < 400)
+    {
+        s.size.width = s.size.width / 2;
+        s.size.height = s.size.height / 2;
+        [button setFrame:s];
+    }
     button.layer.borderWidth =0.0f;
     button.layer.backgroundColor = self.view.tintColor.CGColor;
     [button setTitleColor:[UIColor colorWithRed:254/255.0 green:254/255.0 blue:254/255.0 alpha:1.0] forState:UIControlStateNormal];

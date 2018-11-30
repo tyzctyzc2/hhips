@@ -125,13 +125,25 @@ NSMutableArray *requiredSourceId;
     }
 }
 
+-(void)removeChapter:(NSNumber *)parentId ,int index {
+    [requiredSourceId removeObject:parentId];
+}
+
 -(void)addChapter:(NSNumber *)parentId ,int index {
     if ([requiredSourceId containsObject:parentId] == true) {
+        NSInteger removeTo = index;
+        for (removeTo=index; removeTo < [sourceNameList count]; removeTo++) {
+            
+            NSString *str = [sourceNameList objectAtIndex:removeTo];
+            NSLog(str);
+            
+        }
+        
         return;
     }
     int newIndex = index+1;
     HttpHelper *httpH = [HttpHelper new];
-    NSString *url = [NSString stringWithFormat:@"/chapter/insource?sourceid=%d", parentId.intValue];
+    NSString *url = [NSString stringWithFormat:@"chapter/insource?sourceid=%d", parentId.intValue];
     NSString *fullResponse = [httpH getJSONResponse:url];
     
     NSData *jsonData = [fullResponse dataUsingEncoding:NSUTF8StringEncoding];

@@ -66,6 +66,30 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
 
 }
 
+-(NSString *)getWWWResponse: (NSString *)url {
+    NSLog(@"%@", url);
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[NSURL
+                                                 URLWithString:url]];
+    
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"text/json"
+   forHTTPHeaderField:@"Content-type"];
+    
+    NSError *error = nil;
+    NSHTTPURLResponse *responseCode = nil;
+    
+    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+    
+    if([responseCode statusCode] != 200){
+        NSInteger myInteger = [responseCode statusCode];
+        NSLog(@"Error getting response , HTTP status code %d", (int)myInteger);
+        return nil;
+    }
+    
+    return [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
+}
+
 -(NSString *)getJSONResponse:(NSString *)url {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
@@ -162,6 +186,40 @@ NSString *const baseUrl=@"http://%@:8080/hhipsair/";
     NSString *postString =[NSString stringWithFormat:@"{\"workdate\":\"%@\",\"idproblem\":%@,\"usedtime\":\"%d\",\"paperproblemid\":\"%@\",\"workdetail\":\"%@\"}", [self getTimeString], problemID ,passSecond,paperProblemID, problemDetail];
     
     return [self doPostProblemAnswerBody:postString];
+}
+
+-(Boolean) postData: (NSString *)url txt: (NSString *) body
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *address = [userDefaults objectForKey:@"serveraddress_preference"];
+    
+    NSString *baseAddress = [NSString stringWithFormat:baseUrl ,address];
+    NSString *fullUrl = [NSString stringWithFormat:@"%@%@", baseAddress ,url];
+    
+    NSLog(@"%@", fullUrl);
+    NSLog(@"%@", body);
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[NSURL
+                                                 URLWithString:fullUrl]];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json"
+   forHTTPHeaderField:@"Content-type"];
+    [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSError *error = nil;
+    NSHTTPURLResponse *responseCode = nil;
+    
+    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+    
+    if([responseCode statusCode] != 200){
+        NSInteger myInteger = [responseCode statusCode];
+        NSLog(@"Error post work , HTTP status code %d", (int)myInteger);
+        NSLog(@"%@", oResponseData);
+        return false;
+    }
+    
+    return true;
 }
 
 - (Boolean) postProblemGiveup: (NSString *)problemID pID: (NSString *)paperProblemID pPID:(int) passSecond {

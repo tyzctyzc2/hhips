@@ -24,10 +24,12 @@
 		753CC710216F5D4D002AFFE8 /* ZoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 753CC70E216F5D4D002AFFE8 /* ZoomViewController.m */; };
 		754B9560218DB036002478C1 /* BarAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 754B955E218DB036002478C1 /* BarAlertController.m */; };
 		754B9564218DB6CD002478C1 /* PaperFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 754B9563218DB6CD002478C1 /* PaperFileHelper.m */; };
+		7554426821965E4F00A6C680 /* EnglishMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7554426721965E4F00A6C680 /* EnglishMainController.m */; };
 		75578AA32167787E00844162 /* NoteSlaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75578AA22167787E00844162 /* NoteSlaveViewController.m */; };
 		755F776E216B85660053A493 /* IconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755F776D216B85660053A493 /* IconViewController.m */; };
 		75656EE721670063006CB53E /* NoteMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75656EE521670063006CB53E /* NoteMasterViewController.m */; };
 		7566BC35216831BB0082813A /* MyDataStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 7566BC34216831BB0082813A /* MyDataStatic.m */; };
+		756B23EB21A81C4E00692845 /* BubbleLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B23EA21A81C4E00692845 /* BubbleLabelView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		754B955F218DB036002478C1 /* BarAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarAlertController.h; sourceTree = "<group>"; };
 		754B9562218DB6CD002478C1 /* PaperFileHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaperFileHelper.h; sourceTree = "<group>"; };
 		754B9563218DB6CD002478C1 /* PaperFileHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaperFileHelper.m; sourceTree = "<group>"; };
+		7554426621965E4F00A6C680 /* EnglishMainController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnglishMainController.h; sourceTree = "<group>"; };
+		7554426721965E4F00A6C680 /* EnglishMainController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnglishMainController.m; sourceTree = "<group>"; };
 		75578AA12167787E00844162 /* NoteSlaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteSlaveViewController.h; sourceTree = "<group>"; };
 		75578AA22167787E00844162 /* NoteSlaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteSlaveViewController.m; sourceTree = "<group>"; };
 		755F776C216B85660053A493 /* IconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconViewController.h; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 		75656EE621670063006CB53E /* NoteMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMasterViewController.h; sourceTree = "<group>"; };
 		7566BC33216831BB0082813A /* MyDataStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDataStatic.h; sourceTree = "<group>"; };
 		7566BC34216831BB0082813A /* MyDataStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDataStatic.m; sourceTree = "<group>"; };
+		756B23E921A81C4E00692845 /* BubbleLabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleLabelView.h; sourceTree = "<group>"; };
+		756B23EA21A81C4E00692845 /* BubbleLabelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleLabelView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,7 @@
 		751C656D21619C2A0032DD74 /* setbook */ = {
 			isa = PBXGroup;
 			children = (
+				755442652196588D00A6C680 /* english */,
 				754B9561218DB183002478C1 /* paper */,
 				754B955D218DB00A002478C1 /* ui */,
 				75656EE42166FEF7006CB53E /* notes */,
@@ -202,6 +209,17 @@
 				754B9563218DB6CD002478C1 /* PaperFileHelper.m */,
 			);
 			path = paper;
+			sourceTree = "<group>";
+		};
+		755442652196588D00A6C680 /* english */ = {
+			isa = PBXGroup;
+			children = (
+				7554426621965E4F00A6C680 /* EnglishMainController.h */,
+				7554426721965E4F00A6C680 /* EnglishMainController.m */,
+				756B23E921A81C4E00692845 /* BubbleLabelView.h */,
+				756B23EA21A81C4E00692845 /* BubbleLabelView.m */,
+			);
+			path = english;
 			sourceTree = "<group>";
 		};
 		75656EE42166FEF7006CB53E /* notes */ = {
@@ -356,6 +374,7 @@
 				751C65AA2161FA790032DD74 /* HttpHelper.m in Sources */,
 				751C65B121620EC20032DD74 /* PuzzleController.m in Sources */,
 				754B9560218DB036002478C1 /* BarAlertController.m in Sources */,
+				756B23EB21A81C4E00692845 /* BubbleLabelView.m in Sources */,
 				75656EE721670063006CB53E /* NoteMasterViewController.m in Sources */,
 				751C657021619C2A0032DD74 /* AppDelegate.m in Sources */,
 				754B9564218DB6CD002478C1 /* PaperFileHelper.m in Sources */,
@@ -366,6 +385,7 @@
 				7566BC35216831BB0082813A /* MyDataStatic.m in Sources */,
 				753CC710216F5D4D002AFFE8 /* ZoomViewController.m in Sources */,
 				751C657321619C2A0032DD74 /* FirstViewController.m in Sources */,
+				7554426821965E4F00A6C680 /* EnglishMainController.m in Sources */,
 				751C65B221620EC20032DD74 /* PhotoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

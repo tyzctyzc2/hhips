@@ -128,6 +128,8 @@
     NSLog(@"got problem to go, problem ID = %@", myProbelmID);
     NSLog(@"got problem to go, problem paper ID = %@", myPaperProblemID);
     
+    [myPaperHelper postApplicationStatus:@"take problem" s:myPaperProblemID];
+    
     NSData *nsdataFromBase64String = [[NSData alloc]
                                       initWithBase64EncodedString:token options:0];
     UIImage *ret = [UIImage imageWithData:nsdataFromBase64String];
@@ -207,6 +209,7 @@
         
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"换折子" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self->myPaperHelper postApplicationStatus:@"back problem" s:self->myPaperProblemID];
         [self switchToMain];
     }];
     [alertController addAction:cancelAction];

@@ -112,6 +112,16 @@ static BOOL isOnLineMode = true;
     return nextProblem;
 }
 
+-(void) postApplicationStatus: (NSString *) status s: (NSString *) parameter {
+    if (isOnLineMode == false) {
+        return;
+    }
+    
+    NSString *postString =[NSString stringWithFormat:@"{\"Action\":\"%@\",\"ID\":%@}", status, parameter];
+    
+    [myHttpHelper postData:@"appaction" txt:postString];
+}
+
 - (Boolean) postProblemGiveup: (NSString *) problemID pID: (NSString *) paperProblemID pPID: (int) passSecond {
     if (isOnLineMode == true) {
         return [self->myHttpHelper postProblemGiveup:problemID pID:paperProblemID pPID:passSecond];

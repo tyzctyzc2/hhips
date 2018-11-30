@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (Boolean) postProblemAnswer: (NSString *) problemID pID: (NSString *) problemDetail base64: (NSString *) paperProblemID pPID: (int) passSecond;
 - (Boolean) postProblemGiveup: (NSString *) problemID pID: (NSString *) paperProblemID pPID: (int) passSecond;
 
+-(void) postApplicationStatus: (NSString *) status s: (NSString *) parameter;
+
 @property NSString *rootPathName;
 @end
 

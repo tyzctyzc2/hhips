@@ -177,9 +177,13 @@
     [self.preview_layer setFrame:self.view.bounds];
     self.preview_layer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
     
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
     CGRect bounds=[self.view frame];
-    bounds.size.height=628;
-    bounds.size.width=984;
+    bounds.size.height=screenHeight - 100;//628;
+    bounds.size.width=screenWidth - 40;//984;
     bounds.origin.x=20;
     bounds.origin.y=20;
     self.preview_layer.videoGravity = AVLayerVideoGravityResizeAspectFill;

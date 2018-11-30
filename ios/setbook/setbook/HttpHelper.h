@@ -23,4 +23,7 @@
 
 - (NSString *)getTimeString ;
 
+-(NSString *)getWWWResponse: (NSString *)url;
+-(Boolean) postData: (NSString *)url txt: (NSString *) body;
+
 @end
