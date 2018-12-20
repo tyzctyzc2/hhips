@@ -27,7 +27,7 @@ CREATE TABLE `starreason` (
   `starreasonname` varchar(45) DEFAULT NULL,
   `starreasonfactor` int(11) DEFAULT NULL,
   PRIMARY KEY (`idstarreason`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `starreason` (
 
 LOCK TABLES `starreason` WRITE;
 /*!40000 ALTER TABLE `starreason` DISABLE KEYS */;
-INSERT INTO `starreason` VALUES (1,'书写认真',1),(2,'过程严谨',2),(3,'努力思考',4),(4,'过程有进步',1),(5,'顽强坚持',1);
+INSERT INTO `starreason` VALUES (1,'书写认真',2),(2,'过程严谨',1),(3,'努力思考',1),(4,'过程有进步',1),(5,'顽强坚持',1),(6,'首做正确',1),(7,'首做难题正确',3),(8,'复习正确快捷',1),(9,'复习难题正确快捷',2);
 /*!40000 ALTER TABLE `starreason` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-07  7:41:46
+-- Dump completed on 2018-12-20 20:04:24

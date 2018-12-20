@@ -40,6 +40,9 @@
       <mapping class="life.TimeCounterLookup" />
       <mapping class="life.TimeCounterDetail" />
       <mapping class="db.ChapterNote" />
+      <mapping class="db.PaperSummary" />
+      <mapping class="model.AppAction" />
+      <mapping class="report.StarBalance" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

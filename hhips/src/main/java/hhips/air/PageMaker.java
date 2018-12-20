@@ -229,6 +229,7 @@ public class PageMaker {
 
 		ArrayList<List<WorkDetail>> allWork = new ArrayList<List<WorkDetail>>();
 		List<Integer> problemStar = new ArrayList<>();
+		List<Integer> problemEgg = new ArrayList<>();
 		int doneProblem = 0;
 		int notPassProblem = 0;
 		int notTouchProblem = 0;
@@ -240,10 +241,13 @@ public class PageMaker {
 			allWork.add(thisW);
 
 			int thisStar = 0;
+			int thisEgg = 0;
 			for (WorkDetail wwd:thisW) {
 				totalTime = totalTime + wwd.getUsedtime();
 				if (wwd.getIdstarreason() !=null)
 					thisStar = wwd.getIdstarreason();
+				if (wwd.getReason() != null)
+					thisEgg = wwd.getReason();
 			}
 
 			if (thisW.size() == 0) {
@@ -256,11 +260,13 @@ public class PageMaker {
 					notPassProblem++;
 			}
 			problemStar.add(thisStar);
+			problemEgg.add(thisEgg);
 		}
 
 		model.addAttribute("problems", problems);
 		model.addAttribute("works", allWork);
         model.addAttribute("stars", problemStar);
+		model.addAttribute("eggs", problemEgg);
 
 		float totalTimeF = (float) totalTime / 60;
 		model.addAttribute("problemDone", doneProblem);

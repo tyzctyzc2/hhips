@@ -79,6 +79,10 @@
                 </table>
                 <p>计分：</p>
                 <h1>${todayScore}</h1>
+                <p>🌟🌟🌟本月星星🌟🌟🌟：</p>
+                <h1 class="right">${monthStar}</h1>
+                <p>◉◉◉本月鸡蛋◉◉◉：</p>
+                <h1 class="wrong">${monthEgg}</h1>
                 <div>基准分</div>
                 <div>一星+2，没做对/放弃-2</div>
                 <div>二星+4，没做对/放弃-2</div>
@@ -130,7 +134,7 @@
                                 <#list problem as work>
                                     <tr>
                                     <#if paperfirst==1>
-                                        <td>${work.papername}</td>
+                                        <td><a href="./Problem?showanswer=1&paperid=${work.idpaper}" style="text-decoration: none"><p>${work.papername}</p></a></td>
                                         <#assign paperfirst=0>
                                     <#else>
                                         <td></td>

@@ -1,8 +1,11 @@
 package db;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,12 +20,88 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.Work.WorkColumnName;
+import org.springframework.stereotype.Service;
 import uti.FileHelper;
 
+@Service
 public class DBWork {
 	public static String absolutePath = "";
 	
 	public DBWork() {
+	}
+
+	public static Date getLastDateOfMonth(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		return cal.getTime();
+	}
+
+	public int getDayReason(Date wantDay) {
+		DateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		String startDate = dfStart.format(wantDay);
+
+		DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+		String endDate = dfEnd.format(wantDay);
+
+		String sql = "SELECT sum(reasonfactor) cnt FROM hhips.v_workbypaper where workdate>'" + startDate + "'" + " and workdate<'" + endDate + "'";
+		return doGetReason(sql);
+	}
+
+	public int getMonthReason(Date wantDay) {
+		DateFormat dfStart = new SimpleDateFormat("yyyy-MM-01 00:00:00");
+		String startDate = dfStart.format(wantDay);
+
+		DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+		String endDate = dfEnd.format(DBWork.getLastDateOfMonth(wantDay));
+
+		String sql = "SELECT sum(reasonfactor) cnt FROM hhips.v_workbypaper where workdate>'" + startDate + "'" + " and workdate<'" + endDate + "'";
+		return doGetReason(sql);
+	}
+
+	public int getDayStar(Date wantDay) {
+		DateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		String startDate = dfStart.format(wantDay);
+
+		DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+		String endDate = dfEnd.format(wantDay);
+
+		String sql = "SELECT sum(starreasonfactor) cnt FROM hhips.v_workbypaper where workdate>'" + startDate + "'" + " and workdate<'" + endDate + "'";
+		return doGetReason(sql);
+	}
+
+	public int getMonthStar(Date wantDay) {
+		DateFormat dfStart = new SimpleDateFormat("yyyy-MM-01 00:00:00");
+		String startDate = dfStart.format(wantDay);
+
+		DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+		String endDate = dfEnd.format(DBWork.getLastDateOfMonth(wantDay));
+
+		String sql = "SELECT sum(starreasonfactor) cnt FROM hhips.v_workbypaper where workdate>'" + startDate + "'" + " and workdate<'" + endDate + "'";
+		return doGetReason(sql);
+	}
+
+	private int doGetReason(String sql) {
+		List<Object[]> cnt = null;
+		Session session = HibernateUtils.openCurrentSession();
+		try {
+			session.beginTransaction();
+			cnt = (List<Object[]>) session.createSQLQuery(sql)
+					.addScalar("cnt")
+					.setFirstResult(0).setMaxResults(20)
+					.list();
+		} catch (Exception e) {
+		}
+		finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+
+		if (cnt.get(0) == null)
+			return 0;
+		Object cc = cnt.get(0);
+		BigDecimal bb = (BigDecimal) cc;
+		return bb.intValue();
 	}
 	
 	public List<Work> getProblemAllWork(int problemID) {

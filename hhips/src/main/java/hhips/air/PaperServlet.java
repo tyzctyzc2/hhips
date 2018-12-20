@@ -1,14 +1,13 @@
 package hhips.air;
 
-import db.DBPaper;
-import db.DBProblem;
-import db.DBProblemManagement;
-import db.Paper;
+import db.*;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,26 +17,37 @@ import uti.StringHelper;
 
 import java.util.List;
 
-
 @Controller
-//@RequestMapping("/hhipsair")
 public class PaperServlet {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(PaperServlet.class);
     String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
+
+    @Autowired
+    DBPaper dbPaper;
+
     @GetMapping("/Paper/active")
     public @ResponseBody String getActivePaper(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID) {
         logger.info("PaperServlet - get active !");
         model.addAttribute("today", StringHelper.GetDateString());
 
         DBPaper dbPaper = new DBPaper();
-        List<Paper> ll = dbPaper.getAllActivePapers();
+        List<PaperSummary> ll = dbPaper.getAllActivePaperSummary();
         JSONArray ary = new JSONArray();
-        for (Paper p: ll)
+        for (PaperSummary p: ll)
             ary.put(p);
+        return  ary.toString();
+    }
 
-        model.addAttribute("txt", ary.toString());
-        JSONObject jo = new JSONObject();
+    @GetMapping("/paper/allactiveproblembypaper")
+    public @ResponseBody String getAllActiveProblemInPaper(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") Integer paperID) {
+        logger.info("PaperServlet - getAllActiveProblemInPaper !");
+        model.addAttribute("today", StringHelper.GetDateString());
 
+        DBPaper dbPaper = new DBPaper();
+        List<ProblemByPaper> ll = dbPaper.getAllActiveProblemInPaper(paperID);
+        JSONArray ary = new JSONArray();
+        for (ProblemByPaper p: ll)
+            ary.put(p);
         return  ary.toString();
     }
 

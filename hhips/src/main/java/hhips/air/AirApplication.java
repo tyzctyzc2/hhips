@@ -2,10 +2,12 @@ package hhips.air;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import report.DaySummaryGenerator;
 import uti.FileHelper;
 
@@ -17,7 +19,8 @@ import java.nio.file.Paths;
 
 import static java.util.Locale.ROOT;
 
-@SpringBootApplication(scanBasePackages={"report","hhips.air","db"})
+@SpringBootApplication(scanBasePackages={"report","hhips.air","db", "model"})
+@EntityScan("db")
 public class AirApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {

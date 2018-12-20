@@ -78,8 +78,9 @@
                            <td>
                                 <#if (stars[i] > 0)>
                                     <p class="right">🌟</p>
-                                </#if>
-                                <#if (stars[i] == 0)>
+                                <#elseif (eggs[i] > 0)>
+                                    <p class="wrong">🌟</p>
+                                <#else>
                                     <p></p>
                                 </#if>
                            </td>

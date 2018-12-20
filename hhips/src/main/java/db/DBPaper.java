@@ -1,6 +1,8 @@
 package db;
 
 import org.hibernate.Session;
+import org.springframework.stereotype.Service;
+import uti.FileHelper;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +12,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Service
 public class DBPaper {
+    public DBPaper() {
+    }
+
     public List<ProblemByPaper>  getProblemActivePaper(Integer problemId) {
         Session session = HibernateUtils.openCurrentSession();
 
@@ -182,6 +188,32 @@ public class DBPaper {
         return all;
     }
 
+    public List<PaperSummary> getAllActivePaperSummary() {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<PaperSummary> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<PaperSummary> criteriaQuery = criteriaBuilder.createQuery(PaperSummary.class);
+            Root<PaperSummary> itemRoot = criteriaQuery.from(PaperSummary.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 2));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return all;
+    }
+
     public List<Paper> getAllActivePapers() {
         Session session = HibernateUtils.openCurrentSession();
 
@@ -205,6 +237,39 @@ public class DBPaper {
             session.close();
         }
 
+        return all;
+    }
+
+    public List<ProblemByPaper> getAllActiveProblemInPaper(Integer paperId) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<ProblemByPaper> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+            Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemstatus"), 1),
+                    criteriaBuilder.equal(itemRoot.get("idpaper"), paperId));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        if (all.size() == 0)
+            return all;
+
+        for(int i = 0; i < all.size(); ++i) {
+            ProblemByPaper p = all.get(i);
+            String img = FileHelper.getBase64String(p.getProblemdetail());
+            p.setProblemdetail(img);
+        }
         return all;
     }
 }

@@ -36,7 +36,7 @@ CREATE TABLE `reason` (
 
 LOCK TABLES `reason` WRITE;
 /*!40000 ALTER TABLE `reason` DISABLE KEYS */;
-INSERT INTO `reason` VALUES (1,'看错题',-4),(2,'计算错误',-2),(3,'不能识别知识点',0),(4,'知识点不能运用',-1),(5,'知识点未掌握',-1),(6,'常识性理解错误',-1),(7,'擦来擦去费时间',-1);
+INSERT INTO `reason` VALUES (1,'看错题',-1),(2,'计算错误',-1),(3,'不能识别知识点',0),(4,'知识点不能运用',0),(5,'知识点未掌握',0),(6,'常识性理解错误',-1),(7,'擦来擦去费时间',-1);
 /*!40000 ALTER TABLE `reason` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-07  7:41:47
+-- Dump completed on 2018-12-20 20:04:25

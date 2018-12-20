@@ -1,6 +1,7 @@
 package hhips.air;
 
-import db.DBWork;
+import db.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import report.*;
 import db.WorkDetail;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,12 @@ import java.util.*;
 
 @Controller
 public class ReportServlet {
+    @Autowired
+    DBWork dbWork;
+
+    @Autowired
+    DBDaySummary dbDaySummary;
+
     @GetMapping("/Report")
     public String processProblemGet(Model model, @RequestParam(value = "wantday", required = false, defaultValue = "") String wantDay) {
         System.out.println("ReportServlet - report request --" + wantDay);
@@ -27,13 +34,22 @@ public class ReportServlet {
         model.addAttribute("maxseg", processed.size() - 1);
         model.addAttribute("today", StringHelper.GetDateString());
 
-        DBDaySummary dbDaySummary = new DBDaySummary();
         List<DaySummary> allS = dbDaySummary.Get90DaySummary();
         GenerateChartData(model, allS);
 
         dp.processWorkDetail4Paper(model, wd);
 
         DaySummaryGenerator.InsertDaySummary(dp);
+
+        int monthStar = dbWork.getMonthStar(new Date());
+        int dayStar = dbWork.getDayStar(new Date());
+        int dayEgg = dbWork.getDayReason(new Date());
+        int monthEgg = dbWork.getMonthReason(new Date());
+        dbDaySummary.updateMonthStar(monthStar, monthEgg);
+        model.addAttribute("todayStar", dayStar);
+        model.addAttribute("monthStar", monthStar);
+        model.addAttribute("todayEgg", dayEgg);
+        model.addAttribute("monthEgg", monthEgg);
         return "reportday";
     }
 
