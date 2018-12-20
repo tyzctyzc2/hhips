@@ -7,10 +7,11 @@
 //
 
 #import "PhotoController.h"
-#import "HttpHelper.h"
+#import "paper/PaperFileHelper.h"
 @interface PhotoController () {
     NSTimer *timer;
     int photoTimeTick;
+    PaperFileHelper *myPaperHelper;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *photoButton;
@@ -24,32 +25,6 @@
 - (BOOL)shouldAutorotate {
     NSLog(@"PhotoController shouldAutorotate!!!!!!!!");// portrait
     return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    NSLog(@"shouldAutorotateToInterfaceOrientation!!!!!!!!");// portrait
-    return NO;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    //NSLog(@"didRotateFromInterfaceOrientation");
-    
-    /*UIDeviceOrientation orientation2 = [[UIDevice currentDevice] orientation];
-    if (orientation2 == UIDeviceOrientationLandscapeLeft || orientation2 == UIDeviceOrientationLandscapeRight) {
-        NSLog(@"PhotoController landscape!!!!!!!!");// portrait
-        [self setupPreviewLayer];
-    } else {
-        NSLog(@"PhotoController portrait!!!!!!!!");// landscape
-        [self setupPortraitPreviewLayer];
-    }*/
-    
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    NSLog(@"PhotoController willRotateToInterfaceOrientation!!!!!!!!");// portrait
-
 }
 
 - (void)updateLayoutsForCurrentOrientation:(UIInterfaceOrientation)toInterfaceOrientation view:(UIView *)view {
@@ -76,6 +51,8 @@
     [self beautyButton:self.photoButton];
     
     photoTimeTick = 0;
+    
+    myPaperHelper = [[PaperFileHelper alloc] init];
     
 }
 
@@ -200,9 +177,13 @@
     [self.preview_layer setFrame:self.view.bounds];
     self.preview_layer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
     
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
     CGRect bounds=[self.view frame];
-    bounds.size.height=628;
-    bounds.size.width=984;
+    bounds.size.height=screenHeight - 100;//628;
+    bounds.size.width=screenWidth - 40;//984;
     bounds.origin.x=20;
     bounds.origin.y=20;
     self.preview_layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -229,14 +210,13 @@
         if (videoConnection) { break; }
     }
     
-    __weak typeof(self) weakSelf = self;
     [_avStillCaptureOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         
         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-        imageString = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+        self->imageString = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
         
         self.photoButton.enabled = false;
-        [session stopRunning];
+        [self->session stopRunning];
     }];
 }
 
@@ -263,17 +243,17 @@
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"御笔亲批"message:@"你确定提交你的御笔亲批吗？"preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        [session startRunning];
+        [self->session startRunning];
         [self updateLabelMessage:@"Take Photo"];
         self.photoButton.enabled = true;
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if(imageString != nil) {
+        if(self->imageString != nil) {
             int usedTime = [super getPassTicks];
-            if (photoTimeTick > 120)
-                usedTime = usedTime + photoTimeTick;
-            HttpHelper *httpH = [HttpHelper new];
-            Boolean suc = [httpH postProblemAnswer:[super getProblemId] pID: imageString base64: [super getPaperProblemId] pPID: usedTime];
+            if (self->photoTimeTick > 120) {
+                usedTime = usedTime + self->photoTimeTick;
+            }
+            Boolean suc = [self->myPaperHelper postProblemAnswer:[super getProblemId] pID:self->imageString base64:[super getPaperProblemId] pPID:usedTime];
             
             if (suc) {
                 [self updateLabelMessage:@"Your answer is saved."];

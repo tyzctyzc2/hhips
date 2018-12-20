@@ -50,7 +50,7 @@ MyDataStatic *dataStatic;
     chapterIDList = [NSMutableArray new];
     
     HttpHelper *httpH = [HttpHelper new];
-    NSString *url = [NSString stringWithFormat:@"/chapter/insource?sourceid=%@", sourceId];
+    NSString *url = [NSString stringWithFormat:@"chapter/insource?sourceid=%@", sourceId];
     NSString *fullResponse = [httpH getJSONResponse:url];
     
     NSData *jsonData = [fullResponse dataUsingEncoding:NSUTF8StringEncoding];
