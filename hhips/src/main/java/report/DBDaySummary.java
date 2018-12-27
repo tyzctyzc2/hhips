@@ -34,6 +34,19 @@ public class DBDaySummary {
         return all;
     }
 
+    public List<StarBalance> getstarBalanceHistory() {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<StarBalance> criteriaQuery = criteriaBuilder.createQuery(StarBalance.class);
+        Root<StarBalance> itemRoot = criteriaQuery.from(StarBalance.class);
+        criteriaQuery.select(itemRoot);
+        List<StarBalance> all =  session.createQuery(criteriaQuery).getResultList();
+        session.getTransaction().commit();
+        return all;
+    }
+
     public void updateMonthStar(int star, int egg) {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM01");
@@ -62,7 +75,7 @@ public class DBDaySummary {
 
         starBalance.setChangebalance(star+egg);
         starBalance.setChangedate(nn);
-        starBalance.setChangenote(Integer.toString(star) + Integer.toString(egg));
+        starBalance.setChangenote("Earn " + Integer.toString(star) + Integer.toString(egg));
         session.save(starBalance);
         session.getTransaction().commit();
     }

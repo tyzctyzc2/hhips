@@ -50,6 +50,15 @@ public class ReportServlet {
         model.addAttribute("monthStar", monthStar);
         model.addAttribute("todayEgg", dayEgg);
         model.addAttribute("monthEgg", monthEgg);
+
+        List<StarBalance> startHistory = dbDaySummary.getstarBalanceHistory();
+        model.addAttribute("startHis", startHistory);
+        int finalBalance = 0;
+        for(int i = 0; i < startHistory.size(); ++i) {
+            finalBalance = finalBalance + startHistory.get(i).getChangebalance();
+        }
+        model.addAttribute("totalBalance", finalBalance);
+
         return "reportday";
     }
 

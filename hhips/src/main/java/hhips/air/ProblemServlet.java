@@ -1,10 +1,12 @@
 package hhips.air;
 
+import db.DBPaper;
 import db.DBProblem;
 import db.DBProblemManagement;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.Map;
 //@RequestMapping("/hhipsair")
 public class ProblemServlet {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ProblemServlet.class);
+    @Autowired
+    DBPaper paper;
+
     @GetMapping("/Problem")
     public String processProblemGet(Model model, @RequestParam(value="paperid", required=false, defaultValue="0") String paperID,
                                     @RequestParam(value="chapterid", required=false, defaultValue="0") int chapterID,
@@ -106,6 +111,8 @@ public class ProblemServlet {
         model.addAttribute("idpaper", paperID);
         model.addAttribute("showAnswer", showAnswer);
         model.addAttribute("noFormat", noFormat);
+
+        model.addAttribute("paperDetail", paper.getPaperDetail(Integer.parseInt(paperID)));
 
         return "paperproblemlist";
     }

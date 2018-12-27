@@ -21,3 +21,28 @@ function postTag() {
         }
     })
 }
+
+function changePaperStatus(idpaper, isactive) {
+    var pData = {};
+    pData.idpaper = idpaper;
+    pData.isactive = isactive;
+
+    console.log(JSON.stringify(pData));
+    $.ajax({
+        type: "POST", // 上传文件要用POST
+        url: "./Paper",
+        dataType : "json",
+        processData: false,  // 注意：不要 process data
+        contentType: false,  // 注意：不设置 contentType
+        data: JSON.stringify(pData),
+        success: function(msg) {
+            console.log('success');
+            console.log(msg);
+            window.location.reload();
+        },
+        fail: function(msg) {
+            console.log('failed');
+            console.log(msg);
+        }
+    })
+}

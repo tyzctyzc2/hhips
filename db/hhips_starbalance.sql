@@ -28,7 +28,7 @@ CREATE TABLE `starbalance` (
   `changebalance` int(11) DEFAULT NULL,
   `changenote` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idstarbalance`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `starbalance` (
 
 LOCK TABLES `starbalance` WRITE;
 /*!40000 ALTER TABLE `starbalance` DISABLE KEYS */;
+INSERT INTO `starbalance` VALUES (1,'2018-12-01 00:00:00',133,'Earn 142-9'),(2,'2018-12-21 00:00:00',-43,'Redeem 柠檬家胶带'),(3,'2018-12-23 00:00:00',4,'优才12讲课前测60');
 /*!40000 ALTER TABLE `starbalance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-20 20:04:25
+-- Dump completed on 2018-12-27 15:26:21

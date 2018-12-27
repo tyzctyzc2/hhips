@@ -5,6 +5,7 @@
    <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
    <script type="text/javascript" src="./chart/highcharts.js"></script>
    <script type="text/javascript" src="./chart/piechart4problem.js"></script>
+   	<script type="text/javascript" src="./js/common.js"></script>
    <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
@@ -16,6 +17,31 @@
             <div>
             <button class="bigFont" type="button" onclick="activeWholePaper(${idpaper})">Active All Problem in Paper</button>
             </div>
+            <#if paperDetail.isactive == 1>
+                <button type="button" class="picked right largeFont" onclick="changePaperStatus(${idpaper},1)">In Edit</button>
+            <#else>
+                <button type="button" class="picked largeFont" onclick="changePaperStatus(${idpaper},1)">In Edit</button>
+            </#if>
+            <#if paperDetail.isactive == 2>
+                <button type="button" class="picked right largeFont" onclick="changePaperStatus(${idpaper},2)">Active</button>
+            <#else>
+                <button type="button" class="picked largeFont" onclick="changePaperStatus(${idpaper},2)">Active</button>
+            </#if>
+            <#if paperDetail.isactive == 3>
+                <button type="button" class="picked right largeFont" onclick="changePaperStatus(${idpaper},3)">Done</button>
+            <#else>
+                <button type="button" class="picked largeFont" onclick="changePaperStatus(${idpaper},3)">Done</button>
+            </#if>
+            <#if paperDetail.isactive == 4>
+                <button type="button" class="picked right largeFont" onclick="changePaperStatus(${idpaper},4)">Hold</button>
+            <#else>
+                <button type="button" class="picked largeFont" onclick="changePaperStatus(${idpaper},4)">Hold</button>
+            </#if>
+            <#if paperDetail.isactive == 5>
+                <button type="button" class="picked right largeFont" onclick="changePaperStatus(${idpaper},5)">Archive</button>
+            <#else>
+                <button type="button" class="picked largeFont" onclick="changePaperStatus(${idpaper},5)">Archive</button>
+            </#if>
         </#if>
         <div class="sameLine">
             <a href="./Problem?paperid=${idpaper}&noFormat=1">

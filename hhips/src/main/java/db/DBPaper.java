@@ -17,6 +17,35 @@ public class DBPaper {
     public DBPaper() {
     }
 
+    public Paper getPaperDetail(Integer paperId) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Paper> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+            Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idpaper"), paperId));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        if (all.size() > 0)
+            return all.get(0);
+
+        return null;
+    }
+
     public List<ProblemByPaper>  getProblemActivePaper(Integer problemId) {
         Session session = HibernateUtils.openCurrentSession();
 

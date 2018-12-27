@@ -3,6 +3,7 @@
 	<meta charset="utf-8"/>
 	<title>卷卷列表</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
@@ -104,30 +105,6 @@
 			    	console.log('dddddddddd');
 				},
 				fail: function(msg) {
-			    	console.log(msg);
-			    }
-			})
-		}
-		function changePaperStatus(idpaper, isactive) {
-			var pData = {};
-			pData.idpaper = idpaper;
-			pData.isactive = isactive;
-			
-			console.log(JSON.stringify(pData));
-			$.ajax({
-			    type: "POST", // 上传文件要用POST
-			    url: "./Paper",
-			    dataType : "json",
-				processData: false,  // 注意：不要 process data
-				contentType: false,  // 注意：不设置 contentType
-			    data: JSON.stringify(pData),
-				success: function(msg) {
-					console.log('success');
-			    	console.log(msg);
-			    	window.location.reload();
-				},
-				fail: function(msg) {
-					console.log('failed');
 			    	console.log(msg);
 			    }
 			})

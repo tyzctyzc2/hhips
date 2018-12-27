@@ -23,7 +23,26 @@
                 <li><a href="#timesummary">Time Summary</a></li>
                 <li><a href="#papersummary">Paper Summary</a></li>
                 <li><a href="#historysummary">History Summary</a></li>
+                <li><a href="#starhis">🌟Star🌟</a></li>
             </ul>
+            <div id="starhis">
+                <h1>History：</h1>
+                <table class="dmmtable">
+                    <tr>
+                        <th>时间</th>
+                        <th>Balance</th>
+                        <th>备注</th>
+                    </tr>
+                    <#list startHis as onechange>
+                        <tr>
+                            <td>${onechange.changedate}</td>
+                            <td>${onechange.changebalance}</td>
+                            <td>${onechange.changenote}</td>
+                        </tr>
+                    </#list>
+                </table>
+                <h1>Total: ${totalBalance}</h1>
+            </div>
             <div id="summary">
                 <h1>总计：</h1>
                 <table class="dmmtable">
