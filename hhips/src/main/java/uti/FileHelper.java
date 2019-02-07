@@ -1,13 +1,6 @@
 package uti;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -28,16 +21,35 @@ public class FileHelper {
 		Path path = Paths.get(absolutePath + month);
 		System.out.println(absolutePath + month);
 
-		File directory = new File(absolutePath + month);
-		if (! directory.exists()){
-			directory.mkdir();
-			System.out.println("Path created -- " + absolutePath + month);
-		}
+		ensurePathExist(month);
 
 		return month + "\\" + day + "_";
 	}
+
+	private static void ensurePathExist(String pathName) {
+		File directory = new File(absolutePath+pathName);
+		if (! directory.exists()){
+			directory.mkdir();
+			System.out.println("Path created -- " + absolutePath + pathName);
+		}
+	}
+
+	private static boolean saveTextFile(String msg, String fileName) {
+		try {
+			DataOutputStream fos = new DataOutputStream(new FileOutputStream(absolutePath + fileName));
+			fos.writeChars(msg);
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 	
-	private static boolean saveImageFile(byte[] data, String fileName) {
+	private static boolean saveBinaryFile(byte[] data, String fileName) {
 		try {
 			DataOutputStream fos = new DataOutputStream(new FileOutputStream(absolutePath + fileName));
 
@@ -73,13 +85,58 @@ public class FileHelper {
 	public static String saveBase64File(String base64String, String typeString, int fileID) {
 		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
 		String filePathName = getFilePathName() + typeString + Integer.toString(fileID) + ".png";
-		saveImageFile(decodedDetail, filePathName);
+		saveBinaryFile(decodedDetail, filePathName);
 		return filePathName;
+	}
+
+	public static void saveBase64AsBinaryFile(String base64String, String pathName, String fileName) {
+		int startIndex = base64String.indexOf("base64")+9;
+		base64String = base64String.substring(startIndex);
+		try {
+			base64String = java.net.URLDecoder.decode(base64String, "UTF-8");
+			base64String = base64String.replace(" ", "+");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		while (base64String.charAt(base64String.length()-1) == '=') {
+			base64String = base64String.substring(0, base64String.length() - 1);
+		}
+		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
+		ensurePathExist(pathName);
+		String filePathName = pathName + fileName;
+		saveBinaryFile(decodedDetail, filePathName);
 	}
 
 	public static String updateBase64File(String base64String, String fileName) {
 		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
-		saveImageFile(decodedDetail, fileName);
+		saveBinaryFile(decodedDetail, fileName);
 		return fileName;
 	}
+
+	public static void deleteAllFile(String pathName) {
+        String[] paths;
+        try {
+            // create new file
+            File f = new File(absolutePath + pathName);
+
+            // create new filter
+            FilenameFilter filter = new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return true;
+                }
+            };
+
+            paths = f.list(filter);
+
+            for(String fileName:paths) {
+                File file = new File(absolutePath+pathName+fileName);
+                file.delete();
+            }
+
+        } catch(Exception e) {
+            // if any error occurs
+            e.printStackTrace();
+        }
+    }
 }

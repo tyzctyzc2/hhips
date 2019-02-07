@@ -24,7 +24,7 @@ public class Reason {
     }
 
     public void setReasonname(String reasonname) {
-        this.reasonname = reasonname;
+        this.reasonname = reasonname + String.valueOf(reasonfactor);
     }
 
     public Integer getReasonfactor() {
@@ -33,5 +33,6 @@ public class Reason {
 
     public void setReasonfactor(Integer reasonfactor) {
         this.reasonfactor = reasonfactor;
+        this.reasonname = reasonname + String.valueOf(reasonfactor);
     }
 }
