@@ -129,17 +129,18 @@ public class ProblemServlet {
 
     @PostMapping("/Problem/update")
     public @ResponseBody String updateProblem(@RequestBody String stringToParse) {
-        System.out.println("ProblemServlet -- post update new problem");
+        logger.info("ProblemServlet -- post update problem detail");
         JSONObject res = new JSONObject();
         try {
             JSONObject jsonObject = new JSONObject(stringToParse.toString());
             DBProblem dbProblem = new DBProblem();
-            System.out.println("ProblemServlet - update problem request");
+            logger.info("ProblemServlet - update problem request is ok");
             Integer newProblemID =dbProblem.UpdateProblem(jsonObject);
             if (newProblemID == 0) {
                 res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
             }
             else {
+                logger.error("change problem failed.");
                 res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
             }
 
@@ -183,7 +184,7 @@ public class ProblemServlet {
             @RequestParam(value="problemstatus", required=false, defaultValue="0") Integer problemstatus, @RequestParam(value="paperproblemid", required=false, defaultValue="0") Integer paperproblemid,
             @RequestParam(value="delete", required=false, defaultValue="0") Integer delete)
     {
-        System.out.println("ProblemServlet - post change request");
+        logger.info("ProblemServlet - post change request");
         if (paperid != 0)
             doActiveProblem(problemid, active, paperid);
 

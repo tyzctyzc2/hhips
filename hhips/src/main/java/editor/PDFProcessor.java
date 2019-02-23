@@ -16,13 +16,13 @@ public class PDFProcessor {
 
     public void renderPage2Image(String fileName, String pathName, String imageName) {
         try {
-            String pdfFilename = FileHelper.absolutePath + pathName + fileName;
+            String pdfFilename = FileHelper.getAbsolutePath() + pathName + fileName;
             PDDocument document = PDDocument.load(new File(pdfFilename));
             PDFRenderer pdfRenderer = new PDFRenderer(document);
             for (int page = 0; page < document.getNumberOfPages(); ++page) {
                 BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB);
 
-                String pageName = FileHelper.absolutePath + pathName + imageName + "_" + (page + 1) + ".png";
+                String pageName = FileHelper.getAbsolutePath() + pathName + imageName + "_" + (page + 1) + ".png";
                 ImageIOUtil.writeImage(bim, pageName, 300);
                 logger.info("done with " + pageName);
             }

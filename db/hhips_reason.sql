@@ -27,7 +27,7 @@ CREATE TABLE `reason` (
   `reasonname` varchar(45) DEFAULT NULL,
   `reasonfactor` int(11) DEFAULT NULL,
   PRIMARY KEY (`idreason`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `reason` (
 
 LOCK TABLES `reason` WRITE;
 /*!40000 ALTER TABLE `reason` DISABLE KEYS */;
-INSERT INTO `reason` VALUES (1,'看错题',-1),(2,'计算错误',-1),(3,'不能识别知识点',0),(4,'知识点不能运用',0),(5,'知识点未掌握',0),(6,'常识性理解错误',-1),(7,'擦来擦去费时间',-1);
+INSERT INTO `reason` VALUES (1,'看错题(-1)',-1),(2,'计算错误(-1)',-1),(3,'不能识别知识点',0),(4,'知识点不能运用',0),(5,'知识点未掌握',0),(6,'常识性理解错误(-1)',-1),(7,'擦来擦去费时间(-1)',-1),(8,'看错题加强版(-2)',-2),(9,'计算错误加强版(-2)',-2),(10,'过程不严谨错误(-1)',-1);
 /*!40000 ALTER TABLE `reason` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-27 15:26:21
+-- Dump completed on 2019-02-22 19:20:25

@@ -1,5 +1,13 @@
 package uti;
 
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,10 +16,30 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
+@PropertySource("classpath:application.properties")
 public class FileHelper {
-	public static String absolutePath = "";
-	
-	private static String getFilePathName() {
+
+	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FileHelper.class);
+
+	@Autowired
+	static private Environment env;
+
+    public static String getAbsolutePath() {
+        return absolutePath;
+    }
+
+	public static void setAbsolutePath(String absolutePath) {
+		FileHelper.absolutePath = absolutePath;
+	}
+
+	@Value("${web.upload.path}")
+	static String absolutePath = "";
+
+    public static void getRootPath() {
+    	absolutePath = env.getProperty("web.upload.path");
+	}
+
+	public static String getFilePathName() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String day = dateFormat.format(date);
@@ -24,6 +52,11 @@ public class FileHelper {
 		ensurePathExist(month);
 
 		return month + "\\" + day + "_";
+	}
+
+	public static String getImageDBName(String typeString, int fileID) {
+		String filePathName = getFilePathName() + typeString + Integer.toString(fileID) + ".png";
+		return  filePathName;
 	}
 
 	private static void ensurePathExist(String pathName) {
@@ -51,8 +84,9 @@ public class FileHelper {
 	
 	private static boolean saveBinaryFile(byte[] data, String fileName) {
 		try {
+			logger.info("start save :" + absolutePath + fileName);
 			DataOutputStream fos = new DataOutputStream(new FileOutputStream(absolutePath + fileName));
-
+			logger.info("save :" + absolutePath + fileName);
 			fos.write(data, 0, data.length);
 			fos.flush();
 			fos.close();
@@ -89,7 +123,25 @@ public class FileHelper {
 		return filePathName;
 	}
 
-	public static void saveBase64AsBinaryFile(String base64String, String pathName, String fileName) {
+	public static void saveBase64AsTifFile(String base64String, String pathName, String fileName) {
+        int startIndex = base64String.indexOf("base64")+7;
+        base64String = base64String.substring(startIndex);
+        try {
+            base64String = java.net.URLDecoder.decode(base64String, "UTF-8");
+            base64String = base64String.replace(" ", "+");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        while (base64String.charAt(base64String.length()-1) == '=') {
+            base64String = base64String.substring(0, base64String.length() - 1);
+        }
+        byte[] decodedDetail = Base64.getDecoder().decode(base64String);
+        ensurePathExist(pathName);
+        String filePathName = pathName + fileName;
+        saveBinaryFile(decodedDetail, filePathName);
+    }
+
+	public static void saveBase64AsPDFFile(String base64String, String pathName, String fileName) {
 		int startIndex = base64String.indexOf("base64")+9;
 		base64String = base64String.substring(startIndex);
 		try {

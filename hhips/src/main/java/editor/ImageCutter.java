@@ -329,7 +329,10 @@ public class ImageCutter {
             Mat part = new Mat(imgOriginal, treeMap.get(lineY));
 
             Imgcodecs.imwrite(filePath + String.format("%05d", fileIndex)
-                    + "_X" + String.valueOf(cur.x) + "_Y" + String.valueOf(cur.y) + ".png", part);
+                    + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
+
+            Imgcodecs.imwrite("D:\\javacode\\hhips\\web\\editor-air\\static\\cutter\\part_" + String.format("%05d", fileIndex)
+                    + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
             fileIndex++;
 
             Imgproc.rectangle(tmp, treeMap.get(lineY).tl(), treeMap.get(lineY).br(), new Scalar(0, 255, 0), 2, 4, 0);
@@ -383,6 +386,10 @@ public class ImageCutter {
                 continue;
             }
             if ((rec.height < minSize) && (rec.width < minSize)){
+                continue;
+            }
+
+            if ((rec.width < lineHeight) && (rec.height > 5 * lineHeight)) {
                 continue;
             }
 

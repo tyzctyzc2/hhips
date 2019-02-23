@@ -14,6 +14,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import uti.FileHelper;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 
+@Component
 public class DBProblem {
 
 	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DBProblem.class);
@@ -234,12 +236,14 @@ public class DBProblem {
 
 			if (jsonObject.has(ProblemColumnName.problemdetail.toString())) {
 				if (jsonObject.getString(ProblemColumnName.problemdetail.toString()).length() > 0) {
+					logger.info("update problem to " + p.getProblemdetail());
 					FileHelper.updateBase64File(jsonObject.getString(ProblemColumnName.problemdetail.toString()), p.getProblemdetail());
 				}
 			}
 
 			if (jsonObject.has(ProblemColumnName.problemanswerdetail.toString())) {
 				if (jsonObject.getString(ProblemColumnName.problemanswerdetail.toString()).length() > 0) {
+					logger.info("update problem answer to " + p.getProblemanswerdetail());
 					FileHelper.updateBase64File(jsonObject.getString(ProblemColumnName.problemanswerdetail.toString()), p.getProblemanswerdetail());
 				}
 			}
@@ -325,7 +329,7 @@ public class DBProblem {
 		return pID;
 	}
 
-	int insertProbelm(Problem p) {
+	public int insertProbelm(Problem p) {
 		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		int problemID = 0;
@@ -450,7 +454,7 @@ public class DBProblem {
 		return all;
 	}
 
-	boolean updateProbelm(Problem p) {
+	public boolean updateProbelm(Problem p) {
 		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		boolean suc = false;
