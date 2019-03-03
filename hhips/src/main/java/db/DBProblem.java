@@ -73,6 +73,11 @@ public class DBProblem {
 	public boolean deleteProblem(int problemID) {
 		Problem p = getProblemDetail(problemID);
 
+		String fileName = FileHelper.getAbsolutePath() + p.getProblemdetail();
+		FileHelper.deleteOneFile(fileName);
+		fileName = FileHelper.getAbsolutePath() + p.getProblemanswerdetail();
+		FileHelper.deleteOneFile(fileName);
+
 		this.deleteProbelm(p);
 		return true;
 	}

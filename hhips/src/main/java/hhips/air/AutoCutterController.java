@@ -32,7 +32,7 @@ import java.util.List;
 public class AutoCutterController {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(AutoCutterController.class);
 
-    static final String CUTTER_PATH_NAME = "cutter\\";
+    public static final String CUTTER_PATH_NAME = "cutter\\";
 
     @Autowired
     DBProblem dbProblem;
@@ -91,7 +91,7 @@ public class AutoCutterController {
     @PostMapping("/auto/pdf")
     public @ResponseBody
     String processPDF(@RequestBody String pdfFile) {
-        FileHelper.deleteAllFile(CUTTER_PATH_NAME);
+        FileHelper.deleteAllFileInAbsPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
         logger.info("processPDF ......");
         String fileName = "doc.pdf";
         FileHelper.saveBase64AsPDFFile(pdfFile, CUTTER_PATH_NAME, fileName);
@@ -100,15 +100,16 @@ public class AutoCutterController {
         pdfProcessor.renderPage2Image(fileName, CUTTER_PATH_NAME, "page");
 
         logger.info("cutting image ...");
-        cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
-        return "pending...";
+        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        return res;
     }
 
     @CrossOrigin
     @PostMapping("/auto/png")
     public @ResponseBody
     String processPNG(@RequestBody String pngFileList) {
-        FileHelper.deleteAllFile(CUTTER_PATH_NAME);
+        FileHelper.deleteAllFileInAbsPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        FileHelper.deleteAllFileInAbsPath("D:\\javacode\\hhips\\web\\editor-air\\static\\cutter\\");
         logger.info("process PNG ......");
         JSONArray arr = new JSONArray(pngFileList);
         for(int i = 0; i < arr.length(); i++){
@@ -118,8 +119,41 @@ public class AutoCutterController {
         }
 
         logger.info("cutting image ...");
-        cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
-        return "pending...";
+        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        return res;
+    }
+
+    @CrossOrigin
+    @PostMapping("/auto/delete")
+    public @ResponseBody
+    String deleteBlock(@RequestBody String blockList) {
+        logger.info("process delete request ......" + blockList);
+        JSONArray arr = new JSONArray(blockList);
+        List<String> allWaitMergeList = new ArrayList<>();
+        for(int i = 0; i < arr.length(); i++){
+            String filePathName = (String)arr.get(i);
+            String fileName = filePathName.substring(filePathName.lastIndexOf("/") + 1);
+            allWaitMergeList.add(fileName);
+            FileHelper.deleteOneFile(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME + fileName);
+        }
+        return "done";
+    }
+
+    @CrossOrigin
+    @PostMapping("/auto/merge")
+    public @ResponseBody
+    String mergeBlock(@RequestBody String blockList) {
+        logger.info("process Merge request ......");
+        JSONArray arr = new JSONArray(blockList);
+        List<String> allWaitMergeList = new ArrayList<>();
+        for(int i = 0; i < arr.length(); i++){
+            String filePathName = (String)arr.get(i);
+            String fileName = filePathName.substring(filePathName.lastIndexOf("/") + 1);
+            allWaitMergeList.add(fileName);
+        }
+        ImageMerger imageMerger = new ImageMerger();
+        imageMerger.doMerge(allWaitMergeList);
+        return "done";
     }
 
     @CrossOrigin
@@ -203,8 +237,9 @@ public class AutoCutterController {
         return allPartList;
     }
 
-    private void cutAllImageInPath(String pathName) {
+    private String cutAllImageInPath(String pathName) {
         String[] paths;
+        String result = "";
 
         try {
             // create new file
@@ -227,10 +262,12 @@ public class AutoCutterController {
             paths = f.list(filter);
 
             ImageCutter imageCutter = new ImageCutter();
-            //imageCutter.isDebug = true;
+            imageCutter.isDebug = true;
             for(String fileName:paths) {
                 logger.info("do cut --->" + pathName + fileName);
                 imageCutter.doCut(pathName + fileName);
+                logger.info("do cut done --->" + pathName + fileName + " line height = " + Integer.toString(imageCutter.lineHeight));
+                result = result + "-" + Integer.toString(imageCutter.lineHeight);
             }
 
         } catch(Exception e) {
@@ -238,5 +275,6 @@ public class AutoCutterController {
             e.printStackTrace();
             logger.error(e.toString());
         }
+        return result;
     }
 }

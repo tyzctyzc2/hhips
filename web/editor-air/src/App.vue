@@ -10,6 +10,7 @@
 import axios from 'axios'
 var loadedFiles
 var totalFileCount
+var fileLoaded
 
 export default {
   name: 'App',
@@ -36,11 +37,11 @@ export default {
     loadOneFile: function (fileName, fileIndex) {
       var reader = new FileReader()
       reader.onload = function (readerEvt) {
-        console.log(fileName.name)
+        console.log(fileName.name + 'loaded' + fileIndex)
         loadedFiles[fileIndex] = readerEvt.target.result
-        if (fileIndex === totalFileCount) {
-          console.log(readerEvt.target.result)
-          alert(readerEvt.target.result)
+        fileLoaded = fileLoaded + 1
+        if (fileLoaded === totalFileCount) {
+          console.log(loadedFiles)
           axios.post(`http://localhost:808/auto/png`, loadedFiles)
             .then(response => {
               console.log(response)
@@ -54,8 +55,9 @@ export default {
       reader.readAsDataURL(fileName)
     },
     processPng: function (fieldName) {
-      totalFileCount = fieldName.length - 1
+      totalFileCount = fieldName.length
       loadedFiles = []
+      fileLoaded = 0
       console.log('process as png')
       console.log(fieldName.length)
       console.log(loadedFiles.length)
@@ -68,10 +70,10 @@ export default {
       var reader = new FileReader()
       reader.onload = function (readerEvt) {
         alert(readerEvt.target.result)
-        axios.post(`http://localhost:808/auto/pdf`, reader.result)
+        axios.post(`http://localhost:8080/hhipsair/auto/pdf`, reader.result)
           .then(response => {
             console.log(response)
-            alert('done!')
+            alert(response.data)
           })
           .catch(e => {
             console.log(e)

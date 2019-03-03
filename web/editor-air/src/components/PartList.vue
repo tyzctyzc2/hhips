@@ -40,17 +40,19 @@
           </select>
         </td>
         <td>
-          <select v-model="item.level">
-            <Option v-for="item in problemLevel" v-bind:value="item.id" v-bind:key="item.id">
-              {{ item.name }}
-            </Option>
-          </select>
+          <button v-on:click="levelUp(index)">level↑{{item.level}}</button>
         </td>
         <td>
-          <button v-on:click="removeImg(index)">Remove pic</button>
+          <button v-on:click="deleteOne(index)">╳Del</button>
         </td>
         <td>
           <button v-on:click="mergeUp(index)">Merge up</button>
+        </td>
+        <td>
+          <button v-on:click="deleteUp(index)">↑Del</button>
+        </td>
+        <td>
+          <button v-on:click="deleteBelow(index)">↓Del</button>
         </td>
         <td>
           <img v-bind:src="item.img"/>
@@ -62,6 +64,7 @@
 
 <script>
 import axios from 'axios'
+var scrollY = 0
 
 export default {
   name: 'PartList',
@@ -104,6 +107,10 @@ export default {
       }
     }
   },
+  ready: function () {
+    console.log('ready, set scroll to ' + scrollY)
+    window.scrollTo(0, scrollY)
+  },
   methods: {
     submit () {
       console.log(this.allProblems)
@@ -115,25 +122,103 @@ export default {
           console.log(e)
         })
     },
-    removeImg (index) {
+    sendDelete (deleteData) {
+      console.log('send delete ')
+      console.log(deleteData)
+      scrollY = window.scrollY
+      axios.post(`http://localhost:808/auto/delete`, deleteData)
+        .then(response => {
+          this.loadImage()
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    deleteOne (index) {
       console.log('remove ' + index)
       console.log(this.allProblems)
       var tmp = this.allProblems
       this.allProblems = []
       var newIndex = 0
+      var deleteData = []
       for (var i = 0; i < tmp.length; i++) {
         if (i !== index) {
           tmp[i].index = this.allIndex[newIndex]
           newIndex++
           this.allProblems.push(tmp[i])
+        } else {
+          deleteData.push(tmp[i].img)
+        }
+      }
+      this.sendDelete(deleteData)
+    },
+    deleteUp (index) {
+      var tmp = this.allProblems
+      this.allProblems = []
+      var newIndex = 0
+      var deleteData = []
+      for (var i = 0; i < tmp.length; i++) {
+        if (i < index) {
+          deleteData.push(tmp[i].img)
+          continue
+        } else {
+          tmp[i].index = this.allIndex[newIndex]
+          newIndex++
+          this.allProblems.push(tmp[i])
+        }
+      }
+      this.sendDelete(deleteData)
+    },
+    deleteBelow (index) {
+      var tmp = this.allProblems
+      this.allProblems = []
+      var newIndex = 0
+      var deleteData = []
+      for (var i = 0; i < tmp.length; i++) {
+        if (i < index) {
+          tmp[i].index = this.allIndex[newIndex]
+          newIndex++
+          this.allProblems.push(tmp[i])
+        } else {
+          deleteData.push(tmp[i].img)
+        }
+      }
+      this.sendDelete(deleteData)
+    },
+    levelUp (index) {
+      for (var i = 0; i < this.allProblems.length; i++) {
+        if (i < index) {
+          continue
+        } else {
+          this.allProblems[i].level = parseInt(this.allProblems[i].level) + 1
         }
       }
     },
-    removeIndex (index) {
-      console.log('remove ' + index)
+    loadImage () {
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
+      this.allProblems = []
+      axios.get(`http://localhost:8080/hhipsair/auto/list`)
+        .then(response => {
+          for (var i = 0; i < response.data.length; i++) {
+            var cur = {}
+            cur.img = response.data[i]
+            if (this.allIndex[i] != null) {
+              cur.index = this.allIndex[i]
+            }
+            cur.level = this.pickedLevel
+            cur.module = this.pickedModule
+            this.allProblems.push(cur)
+          }
+          console.log('set scroll to ' + scrollY)
+          window.scrollTo(0, scrollY)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     },
     mergeUp (index) {
       console.log('mergeUp ' + index)
+      scrollY = window.scrollY
       if (index === 0) {
         console.log('cannot merge the first pic')
         return
@@ -141,9 +226,10 @@ export default {
       var data = []
       data.push(this.allProblems[index].img)
       data.push(this.allProblems[index - 1].img)
-      axios.post(`http://localhost:8080/hhipsair/auto/merge`, data)
+      axios.post(`http://localhost:808/auto/merge`, data)
         .then(response => {
           console.log(response.data)
+          this.loadImage()
         })
         .catch(e => {
           console.log(e)
@@ -151,24 +237,7 @@ export default {
     }
   },
   beforeMount: function () {
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
-    axios.get(`http://localhost:8080/hhipsair/auto/list`)
-      .then(response => {
-        console.log(response.data)
-        for (var i = 0; i < response.data.length; i++) {
-          var cur = {}
-          cur.img = response.data[i]
-          if (this.allIndex[i] != null) {
-            cur.index = this.allIndex[i]
-          }
-          cur.level = this.pickedLevel
-          cur.module = this.pickedModule
-          this.allProblems.push(cur)
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    this.loadImage()
   }
 }
 </script>

@@ -165,11 +165,16 @@ public class FileHelper {
 		return fileName;
 	}
 
-	public static void deleteAllFile(String pathName) {
+	public static void deleteOneFile(String fileName) {
+		File file = new File(fileName);
+		file.delete();
+	}
+
+	public static void deleteAllFileInAbsPath(String pathName) {
         String[] paths;
         try {
             // create new file
-            File f = new File(absolutePath + pathName);
+            File f = new File(pathName);
 
             // create new filter
             FilenameFilter filter = new FilenameFilter() {
@@ -182,13 +187,14 @@ public class FileHelper {
             paths = f.list(filter);
 
             for(String fileName:paths) {
-                File file = new File(absolutePath+pathName+fileName);
+                File file = new File(pathName+fileName);
                 file.delete();
             }
 
         } catch(Exception e) {
             // if any error occurs
             e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 }

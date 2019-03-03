@@ -23,7 +23,7 @@ public class ImageCutter {
     public Boolean isDebug = false;
     int fileIndex = 1;
     String filePath;
-    int lineHeight;
+    public int lineHeight;
     int middleLine;
     boolean twoPageCase = false;
     int pageWidth = 0;
@@ -71,7 +71,7 @@ public class ImageCutter {
                 return;
             }
         }
-        brushBlock();
+        //brushBlock();
         detectBlock();
         cutImage();
     }
@@ -215,12 +215,16 @@ public class ImageCutter {
             calculateLineHeight(contoursDia);
 
             List<Rect> allLineBlock = new ArrayList<>();
+            int maxWidth = imgOriginal.width() / 2;
             for (int i = 0; i < contoursDia.size(); i++) {
                 Rect rec = Imgproc.boundingRect(contoursDia.get(i));
                 if (rec.width < lineHeight || rec.height < lineHeight)
                     continue;
 
                 if (rec.width < rec.height *2)
+                    continue;
+
+                if (rec.width > maxWidth)
                     continue;
 
                 allLineBlock.add(rec);
@@ -374,18 +378,27 @@ public class ImageCutter {
         Scalar color =  new Scalar(0, 0, 250);
 
         List<Rect> unsortedBlock = new ArrayList<>();
-        Mat tmp = imgOriginal.clone();
         Imgproc.findContours(binaryImg, contoursDia, hierarchyDia, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0,0));
         calculateLineHeight(contoursDia);
         logger.info("----line height = "+Integer.toString(lineHeight));
+        Mat foundBlock = imgOriginal.clone();
+        Mat foundBlockYes = imgOriginal.clone();
 
         int minSize = lineHeight / 2;
         for (int i = 0; i < contoursDia.size(); i++) {
             Rect rec = Imgproc.boundingRect(contoursDia.get(i));
+            Imgproc.rectangle(foundBlock, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
             if ((rec.height > grayImg.height() * 0.9) && (rec.width > grayImg.width() * 0.9)) {
+                //remove very big block
                 continue;
             }
             if ((rec.height < minSize) && (rec.width < minSize)){
+                //remove very small block
+                continue;
+            }
+
+            if ((rec.width < minSize) && (rec.height < lineHeight)){
+                //remove very small block
                 continue;
             }
 
@@ -393,11 +406,12 @@ public class ImageCutter {
                 continue;
             }
 
-            if (rec.x < minSize * 2 || rec.y < minSize * 2) {
+            /*if (rec.x < minSize * 2 || rec.y < minSize * 2) {//maybe it is a line
                 continue;
-            }
+            }*/
 
             if (rec.height > (imgOriginal.height() * 0.3)) {
+                //block with very less black in it
                 Mat part = new Mat(binaryImgOri, rec);
                 boolean isGoodBlock = isMyBlock(part);
                 //System.out.println(Integer.toString(i) + "==" + rec.toString() + isMyBlock(part));
@@ -405,54 +419,109 @@ public class ImageCutter {
                     continue;
             }
 
+            Imgproc.rectangle(foundBlockYes, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
             unsortedBlock.add(rec);
-
-            Imgproc.rectangle(tmp, rec.tl(), rec.br(), new Scalar(0, 255, 0), 2, 4, 0);
         }
 
-        Imgcodecs.imwrite(fileName+getTimeString()+"_block_second.PNG", tmp);
+        Imgcodecs.imwrite(fileName+getTimeString()+"_block_first_found_rec.PNG", foundBlock);
+        Imgcodecs.imwrite(fileName+getTimeString()+"_block_first_foundYES_rec.PNG", foundBlockYes);
 
-        List<Rect> sortedBlock = new ArrayList<>();
-        //sort block
-        int idx= 0;
-
-        for(Rect unsortCur: unsortedBlock) {
-            if (idx == 0) {
-                sortedBlock.add(unsortCur);
-                idx++;
-                continue;
-            }
-            int i =0;
-            for(i=0; i < sortedBlock.size(); ++i) {
-                Rect sortCur = sortedBlock.get(i);
-                int slotY = Math.abs(sortCur.y-unsortCur.y);
-                if (slotY < lineHeight / 2) {//same line case, need check X now
-                    if (sortCur.x > unsortCur.x)
-                        break;
-                } else {
-                    if (sortCur.y > unsortCur.y)
-                        break;
-                }
-            }
-            sortedBlock.add(i, unsortCur);
-            idx++;
-        }
-        saveAllPart(sortedBlock);
+        List<Rect> sortedBlock = sortBlocks(unsortedBlock);
+        //saveAllPart(sortedBlock);
         for(int i = 0; i<sortedBlock.size();++i) {
             cacheNewBlock(sortedBlock.get(i));
         }
+        //saveAllPart(new ArrayList<>(allBlock.values()));
+    }
+
+    private List<Rect> sortBlocks(List<Rect> unsortedBlock) {
+        List<Rect> sortedBlock = new ArrayList<>();
+        //sort block
+        int idx= 0;
+        Map<Integer, List<Rect>> lineByLine = new HashMap<>();
+
+        for(Rect unsortCur: unsortedBlock) {
+            int curYCenter = unsortCur.y + (unsortCur.height / 2);
+            if (idx == 0) {
+                List<Rect> curLine = new ArrayList<>();
+                curLine.add(unsortCur);
+                lineByLine.put(curYCenter, curLine);
+                idx++;
+                continue;
+            }
+
+            Integer myLineY = 0;
+            for (Integer curY: lineByLine.keySet()) {
+                if (Math.abs(curY - curYCenter) < lineHeight) {
+                    //found my line
+                    myLineY = curY;
+                    break;
+                }
+            }
+
+            if (myLineY > 0) {
+                List<Rect> myLine = lineByLine.get(myLineY);
+                int y = 0;
+                for(y = 0; y < myLine.size(); ++y) {
+                    if (myLine.get(y).x > unsortCur.x) {
+                        break;
+                    }
+                }
+                myLine.add(y, unsortCur);
+                //recalculate Y center after new block added
+                int allCenterYSum = 0;
+                for(y = 0; y < myLine.size(); ++y) {
+                    allCenterYSum = allCenterYSum + myLine.get(y).y + (myLine.get(y).height / 2);
+                }
+                int newCenterY = allCenterYSum / myLine.size();
+                lineByLine.remove(myLineY);
+                lineByLine.put(newCenterY, myLine);
+                continue;
+            }
+
+            List<Rect> curLine = new ArrayList<>();
+            curLine.add(unsortCur);
+            lineByLine.put(curYCenter, curLine);
+        }
+
+        Mat tmp = imgOriginal.clone();
+        int color = 0;
+        Map<Integer, List<Rect>> afterSortedMap = sortMapByKey(lineByLine);
+        for (Integer curY: afterSortedMap.keySet()) {
+            List<Rect> thisLine = lineByLine.get(curY);
+            logger.info(curY.toString());
+            for(int y = 0; y < thisLine.size(); ++y) {
+                sortedBlock.add(thisLine.get(y));
+                color++;
+                Imgproc.rectangle(tmp, thisLine.get(y).tl(), thisLine.get(y).br(), new Scalar(0, color * 5, 0), 2, 4, 0);
+            }
+        }
+        Imgcodecs.imwrite(fileName+getTimeString()+"_block_after_sort.PNG", tmp);
+        return sortedBlock;
+    }
+
+    public Map<Integer, List<Rect>> sortMapByKey(Map<Integer, List<Rect>> oriMap) {
+        if (oriMap == null || oriMap.isEmpty()) {
+            return null;
+        }
+        Map<Integer, List<Rect>> sortedMap = new TreeMap<Integer, List<Rect>>(new Comparator<Integer>() {
+            public int compare(Integer key1, Integer key2) {
+                return  key1 - key2;
+            }});
+        sortedMap.putAll(oriMap);
+        return sortedMap;
     }
 
     private void saveAllPart(List<Rect> allPart) {
         for(int i = 0; i<allPart.size();++i) {
             Rect cur = allPart.get(i);
-            if (isDebug == true) {
+            //if (isDebug == true) {
                 Mat part = imgOriginal.clone();
                 Imgproc.rectangle(part, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
                 Imgcodecs.imwrite(fileName+getTimeString()+"_block_"+Integer.toString(i)+"_"
                         +Integer.toString(cur.x)+"_"+Integer.toString(cur.y)
                         +"!"+Integer.toString(cur.width)+"X"+Integer.toString(cur.height)+"!"+".png", part);
-            }
+            //}
         }
     }
 
