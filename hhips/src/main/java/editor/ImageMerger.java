@@ -19,6 +19,8 @@ public class ImageMerger {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ImageMerger.class);
     Imgcodecs imageCodecs = new Imgcodecs();
 
+    public static String VUE__IMAGE_PATH = "D:\\webbackup\\static\\cutter\\";
+
     public void doMerge(List<String> allWaitMerge) {
         if (allWaitMerge.size() < 2)
             return;
@@ -81,7 +83,7 @@ public class ImageMerger {
         String newName = "part_" + nameIndex + "_x" + String.valueOf(minX) + "_y" + String.valueOf(minY) + ".png";
         Imgcodecs.imwrite(FileHelper.getAbsolutePath() + AutoCutterController.CUTTER_PATH_NAME + newName, fullImg);
 
-        Imgcodecs.imwrite("D:\\javacode\\hhips\\web\\editor-air\\static\\cutter\\" + newName, fullImg);
+        Imgcodecs.imwrite(ImageMerger.VUE__IMAGE_PATH + newName, fullImg);
 
     }
 }

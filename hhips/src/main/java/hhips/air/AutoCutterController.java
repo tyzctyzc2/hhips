@@ -85,6 +85,7 @@ public class AutoCutterController {
         }
         String pp = env.getProperty("web.upload.path");
         FileHelper.setAbsolutePath(pp);
+        logger.info("set abs path to " + FileHelper.getAbsolutePath());
     }
 
     @CrossOrigin
@@ -109,7 +110,7 @@ public class AutoCutterController {
     public @ResponseBody
     String processPNG(@RequestBody String pngFileList) {
         FileHelper.deleteAllFileInAbsPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
-        FileHelper.deleteAllFileInAbsPath("D:\\javacode\\hhips\\web\\editor-air\\static\\cutter\\");
+        FileHelper.deleteAllFileInAbsPath(ImageMerger.VUE__IMAGE_PATH);
         logger.info("process PNG ......");
         JSONArray arr = new JSONArray(pngFileList);
         for(int i = 0; i < arr.length(); i++){
@@ -229,7 +230,7 @@ public class AutoCutterController {
             paths = f.list(filter);
 
             for (String fileName : paths) {
-                allPartList.add("/static/cutter/" + fileName);
+                allPartList.add("/hhipsair/static/cutter/" + fileName);
             }
         } catch (Exception e) {
             logger.error(e.toString());

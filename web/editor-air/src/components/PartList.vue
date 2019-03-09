@@ -1,6 +1,12 @@
 <template>
   <div id="kkk" class="fit">
     <h1>{{ msg }}</h1>
+    <div class="sameLine">
+      <div v-for="index in allIndex" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index)">{{index}}</button>
+        <button v-on:click="removeIndex(index)">X</button>
+      </div>
+    </div>
     <table>
       <tr>
         <td>
@@ -42,11 +48,15 @@
         <td>
           <button v-on:click="levelUp(index)">level↑{{item.level}}</button>
         </td>
-        <td>
-          <button v-on:click="deleteOne(index)">╳Del</button>
+        <td class="fixWidth">
+          <div v-show="item.picked">
+            <button v-on:click="deleteOne(index)">╳This</button>
+          </div>
         </td>
-        <td>
-          <button v-on:click="mergeUp(index)">Merge up</button>
+        <td class="fixWidth">
+          <div v-show="item.picked">
+            <button v-on:click="mergeUp(index)">Merge</button>
+          </div>
         </td>
         <td>
           <button v-on:click="deleteUp(index)">↑Del</button>
@@ -54,7 +64,7 @@
         <td>
           <button v-on:click="deleteBelow(index)">↓Del</button>
         </td>
-        <td>
+        <td @mousedown="mouseDown(index)" @mouseup="mouseUp(index)" @mouseover="mouseOver(index)">
           <img v-bind:src="item.img"/>
         </td>
       </tr>
@@ -71,6 +81,8 @@ export default {
   data () {
     return {
       msg: 'Found Problem',
+      inSelectMode: false,
+      startSelect: null,
       allProblems: [],
       chapter: null,
       problemModule: [{id: 1, name: '计算'},
@@ -112,6 +124,24 @@ export default {
     window.scrollTo(0, scrollY)
   },
   methods: {
+    mouseDown (index) {
+      console.log(index + 'mouse down')
+      for (var i = 0; i < this.allProblems.length; i++) {
+        this.allProblems[i].picked = false
+      }
+      this.inSelectMode = true
+      this.allProblems[index].picked = true
+      console.log(this.allProblems)
+    },
+    mouseUp (index) {
+      this.inSelectMode = false
+    },
+    mouseOver (index) {
+      if (this.inSelectMode === false) {
+        return
+      }
+      this.allProblems[index].picked = true
+    },
     submit () {
       console.log(this.allProblems)
       axios.post(`http://localhost:8080/hhipsair/auto/create`, this.allProblems)
@@ -126,7 +156,7 @@ export default {
       console.log('send delete ')
       console.log(deleteData)
       scrollY = window.scrollY
-      axios.post(`http://localhost:808/auto/delete`, deleteData)
+      axios.post(`http://localhost:8080/hhipsair/auto/delete`, deleteData)
         .then(response => {
           this.loadImage()
         })
@@ -137,19 +167,13 @@ export default {
     deleteOne (index) {
       console.log('remove ' + index)
       console.log(this.allProblems)
-      var tmp = this.allProblems
-      this.allProblems = []
-      var newIndex = 0
       var deleteData = []
-      for (var i = 0; i < tmp.length; i++) {
-        if (i !== index) {
-          tmp[i].index = this.allIndex[newIndex]
-          newIndex++
-          this.allProblems.push(tmp[i])
-        } else {
-          deleteData.push(tmp[i].img)
+      for (var i = 0; i < this.allProblems.length; i++) {
+        if (this.allProblems[i].picked === true) {
+          deleteData.push(this.allProblems[i].img)
         }
       }
+      this.allProblems = []
       this.sendDelete(deleteData)
     },
     deleteUp (index) {
@@ -194,6 +218,29 @@ export default {
         }
       }
     },
+    startFrom (index) {
+      var j = 0
+      for (j = 0; j < this.allIndex.length; ++j) {
+        if (this.allIndex[j] === index) {
+          break
+        }
+      }
+      for (var i = 0; i < this.allProblems.length; i++) {
+        this.allProblems[i].index = this.allIndex[j + i]
+      }
+    },
+    removeIndex (index) {
+      var j = 0
+      var newIndex = []
+      for (j = 0; j < this.allIndex.length; ++j) {
+        if (this.allIndex[j] === index) {
+          continue
+        } else {
+          newIndex.push(this.allIndex[j])
+        }
+      }
+      this.allIndex = newIndex
+    },
     loadImage () {
       console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
       this.allProblems = []
@@ -206,6 +253,7 @@ export default {
               cur.index = this.allIndex[i]
             }
             cur.level = this.pickedLevel
+            cur.picked = false
             cur.module = this.pickedModule
             this.allProblems.push(cur)
           }
@@ -219,14 +267,16 @@ export default {
     mergeUp (index) {
       console.log('mergeUp ' + index)
       scrollY = window.scrollY
-      if (index === 0) {
-        console.log('cannot merge the first pic')
+      var data = []
+      for (var i = 0; i < this.allProblems.length; i++) {
+        if (this.allProblems[i].picked === true) {
+          data.push(this.allProblems[i].img)
+        }
+      }
+      if (data.length < 2) {
         return
       }
-      var data = []
-      data.push(this.allProblems[index].img)
-      data.push(this.allProblems[index - 1].img)
-      axios.post(`http://localhost:808/auto/merge`, data)
+      axios.post(`http://localhost:8080/hhipsair/auto/merge`, data)
         .then(response => {
           console.log(response.data)
           this.loadImage()
@@ -238,6 +288,13 @@ export default {
   },
   beforeMount: function () {
     this.loadImage()
+  },
+  updated: function () {
+    window.scrollTo(this.scrollY)
+  },
+  mounted: function () {
+    console.log('mounted called')
+    console.log(scrollY)
   }
 }
 </script>
@@ -246,6 +303,12 @@ export default {
 <style scoped>
 fit {
   width:100%;
+}
+.sameLine {
+  display: inline-flex;
+}
+.fixWidth {
+  width: 60px;
 }
 h1, h2 {
   font-weight: normal;

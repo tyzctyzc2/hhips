@@ -42,7 +42,7 @@ export default {
         fileLoaded = fileLoaded + 1
         if (fileLoaded === totalFileCount) {
           console.log(loadedFiles)
-          axios.post(`http://localhost:808/auto/png`, loadedFiles)
+          axios.post(`http://localhost:8080/hhipsair/auto/png`, loadedFiles)
             .then(response => {
               console.log(response)
               alert('done!')

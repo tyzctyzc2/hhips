@@ -13,4 +13,9 @@ public class RootServlet {
         model.addAttribute("today", StringHelper.GetDateString());
         return "root";
     }
+
+    @GetMapping("/edit")
+    public String processEditRootGet(Model model, @RequestParam(value="user", required=false, defaultValue="0") String user) {
+        return "index";
+    }
 }

@@ -335,7 +335,7 @@ public class ImageCutter {
             Imgcodecs.imwrite(filePath + String.format("%05d", fileIndex)
                     + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
 
-            Imgcodecs.imwrite("D:\\javacode\\hhips\\web\\editor-air\\static\\cutter\\part_" + String.format("%05d", fileIndex)
+            Imgcodecs.imwrite("D:\\webbackup\\static\\cutter\\part_" + String.format("%05d", fileIndex)
                     + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
             fileIndex++;
 
