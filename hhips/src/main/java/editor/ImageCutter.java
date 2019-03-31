@@ -21,6 +21,7 @@ public class ImageCutter {
     HashMap<Integer, Rect> allBlock = new HashMap<>();
     String fileName;
     public Boolean isDebug = false;
+    int pageIndex = 1;
     int fileIndex = 1;
     String filePath;
     public int lineHeight;
@@ -47,7 +48,7 @@ public class ImageCutter {
     public void doCut(String cutFileFullName) {
         allBlock.clear();
         fileName = cutFileFullName;
-        filePath = fileName.substring(0, fileName.lastIndexOf("\\")+1)+"part_";
+        filePath = fileName.substring(0, fileName.lastIndexOf("\\")+1);
 
         if (loadImage() == false) {
             System.out.println("CANNOT load image!");
@@ -199,6 +200,9 @@ public class ImageCutter {
             if (rec.width > pageWidth)
                 continue;
 
+            if (rec.y < 40)
+                continue;
+
             if (rec.x > minBlock) {
                 //right page
                 if (rec.x < rightStart)
@@ -211,7 +215,7 @@ public class ImageCutter {
 
             Imgproc.rectangle(tmp2, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
         }
-        if (leftEnd == 0 && rightStart == imgOriginal.width()) {//not find page break, we need try with other way
+        if (leftEnd == 0 || ((rightStart - leftEnd) > (leftEnd/2)) ) {//not find page break, we need try with other way
             calculateLineHeight(contoursDia);
 
             List<Rect> allLineBlock = new ArrayList<>();
@@ -226,6 +230,10 @@ public class ImageCutter {
 
                 if (rec.width > maxWidth)
                     continue;
+
+                if (rec.y < lineHeight) {//edge
+                    continue;
+                }
 
                 allLineBlock.add(rec);
             }
@@ -266,7 +274,7 @@ public class ImageCutter {
                 left.width = mid;
                 left.height = imgOriginal.height();
                 Imgproc.rectangle(tmp3, left.tl(), left.br(), new Scalar(0, 200, 0), 2, 4, 0);
-                Imgcodecs.imwrite(fileName+"_block_find_page.PNG", tmp3);
+                Imgcodecs.imwrite(fileName+"_block_find_page_allblock.PNG", tmp3);
             }
             return true;
         }
@@ -302,6 +310,7 @@ public class ImageCutter {
     }
 
     private void cutImage() {
+        pageIndex++;
         HashMap<Integer, Rect> leftBlock = new HashMap<>();
 
         for(Integer lineY: allBlock.keySet()) {
@@ -332,11 +341,13 @@ public class ImageCutter {
 
             Mat part = new Mat(imgOriginal, treeMap.get(lineY));
 
-            Imgcodecs.imwrite(filePath + String.format("%05d", fileIndex)
-                    + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
+            String fileName = "part" + String.format("%02d", pageIndex) + "_" +
+                    String.format("%05d", fileIndex)
+                    + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png";
 
-            Imgcodecs.imwrite("D:\\webbackup\\static\\cutter\\part_" + String.format("%05d", fileIndex)
-                    + "_x" + String.valueOf(cur.x) + "_y" + String.valueOf(cur.y) + ".png", part);
+            Imgcodecs.imwrite(filePath + fileName, part);
+
+            Imgcodecs.imwrite("D:\\webbackup\\static\\cutter\\" + fileName, part);
             fileIndex++;
 
             Imgproc.rectangle(tmp, treeMap.get(lineY).tl(), treeMap.get(lineY).br(), new Scalar(0, 255, 0), 2, 4, 0);
@@ -427,11 +438,11 @@ public class ImageCutter {
         Imgcodecs.imwrite(fileName+getTimeString()+"_block_first_foundYES_rec.PNG", foundBlockYes);
 
         List<Rect> sortedBlock = sortBlocks(unsortedBlock);
-        //saveAllPart(sortedBlock);
+        //saveAllPart(sortedBlock, "after_sort");
         for(int i = 0; i<sortedBlock.size();++i) {
             cacheNewBlock(sortedBlock.get(i));
         }
-        //saveAllPart(new ArrayList<>(allBlock.values()));
+        //saveAllPart(new ArrayList<>(allBlock.values()), "after_sort_cache");
     }
 
     private List<Rect> sortBlocks(List<Rect> unsortedBlock) {
@@ -441,7 +452,7 @@ public class ImageCutter {
         Map<Integer, List<Rect>> lineByLine = new HashMap<>();
 
         for(Rect unsortCur: unsortedBlock) {
-            int curYCenter = unsortCur.y + (unsortCur.height / 2);
+            int curYCenter = unsortCur.y;// + (unsortCur.height / 2);
             if (idx == 0) {
                 List<Rect> curLine = new ArrayList<>();
                 curLine.add(unsortCur);
@@ -471,7 +482,7 @@ public class ImageCutter {
                 //recalculate Y center after new block added
                 int allCenterYSum = 0;
                 for(y = 0; y < myLine.size(); ++y) {
-                    allCenterYSum = allCenterYSum + myLine.get(y).y + (myLine.get(y).height / 2);
+                    allCenterYSum = allCenterYSum + myLine.get(y).y;// + (myLine.get(y).height / 2);
                 }
                 int newCenterY = allCenterYSum / myLine.size();
                 lineByLine.remove(myLineY);
@@ -512,17 +523,21 @@ public class ImageCutter {
         return sortedMap;
     }
 
-    private void saveAllPart(List<Rect> allPart) {
+    private void saveAllPart(List<Rect> allPart, String name) {
+        Mat part = imgOriginal.clone();
         for(int i = 0; i<allPart.size();++i) {
             Rect cur = allPart.get(i);
             //if (isDebug == true) {
-                Mat part = imgOriginal.clone();
-                Imgproc.rectangle(part, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
-                Imgcodecs.imwrite(fileName+getTimeString()+"_block_"+Integer.toString(i)+"_"
-                        +Integer.toString(cur.x)+"_"+Integer.toString(cur.y)
-                        +"!"+Integer.toString(cur.width)+"X"+Integer.toString(cur.height)+"!"+".png", part);
+            Mat part2 = imgOriginal.clone();
+            Imgproc.rectangle(part, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
+            Imgproc.rectangle(part2, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
+            Imgcodecs.imwrite(fileName+getTimeString()+"_block_"+Integer.toString(i)+"_"
+                    +Integer.toString(cur.x)+"_"+Integer.toString(cur.y)
+                    +"!"+Integer.toString(cur.width)+"X"+Integer.toString(cur.height)+"!"+".png", part2);
             //}
         }
+
+        Imgcodecs.imwrite(fileName+name+".png", part);
     }
 
     private void calculateLineHeight(List<MatOfPoint> contours) {

@@ -430,6 +430,31 @@ public class DBProblem {
 		return all;
 	}
 
+	public List<Problem> getChapterProblem(int chapterID) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Problem> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Problem> criteriaQuery = criteriaBuilder.createQuery(Problem.class);
+            Root<Problem> itemRoot = criteriaQuery.from(Problem.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemchapterid"), chapterID));
+            all =session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return all;
+    }
+
 	public List<ProblemWithWork> getProblemByCharpter(int chapterID) {
 		Session session = HibernateUtils.openCurrentSession();
 

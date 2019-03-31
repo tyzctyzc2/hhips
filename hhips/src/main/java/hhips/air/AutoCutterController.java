@@ -2,6 +2,7 @@ package hhips.air;
 
 import db.DBProblem;
 import db.Problem;
+import db.ProblemWithWork;
 import editor.*;
 import nu.pattern.OpenCV;
 import org.json.JSONArray;
@@ -24,8 +25,11 @@ import java.nio.file.Files;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @PropertySource("classpath:application.properties")
@@ -158,6 +162,59 @@ public class AutoCutterController {
     }
 
     @CrossOrigin
+    @PostMapping("/auto/automerge")
+    public @ResponseBody
+    String smartMergeBlock() {
+        logger.info("process smart Merge request ......");
+        List<String> allWaitMergeList = getPartFileList("");
+        ImageMerger imageMerger = new ImageMerger();
+        imageMerger.doSmartMerge(allWaitMergeList);
+        return "done";
+    }
+
+    @CrossOrigin
+    @PostMapping("/auto/update")
+    public @ResponseBody
+    String updateAllProblems(@RequestBody BatchNewRequest[] allRequest) {
+        logger.info(allRequest.toString());
+        if (allRequest.length == 0)
+            return  "done";
+
+        int chapterId = allRequest[0].getChapter();
+        List<Problem> waitUpdate = dbProblem.getChapterProblem(chapterId);
+        Map<String, Problem> waitUpdateMap = new HashMap<>();
+        for(int i = 0; i < waitUpdate.size(); ++i) {
+            waitUpdateMap.put(waitUpdate.get(i).getProblemindex(), waitUpdate.get(i));
+        }
+        for(int i = 0; i < allRequest.length; i++) {
+            BatchNewRequest curRequest = allRequest[i];
+            Problem waitUpdateProblem = waitUpdateMap.get(curRequest.getIndex());
+            if (waitUpdateProblem == null) {
+                logger.info("not find matched problem " + curRequest.getIndex());
+                continue;
+            }
+
+            String targetFileName = FileHelper.getAbsolutePath() + waitUpdateProblem.getProblemanswerdetail();;
+            String sourceFileName = curRequest.getImg();
+            sourceFileName = sourceFileName.substring(sourceFileName.lastIndexOf("/")+1);
+            sourceFileName = FileHelper.getAbsolutePath() + "cutter\\" + sourceFileName;
+            sourceFileName = sourceFileName.replace("\\", "/");
+            targetFileName = targetFileName.replace("\\", "/");
+            Path sourcePath      = Paths.get(sourceFileName);
+            Path destinationPath = Paths.get(targetFileName);
+            logger.info("copy file{"+sourceFileName+"}{"+targetFileName+"}");
+            try {
+                Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error(e.toString());
+            }
+
+        }
+        return "done";
+    }
+
+    @CrossOrigin
     @PostMapping("/auto/create")
     public @ResponseBody
     String submitAllProblems(@RequestBody BatchNewRequest[] allRequest) {
@@ -209,6 +266,10 @@ public class AutoCutterController {
     @GetMapping("/auto/list")
     public  @ResponseBody
     List<String> getPartList() {
+        return getPartFileList("/hhipsair/static/cutter/");
+    }
+
+    private ArrayList<String> getPartFileList(String prefix) {
         ArrayList<String> allPartList = new ArrayList<>();
         String[] paths;
         try {
@@ -230,7 +291,7 @@ public class AutoCutterController {
             paths = f.list(filter);
 
             for (String fileName : paths) {
-                allPartList.add("/hhipsair/static/cutter/" + fileName);
+                allPartList.add( prefix + fileName);
             }
         } catch (Exception e) {
             logger.error(e.toString());

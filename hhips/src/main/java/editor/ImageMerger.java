@@ -21,6 +21,78 @@ public class ImageMerger {
 
     public static String VUE__IMAGE_PATH = "D:\\webbackup\\static\\cutter\\";
 
+    public void doSmartMerge(List<String> allWaitMerge) {
+        Map<String, Map<Point, String>> allPages = new HashMap<>();
+        for(String curFileName : allWaitMerge) {
+            String myPage = curFileName.substring(4,6);
+            Map<Point, String> allMyPage;
+            if (allPages.containsKey(myPage) == true) {
+                allMyPage = allPages.get(myPage);
+            } else {
+                allMyPage = new HashMap<>();
+            }
+            String myXString = curFileName.substring(curFileName.indexOf("_x") + 2, curFileName.indexOf("_y"));
+            String myYString = curFileName.substring(curFileName.indexOf("_y") + 2, curFileName.indexOf("."));
+            int myMinX = Integer.parseInt(myXString);
+            int myMinY = Integer.parseInt(myYString);
+
+            Point myPoint = new Point(myMinX, myMinY);
+
+            allMyPage.put(myPoint,curFileName);
+            allPages.put(myPage, allMyPage);
+        }
+
+        for(String page : allPages.keySet()) {
+            doSmartOnePage(allPages.get(page));
+        }
+    }
+
+    private void doSmartOnePage(Map<Point,String> allPartName) {
+        ArrayList<Point> sortedPoint = new ArrayList<>();
+        for (Point myPoint : allPartName.keySet()) {
+            int i = 0;
+            for(i = 0; i < sortedPoint.size(); ++i) {
+                if (sortedPoint.get(i).y > myPoint.y) {
+                    break;
+                }
+            }
+            sortedPoint.add(i, myPoint);
+        }
+
+        int minHeight = 100;
+        for(int i = 1; i < sortedPoint.size(); ++i) {
+            double thisHeight = sortedPoint.get(i).y - sortedPoint.get(i - 1).y;
+            if (thisHeight < minHeight && thisHeight > 40) {//very small height will not count
+                minHeight = (int) thisHeight;
+            }
+        }
+
+        minHeight = minHeight;
+        logger.info("merge height = " +String.valueOf(minHeight));
+
+        List<String> waitMerge = new ArrayList<>();
+        waitMerge.add(allPartName.get(sortedPoint.get(0)));
+        for(int i = 1; i < sortedPoint.size(); ++i) {
+            Mat lastImg;
+            lastImg = imageCodecs.imread(FileHelper.getAbsolutePath() +
+                    AutoCutterController.CUTTER_PATH_NAME + allPartName.get(sortedPoint.get(i-1)));
+
+            double thisHeight = sortedPoint.get(i).y - sortedPoint.get(i - 1).y - lastImg.height();
+            if (thisHeight < minHeight) {
+                waitMerge.add(allPartName.get(sortedPoint.get(i)));
+            } else {
+                if (waitMerge.size() > 1) {
+                    doMerge(waitMerge);
+                }
+                waitMerge = new ArrayList<>();
+                waitMerge.add(allPartName.get(sortedPoint.get(i)));
+            }
+        }
+        if (waitMerge.size() > 1) {
+            doMerge(waitMerge);
+        }
+    }
+
     public void doMerge(List<String> allWaitMerge) {
         if (allWaitMerge.size() < 2)
             return;
@@ -31,8 +103,10 @@ public class ImageMerger {
         int maxX = 0;
         int maxY = 0;
         int imgType = 0;
+        String myPage = "";
         for(int i = 0; i < allWaitMerge.size(); ++i) {
             String curFileName = allWaitMerge.get(i);
+            myPage = curFileName.substring(4,6);
             logger.info(curFileName);
             Mat thisImg;
             thisImg = imageCodecs.imread(FileHelper.getAbsolutePath() +
@@ -80,7 +154,7 @@ public class ImageMerger {
         String nameIndex = allWaitMerge.get(0);
         nameIndex = nameIndex.substring(nameIndex.indexOf("_")+1, nameIndex.indexOf("_x"));
 
-        String newName = "part_" + nameIndex + "_x" + String.valueOf(minX) + "_y" + String.valueOf(minY) + ".png";
+        String newName = "part" + myPage + "_" + nameIndex + "_x" + String.valueOf(minX) + "_y" + String.valueOf(minY) + ".png";
         Imgcodecs.imwrite(FileHelper.getAbsolutePath() + AutoCutterController.CUTTER_PATH_NAME + newName, fullImg);
 
         Imgcodecs.imwrite(ImageMerger.VUE__IMAGE_PATH + newName, fullImg);

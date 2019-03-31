@@ -1,16 +1,45 @@
 <template>
   <div id="kkk" class="fit">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }}
+      <button v-on:click="doAutoMerge()">智能合并</button>
+    </h1>
     <div class="sameLine">
       <div v-for="index in allIndex" v-bind:value="index" v-bind:key="index">
-        <button v-on:click="startFrom(index)">{{index}}</button>
-        <button v-on:click="removeIndex(index)">X</button>
+        <button v-on:click="startFrom(index, 1)">{{index}}</button>
+      </div>
+    </div>
+    <div>--------------------------------------------------------------</div>
+    <div class="sameLine">
+      <div v-for="index in allIndexB" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index, 2)">{{index}}</button>
+        <button v-on:click="removeIndex(index, 2)">X</button>
+      </div>
+    </div>
+    <div>--------------------------------------------------------------</div>
+    <div class="sameLine">
+      <div v-for="index in allIndexC" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index, 3)">{{index}}</button>
+      </div>
+    </div>
+    <div>--------------------------------------------------------------</div>
+    <div class="sameLine">
+      <div v-for="index in allIndexD" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index, 4)">{{index}}</button>
+      </div>
+    </div>
+    <div>--------------------------------------------------------------</div>
+    <div class="sameLine">
+      <div v-for="index in allIndexE" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index, 5)">{{index}}</button>
       </div>
     </div>
     <table>
       <tr>
         <td>
           <button v-on:click="submit()">Submit</button>
+        </td>
+        <td>
+          <button v-on:click="update()">Update</button>
         </td>
         <td>
           <input type="text" v-model="chapter">
@@ -97,9 +126,12 @@ export default {
         {id: 4, name: '4'}],
       pickedModule: '1',
       pickedLevel: '1',
-      allIndex: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35',
-        'L1', 'L1L', 'L2', 'L2L', 'L3', 'L3L', 'L4', 'L4L', 'L5', 'L5L', 'L6', 'L6L', 'L7', 'L7L', 'L8', 'L8L',
-        'Z01', 'Z02', 'Z03', 'Z04', 'Z05', 'Z06', 'Z07', 'Z08', 'Z09', 'Z10']
+      allIndex: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35'],
+      allIndexB: ['L1', 'L1L', 'L2', 'L2L', 'L3', 'L3L', 'L4', 'L4L', 'L5', 'L5L', 'L6', 'L6L', 'L7', 'L7L', 'L8', 'L8L',
+        'Z01', 'Z02', 'Z03', 'Z04', 'Z05', 'Z06', 'Z07', 'Z08', 'Z09', 'Z10'],
+      allIndexC: ['X01', 'X02', 'X03', 'X04', 'X05', 'X06', 'X07', 'X08', 'X09', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16', 'X17'],
+      allIndexD: ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17'],
+      allIndexE: ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17']
     }
   },
   watch: {
@@ -142,10 +174,32 @@ export default {
       }
       this.allProblems[index].picked = true
     },
+    doAutoMerge () {
+      console.log('auto merge')
+      axios.post(`http://localhost:8080/hhipsair/auto/automerge`, null)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
     submit () {
       console.log(this.allProblems)
       axios.post(`http://localhost:8080/hhipsair/auto/create`, this.allProblems)
         .then(response => {
+          alert('done')
+          console.log(response.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    update () {
+      console.log(this.allProblems)
+      axios.post(`http://localhost:808/auto/update`, this.allProblems)
+        .then(response => {
+          alert('done')
           console.log(response.data)
         })
         .catch(e => {
@@ -158,7 +212,14 @@ export default {
       scrollY = window.scrollY
       axios.post(`http://localhost:8080/hhipsair/auto/delete`, deleteData)
         .then(response => {
-          this.loadImage()
+          for (var i = 0; i < deleteData.length; ++i) {
+            for (var j = 0; j < this.allProblems.length; j++) {
+              if (this.allProblems[j].img === deleteData[i]) {
+                this.allProblems.splice(j, 1)
+                break
+              }
+            }
+          }
         })
         .catch(e => {
           console.log(e)
@@ -173,22 +234,17 @@ export default {
           deleteData.push(this.allProblems[i].img)
         }
       }
-      this.allProblems = []
       this.sendDelete(deleteData)
     },
     deleteUp (index) {
       var tmp = this.allProblems
-      this.allProblems = []
-      var newIndex = 0
       var deleteData = []
       for (var i = 0; i < tmp.length; i++) {
         if (i < index) {
           deleteData.push(tmp[i].img)
           continue
         } else {
-          tmp[i].index = this.allIndex[newIndex]
-          newIndex++
-          this.allProblems.push(tmp[i])
+          break
         }
       }
       this.sendDelete(deleteData)
@@ -218,28 +274,48 @@ export default {
         }
       }
     },
-    startFrom (index) {
+    startFrom (index, from) {
+      if (from === 1) {
+        this.doStartFrom(index, this.allIndex)
+      } else if (from === 2) {
+        this.doStartFrom(index, this.allIndexB)
+      } else if (from === 3) {
+        this.doStartFrom(index, this.allIndexC)
+      } else if (from === 4) {
+        this.doStartFrom(index, this.allIndexD)
+      } else if (from === 5) {
+        this.doStartFrom(index, this.allIndexE)
+      }
+    },
+    doStartFrom (index, data) {
       var j = 0
-      for (j = 0; j < this.allIndex.length; ++j) {
-        if (this.allIndex[j] === index) {
+      for (j = 0; j < data.length; ++j) {
+        if (data[j] === index) {
           break
         }
       }
       for (var i = 0; i < this.allProblems.length; i++) {
-        this.allProblems[i].index = this.allIndex[j + i]
+        this.allProblems[i].index = data[j + i]
       }
     },
-    removeIndex (index) {
+    removeIndex (index, from) {
+      if (from === 1) {
+        this.allIndex = this.doRemoveIndex(index, this.allIndex)
+      } else {
+        this.allIndexB = this.doRemoveIndex(index, this.allIndexB)
+      }
+    },
+    doRemoveIndex (index, data) {
       var j = 0
       var newIndex = []
-      for (j = 0; j < this.allIndex.length; ++j) {
-        if (this.allIndex[j] === index) {
+      for (j = 0; j < data.length; ++j) {
+        if (data[j] === index) {
           continue
         } else {
-          newIndex.push(this.allIndex[j])
+          newIndex.push(data[j])
         }
       }
-      this.allIndex = newIndex
+      return newIndex
     },
     loadImage () {
       console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -290,6 +366,7 @@ export default {
     this.loadImage()
   },
   updated: function () {
+    console.log('reset position')
     window.scrollTo(this.scrollY)
   },
   mounted: function () {
