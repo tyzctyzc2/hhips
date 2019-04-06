@@ -185,6 +185,9 @@ export default {
         })
     },
     submit () {
+      localStorage.chapter = this.chapter
+      localStorage.pickedModule = this.pickedModule
+      localStorage.pickedLevel = this.pickedLevel
       console.log(this.allProblems)
       axios.post(`http://localhost:8080/hhipsair/auto/create`, this.allProblems)
         .then(response => {
@@ -196,8 +199,9 @@ export default {
         })
     },
     update () {
+      localStorage.chapter = this.chapter
       console.log(this.allProblems)
-      axios.post(`http://localhost:808/auto/update`, this.allProblems)
+      axios.post(`http://localhost:8080/hhipsair/auto/update`, this.allProblems)
         .then(response => {
           alert('done')
           console.log(response.data)
@@ -368,10 +372,29 @@ export default {
   updated: function () {
     console.log('reset position')
     window.scrollTo(this.scrollY)
+    for (var i = 0; i < this.allProblems.length; i++) {
+      this.allProblems[i].chapter = this.chapter
+    }
   },
   mounted: function () {
     console.log('mounted called')
     console.log(scrollY)
+    if (localStorage.chapter !== undefined) {
+      this.chapter = localStorage.chapter
+    }
+    if (localStorage.pickedLevel !== undefined) {
+      this.pickedLevel = localStorage.pickedLevel
+      for (var j = 0; j < this.allProblems.length; j++) {
+        this.allProblems[j].level = this.pickedLevel
+      }
+    }
+    if (localStorage.pickedModule !== undefined) {
+      this.pickedModule = localStorage.pickedModule
+      for (var k = 0; k < this.allProblems.length; k++) {
+        this.allProblems[k].module = this.pickedModule
+      }
+    }
+    console.log(this.allProblems)
   }
 }
 </script>

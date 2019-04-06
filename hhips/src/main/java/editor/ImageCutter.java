@@ -45,6 +45,32 @@ public class ImageCutter {
         isDebug = debug;
     }
 
+    public void doAsHalfPage(String cutFileFullName) {
+        allBlock.clear();
+        fileName = cutFileFullName;
+        filePath = fileName.substring(0, fileName.lastIndexOf("\\")+1);
+
+        if (loadImage() == false) {
+            System.out.println("CANNOT load image!");
+            logger.error("CANNOT load image!");
+            return;
+        }
+        colorAndErode();
+        forceCut2Pages();
+
+        imgOriginal = leftPage;
+        colorAndErode();
+        //brushBlock();
+        detectBlock();
+        cutImage();
+
+        imgOriginal = rightPage;
+        colorAndErode();
+        //brushBlock();
+        detectBlock();
+        cutImage();
+    }
+
     public void doCut(String cutFileFullName) {
         allBlock.clear();
         fileName = cutFileFullName;
@@ -164,6 +190,11 @@ public class ImageCutter {
         } else {
             pageWidth = imgOriginal.width();
         }
+    }
+
+    private void forceCut2Pages() {
+        int width = imgOriginal.width();
+        cutInto2Pages(width/2 + 1, width/2 -1);
     }
 
     private boolean cut2Page() {

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <input type="checkbox" v-model="answerFlag" name="checkbox" />
     <input type="file" multiple="multiple" :name="uploadFieldName" @change="filesChange($event.target.files); "
             accept="any/*" class="input-file">
     <router-view/>
@@ -11,18 +12,31 @@ import axios from 'axios'
 var loadedFiles
 var totalFileCount
 var fileLoaded
+var url
 
 export default {
   name: 'App',
   data () {
     return {
-      url: 'http://localhost:8080/hhipsair/auto/pdf',
       headers: {'access-token': '<your-token>'},
       filesUploaded: [],
-      uploadFieldName: ''
+      uploadFieldName: '',
+      answerFlag: false
     }
   },
   problems: [],
+  watch: {
+    answerFlag: function (val) {
+      localStorage.answerFlag = val
+      console.log(val)
+      if (val === false) {
+        url = 'http://localhost:8080/hhipsair/auto/png'
+      } else {
+        url = 'http://localhost:8080/hhipsair/auto/png2pages'
+      }
+      console.log(url)
+    }
+  },
   methods: {
     filesChange: function (fieldName) {
       console.log(fieldName)
@@ -42,7 +56,7 @@ export default {
         fileLoaded = fileLoaded + 1
         if (fileLoaded === totalFileCount) {
           console.log(loadedFiles)
-          axios.post(`http://localhost:8080/hhipsair/auto/png`, loadedFiles)
+          axios.post(url, loadedFiles)
             .then(response => {
               console.log(response)
               alert('done!')
@@ -80,6 +94,16 @@ export default {
           })
       }
       reader.readAsDataURL(fieldName[0])
+    }
+  },
+  mounted: function () {
+    if (localStorage.answerFlag !== undefined) {
+      this.answerFlag = localStorage.answerFlag
+      if (this.answerFlag) {
+        url = 'http://localhost:8080/hhipsair/auto/png'
+      } else {
+        url = 'http://localhost:8080/hhipsair/auto/png2pages'
+      }
     }
   }
 }

@@ -398,7 +398,8 @@
 				contentType: false,  // 注意：不设置 contentType
 			    data: "",
 				success: function(msg) {
-			    	console.log(msg);
+				    console.log(msg);
+			    	alert(JSON.stringify(msg));
 				},
 				error: function(msg) {
 			    	console.log(msg);

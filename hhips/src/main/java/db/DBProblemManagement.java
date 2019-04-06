@@ -16,10 +16,12 @@ import org.json.JSONObject;
 
 import db.Chapter.ChapterColumnName;
 import db.Work.WorkColumnName;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DBProblemManagement {
+	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DBProblemManagement.class);
 
 	public DBProblemManagement() {
 	}
@@ -333,17 +335,19 @@ public class DBProblemManagement {
 		pp.setProblemid(problemID);
 		
 		session.beginTransaction();
-		List<Paperproblem> all;
+		List<ProblemByPaper> all;
 		try {
 			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<Paperproblem> criteriaQuery = criteriaBuilder.createQuery(Paperproblem.class);
-			Root<Paperproblem> itemRoot = criteriaQuery.from(Paperproblem.class);
-			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("paperid"), paperID),
-					criteriaBuilder.equal(itemRoot.get("problemid"), problemID));
+			CriteriaQuery<ProblemByPaper> criteriaQuery = criteriaBuilder.createQuery(ProblemByPaper.class);
+			Root<ProblemByPaper> itemRoot = criteriaQuery.from(ProblemByPaper.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("problemstatus"), 1),
+					criteriaBuilder.equal(itemRoot.get("idproblem"), problemID),
+					criteriaBuilder.notEqual(itemRoot.get("isactive"), 5));
 			all = session.createQuery(criteriaQuery).getResultList();
 
 			if(all.size() > 0) {
-				return true;
+				logger.info("problem already active!");
+				return false;
 			}
 
 			problemID = (Integer) session.save(pp);

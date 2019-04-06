@@ -105,7 +105,7 @@ public class AutoCutterController {
         pdfProcessor.renderPage2Image(fileName, CUTTER_PATH_NAME, "page");
 
         logger.info("cutting image ...");
-        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME, false);
         return res;
     }
 
@@ -124,7 +124,26 @@ public class AutoCutterController {
         }
 
         logger.info("cutting image ...");
-        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME, false);
+        return res;
+    }
+
+    @CrossOrigin
+    @PostMapping("/auto/png2pages")
+    public @ResponseBody
+    String processPNGForce2Pages(@RequestBody String pngFileList) {
+        FileHelper.deleteAllFileInAbsPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME);
+        FileHelper.deleteAllFileInAbsPath(ImageMerger.VUE__IMAGE_PATH);
+        logger.info("process PNG ......");
+        JSONArray arr = new JSONArray(pngFileList);
+        for(int i = 0; i < arr.length(); i++){
+            String fileBase64 = (String)arr.get(i);
+            String fileName = "page" + Integer.toString(i) + ".tif";
+            FileHelper.saveBase64AsTifFile(fileBase64, CUTTER_PATH_NAME, fileName);
+        }
+
+        logger.info("cutting image ...");
+        String res = cutAllImageInPath(FileHelper.getAbsolutePath() + CUTTER_PATH_NAME, true);
         return res;
     }
 
@@ -299,7 +318,7 @@ public class AutoCutterController {
         return allPartList;
     }
 
-    private String cutAllImageInPath(String pathName) {
+    private String cutAllImageInPath(String pathName, boolean force2Pages) {
         String[] paths;
         String result = "";
 
@@ -327,7 +346,10 @@ public class AutoCutterController {
             imageCutter.isDebug = true;
             for(String fileName:paths) {
                 logger.info("do cut --->" + pathName + fileName);
-                imageCutter.doCut(pathName + fileName);
+                if (force2Pages)
+                    imageCutter.doAsHalfPage(pathName + fileName);
+                else
+                    imageCutter.doCut(pathName + fileName);
                 logger.info("do cut done --->" + pathName + fileName + " line height = " + Integer.toString(imageCutter.lineHeight));
                 result = result + "-" + Integer.toString(imageCutter.lineHeight);
             }

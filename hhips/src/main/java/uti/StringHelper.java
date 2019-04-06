@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class StringHelper {
     static public String JSON_RESPONSE_KEY_SUCCESS = "SUCCESS";
+    static public String JSON_RESPONSE_KEY_FAILED = "FAILED";
     static public String JSON_RESPONSE_KEY_MESSAGE = "Message";
 
     static public String GetDateString() {

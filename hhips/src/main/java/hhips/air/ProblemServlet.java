@@ -185,8 +185,13 @@ public class ProblemServlet {
             @RequestParam(value="delete", required=false, defaultValue="0") Integer delete)
     {
         logger.info("ProblemServlet - post change request");
-        if (paperid != 0)
-            doActiveProblem(problemid, active, paperid);
+        if (paperid != 0) {
+            if (insertProblem2Paper(problemid, active, paperid) == false) {
+                JSONObject res = new JSONObject();
+                res.append(StringHelper.JSON_RESPONSE_KEY_FAILED, false);
+                return res.toString();
+            }
+        }
 
         if (paperproblemid != 0)
             doChangeProblemStatus(problemid, paperproblemid, problemstatus);
@@ -207,9 +212,9 @@ public class ProblemServlet {
         dbProblemManagement.ChangeProblemPaperStatus(problemid, paperproblemid, problemstatus);
     }
 
-    private void doActiveProblem(int problemID, int activeLevel, int paperID) {
+    private boolean insertProblem2Paper(int problemID, int activeLevel, int paperID) {
         System.out.println("ProblemServlet - add " + problemID + " to paper " + paperID);
         DBProblemManagement dbProblemManagement = new DBProblemManagement();
-        dbProblemManagement.insertPaperProblem(problemID, paperID);
+        return dbProblemManagement.insertPaperProblem(problemID, paperID);
     }
 }
