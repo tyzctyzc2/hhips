@@ -180,124 +180,13 @@
 				
 			</#list>
 		</#if>
-		<table>	  
-			<tr>
-				<td>
-					<select id="moduleselect">
-						<#list 0..maxmodule as i>
-							<option value=${modules[i].idmodule}>${modules[i].modulename}</option>
-						</#list>
-					</select>
-					<select id="levelselect">
-						<option value=1>1</option>
-						<option value=2>2</option>
-						<option value=3 selected = "selected">3</option>
-						<option value=4>4</option>
-					</select>
-					<select id="indexselect">
-						<option value="L1">L1</option>
-						<option value="L1L">L1L</option>
-						<option value="L2">L2</option>
-						<option value="L2L">L2L</option>
-						<option value="L3">L3</option>
-						<option value="L3L">L3L</option>
-						<option value="L4">L4</option>
-						<option value="L4L">L4L</option>
-						<option value="L5">L5</option>
-						<option value="L5L">L5L</option>
-						<option value="L6">L6</option>
-						<option value="L6L">L6L</option>
-						<option value="L7">L7</option>
-						<option value="L7L">L7L</option>
-						<option value="L8">L8</option>
-						<option value="L8L">L8L</option>
-						<option value="01">01</option>
-						<option value="02">02</option>
-						<option value="03">03</option>
-						<option value="04">04</option>
-						<option value="05">05</option>
-						<option value="06">06</option>
-						<option value="07">07</option>
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-						<option value="23">23</option>
-						<option value="24">24</option>
-						<option value="25">25</option>
-						<option value="26">26</option>
-						<option value="27">27</option>
-						<option value="28">28</option>
-						<option value="29">29</option>
-						<option value="30">30</option>
-						<option value="31">31</option>
-						<option value="32">32</option>
-						<option value="33">33</option>
-						<option value="34">34</option>
-						<option value="35">35</option>
-						<option value="Z01">Z01</option>
-						<option value="Z02">Z02</option>
-						<option value="Z03">Z03</option>
-						<option value="Z04">Z04</option>
-						<option value="Z05">Z05</option>
-						<option value="Z06">Z06</option>
-						<option value="Z07">Z07</option>
-						<option value="Z08">Z08</option>
-						<option value="Z09">Z09</option>
-						<option value="Z10">Z10</option>
-						<option value="J01">J01</option>
-						<option value="J02">J02</option>
-						<option value="J03">J03</option>
-						<option value="J04">J04</option>
-						<option value="J05">J05</option>
-						<option value="J06">J06</option>
-						<option value="J07">J07</option>
-						<option value="J08">J08</option>
-						<option value="T01">T01</option>
-						<option value="T02">T02</option>
-						<option value="T03">T03</option>
-						<option value="T04">T04</option>
-						<option value="T05">T05</option>
-						<option value="T06">T06</option>
-						<option value="T07">T07</option>
-						<option value="T08">T08</option>
-						<option value="T09">T09</option>
-						<option value="T10">T10</option>
-						<option value="T11">T11</option>
-						<option value="T12">T12</option>
-						<option value="T13">T13</option>
-						<option value="T14">T14</option>
-						<option value="C01">C01</opCion>
-						<option value="C02">C02</opCion>
-						<option value="C03">C03</opCion>
-						<option value="C04">C04</opCion>
-						<option value="C05">C05</opCion>
-						<option value="C06">C06</opCion>
-						<option value="C07">C07</opCion>
-						<option value="C08">C08</opCion>
-						<option value="C09">C09</opCion>
-						<option value="C10">C10</opCion>
-					</select>
-					<button type="button" onclick="postProblem()">Create</button>
-				</td>
-			</tr>
+		<table>
 			<tr>
 				<td>
 					<input type="text" id="answerstring" />
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<div class="preview_box" id="problemview"></div>
@@ -318,6 +207,82 @@
 					<div class="preview_box" id="answerview"></div>
 				</td>
 			</tr>
+			<tr>
+                <td>
+                    <select id="moduleselect">
+                        <#list 0..maxmodule as i>
+                            <option value=${modules[i].idmodule}>${modules[i].modulename}</option>
+                        </#list>
+                    </select>
+                    <select id="levelselect">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3 selected = "selected">3</option>
+                        <option value=4>4</option>
+                    </select>
+                    <select id="indexselect">
+                        <option value="L1">L1</option>
+                        <option value="L1L">L1L</option>
+                        <option value="L2">L2</option>
+                        <option value="L2L">L2L</option>
+                        <option value="L3">L3</option>
+                        <option value="L3L">L3L</option>
+                        <option value="L4">L4</option>
+                        <option value="L4L">L4L</option>
+                        <option value="L5">L5</option>
+                        <option value="L5L">L5L</option>
+                        <option value="L6">L6</option>
+                        <option value="L6L">L6L</option>
+                        <option value="L7">L7</option>
+                        <option value="L7L">L7L</option>
+                        <option value="L8">L8</option>
+                        <option value="L8L">L8L</option>
+                        <option value="Z01">Z01</option>
+                        <option value="Z02">Z02</option>
+                        <option value="Z03">Z03</option>
+                        <option value="Z04">Z04</option>
+                        <option value="Z05">Z05</option>
+                        <option value="Z06">Z06</option>
+                        <option value="Z07">Z07</option>
+                        <option value="Z08">Z08</option>
+                        <option value="Z09">Z09</option>
+                        <option value="Z10">Z10</option>
+                        <option value="J01">J01</option>
+                        <option value="J02">J02</option>
+                        <option value="J03">J03</option>
+                        <option value="J04">J04</option>
+                        <option value="J05">J05</option>
+                        <option value="J06">J06</option>
+                        <option value="J07">J07</option>
+                        <option value="J08">J08</option>
+                        <option value="T01">T01</option>
+                        <option value="T02">T02</option>
+                        <option value="T03">T03</option>
+                        <option value="T04">T04</option>
+                        <option value="T05">T05</option>
+                        <option value="T06">T06</option>
+                        <option value="T07">T07</option>
+                        <option value="T08">T08</option>
+                        <option value="T09">T09</option>
+                        <option value="T10">T10</option>
+                        <option value="T11">T11</option>
+                        <option value="T12">T12</option>
+                        <option value="T13">T13</option>
+                        <option value="T14">T14</option>
+                        <option value="C01">C01</opCion>
+                        <option value="C02">C02</opCion>
+                        <option value="C03">C03</opCion>
+                        <option value="C04">C04</opCion>
+                        <option value="C05">C05</opCion>
+                        <option value="C06">C06</opCion>
+                        <option value="C07">C07</opCion>
+                        <option value="C08">C08</opCion>
+                        <option value="C09">C09</opCion>
+                        <option value="C10">C10</opCion>
+                    </select>
+                    <button type="button" onclick="postProblem()">Create</button>
+                </td>
+            </tr>
 		</table>
 					<label id="problemlabel" class="active bigFont" for="img_input" onclick="toggleImage(1)">problem</label>
 					<label id="answerabel" class="bigFont" for="img_input" onclick="toggleImage(2)">answer</label>
@@ -339,6 +304,13 @@
 			$('#indexselect option[value='+lastindex+']').next().prop({selected: true});
 			$('#moduleselect option[value='+lastmodule+']').prop({selected: true});
 			$('#levelselect option[value='+lastlevel+']').prop({selected: true});
+
+			for(var i = 1; i < 10; ++i) {
+			    $('#indexselect').append(new Option("0"+i, "0"+i));
+			}
+			for(var i = 10; i < 99; ++i) {
+                $('#indexselect').append(new Option(""+i, ""+i));
+            }
 		}
 		
 		function deleteProblem(idproblem) {
@@ -684,5 +656,20 @@
 	        alert('Unable to copy text')
 	      }
 	    }
+
+	    <#if after != 0>
+        $(document).keypress(function(e) {
+            if (e.keyCode == 13) {
+                window.location.href = "./Chapter?chapterid=${after?c}"
+            }
+        });
+        </#if>
+        <#if before != 0>
+        $(document).keypress(function(e) {
+            if (e.keyCode == 48) {
+                window.location.href = "./Chapter?chapterid=${before?c}"
+            }
+        });
+        </#if>
 	</script>
 </html>

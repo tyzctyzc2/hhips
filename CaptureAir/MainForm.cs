@@ -83,6 +83,11 @@ namespace CaptureAir
                 comboBox_index.Items.Add("T" + i.ToString().PadLeft(2, '0'));
             }
 
+            for (int i = 1; i < 7; ++i)
+            {
+                comboBox_index.Items.Add("J" + i.ToString().PadLeft(2, '0'));
+            }
+
             for (int i = 1; i < 9; ++i)
             {
                 comboBox_index.Items.Add("C" + i.ToString().PadLeft(2, '0'));
@@ -408,7 +413,7 @@ namespace CaptureAir
         {
             myCaptureStatus = CaptureStatus.CAPTURE_NOT;
             _button.BackColor = defaultColor;
-
+            button_copyP_Click(null, null);
         }
 
         private void button_problem_Click(object sender, EventArgs e)

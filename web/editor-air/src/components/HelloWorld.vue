@@ -2,6 +2,9 @@
   <div id="kkk" class="fit">
     <h1>{{ msg }}
       <button v-on:click="doAutoMerge()">智能合并</button>
+      <button v-on:click="mergePicked()">合并选中</button>
+      <button v-on:click="deletePicked()">删除选中</button>
+      <button v-on:click="keepPicked()">保留选中</button>
     </h1>
     <div class="sameLine">
       <div v-for="index in allIndex" v-bind:value="index" v-bind:key="index">
@@ -78,14 +81,7 @@
           <button v-on:click="levelUp(index)">level↑{{item.level}}</button>
         </td>
         <td class="fixWidth">
-          <div v-show="item.picked">
-            <button v-on:click="deleteOne(index)">╳This</button>
-          </div>
-        </td>
-        <td class="fixWidth">
-          <div v-show="item.picked">
-            <button v-on:click="mergeUp(index)">Merge</button>
-          </div>
+          <input type="checkbox" v-model="item.picked" name="checkbox" />
         </td>
         <td>
           <button v-on:click="deleteUp(index)">↑Del</button>
@@ -158,9 +154,6 @@ export default {
   methods: {
     mouseDown (index) {
       console.log(index + 'mouse down')
-      for (var i = 0; i < this.allProblems.length; i++) {
-        this.allProblems[i].picked = false
-      }
       this.inSelectMode = true
       this.allProblems[index].picked = true
       console.log(this.allProblems)
@@ -229,9 +222,36 @@ export default {
           console.log(e)
         })
     },
-    deleteOne (index) {
-      console.log('remove ' + index)
-      console.log(this.allProblems)
+    mergePicked () {
+      scrollY = window.scrollY
+      var data = []
+      for (var i = 0; i < this.allProblems.length; i++) {
+        if (this.allProblems[i].picked === true) {
+          data.push(this.allProblems[i].img)
+        }
+      }
+      if (data.length < 2) {
+        return
+      }
+      axios.post(`http://localhost:8080/hhipsair/auto/merge`, data)
+        .then(response => {
+          console.log(response.data)
+          this.loadImage()
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    keepPicked () {
+      var deleteData = []
+      for (var i = 0; i < this.allProblems.length; i++) {
+        if (this.allProblems[i].picked === false) {
+          deleteData.push(this.allProblems[i].img)
+        }
+      }
+      this.sendDelete(deleteData)
+    },
+    deletePicked () {
       var deleteData = []
       for (var i = 0; i < this.allProblems.length; i++) {
         if (this.allProblems[i].picked === true) {
@@ -339,27 +359,6 @@ export default {
           }
           console.log('set scroll to ' + scrollY)
           window.scrollTo(0, scrollY)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-    mergeUp (index) {
-      console.log('mergeUp ' + index)
-      scrollY = window.scrollY
-      var data = []
-      for (var i = 0; i < this.allProblems.length; i++) {
-        if (this.allProblems[i].picked === true) {
-          data.push(this.allProblems[i].img)
-        }
-      }
-      if (data.length < 2) {
-        return
-      }
-      axios.post(`http://localhost:8080/hhipsair/auto/merge`, data)
-        .then(response => {
-          console.log(response.data)
-          this.loadImage()
         })
         .catch(e => {
           console.log(e)
