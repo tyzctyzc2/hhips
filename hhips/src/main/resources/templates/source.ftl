@@ -21,6 +21,11 @@
 									<p>${sources[i].sourcename}</p>
 								</a>
 							</td>
+							<td>
+                                <a href="./edit#/sum?sourceid=${sources[i].idsource?c}&sourcename=${sources[i].sourcename}" style="text-decoration: none">
+                                    <p>查看进度</p>
+                                </a>
+                            </td>
 						</tr>	
 					</#list>
 			</table>

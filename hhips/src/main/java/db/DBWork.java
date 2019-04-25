@@ -20,13 +20,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.Work.WorkColumnName;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import uti.FileHelper;
 
 @Service
 public class DBWork {
 	public static String absolutePath = "";
-	
+	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DBWork.class);
+
 	public DBWork() {
 	}
 
@@ -103,10 +105,10 @@ public class DBWork {
 		BigDecimal bb = (BigDecimal) cc;
 		return bb.intValue();
 	}
-	
+
 	public List<Work> getProblemAllWork(int problemID) {
 		Session session = HibernateUtils.openCurrentSession();
-		
+
 		session.beginTransaction();
 		List<Work> all;
 		try {
@@ -126,7 +128,7 @@ public class DBWork {
 			session.close();
 		}
 
-        return all;
+		return all;
 	}
 
 	public List<WorkDetail> getProblemAllWorkDetail(Integer idproblem) {
@@ -192,14 +194,15 @@ public class DBWork {
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					logger.error(e.toString());
 				}
 			}
 			if (jsonObject.has(WorkColumnName.idproblem.toString()) == true)
 				w.setIdproblem(jsonObject.getInt(WorkColumnName.idproblem.toString()));
-			
+
 			if (jsonObject.has(WorkColumnName.usedtime.toString()) == true)
 				w.setUsedtime(jsonObject.getInt(WorkColumnName.usedtime.toString()));
-			
+
 			if (jsonObject.has(WorkColumnName.workdetail.toString()) == false) {
 				w.setWorkmark(1);
 				w.setWorkdetail("201804\\t.png");
@@ -226,9 +229,9 @@ public class DBWork {
 		}
 		return pID;
 	}
-	
+
 	public boolean updateWorkMark(int idWork, int mark) {
-	
+
 		Session session = HibernateUtils.openCurrentSession();
 		session.beginTransaction();
 		List<Work> all;
@@ -237,7 +240,7 @@ public class DBWork {
 			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
 			Root<Work> itemRoot = criteriaQuery.from(Work.class);
 			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
-         	all=session.createQuery(criteriaQuery).getResultList();
+			all=session.createQuery(criteriaQuery).getResultList();
 			session.getTransaction().commit();
 		}
 		catch ( RuntimeException e ) {
@@ -247,12 +250,12 @@ public class DBWork {
 		finally {
 			session.close();
 		}
-        if (all.size() == 0)
-        	return false;
-        
-        Work w = all.get(0);
-        w.setWorkmark(mark);
-        updateWork(w);
+		if (all.size() == 0)
+			return false;
+
+		Work w = all.get(0);
+		w.setWorkmark(mark);
+		updateWork(w);
 		return true;
 	}
 
@@ -321,7 +324,7 @@ public class DBWork {
 	}
 
 	private boolean updateWork(Work w) {
-		
+
 		Session session = HibernateUtils.openCurrentSession();
 		Transaction tx = null;
 		boolean suc = false;

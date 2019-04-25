@@ -24,9 +24,9 @@ public class FileHelper {
 	@Autowired
 	static private Environment env;
 
-    public static String getAbsolutePath() {
-        return absolutePath;
-    }
+	public static String getAbsolutePath() {
+		return absolutePath;
+	}
 
 	public static void setAbsolutePath(String absolutePath) {
 		FileHelper.absolutePath = absolutePath;
@@ -35,8 +35,8 @@ public class FileHelper {
 	@Value("${web.upload.path}")
 	static String absolutePath = "";
 
-    public static void getRootPath() {
-    	absolutePath = env.getProperty("web.upload.path");
+	public static void getRootPath() {
+		absolutePath = env.getProperty("web.upload.path");
 	}
 
 	public static String getFilePathName() {
@@ -81,7 +81,7 @@ public class FileHelper {
 
 		return true;
 	}
-	
+
 	private static boolean saveBinaryFile(byte[] data, String fileName) {
 		try {
 			logger.info("start save :" + absolutePath + fileName);
@@ -98,48 +98,49 @@ public class FileHelper {
 
 		return true;
 	}
-	
+
 	public static String getBase64String(String fileName) {
 		String res = "";
 		try {
 			File file = new File(absolutePath + fileName);
-		    byte[] fileData = new byte[(int) file.length()];
-		    DataInputStream dis = new DataInputStream(new FileInputStream(file));
-		    dis.readFully(fileData);
-		    dis.close();
-		    
-		    res = Base64.getEncoder().encodeToString(fileData);
+			byte[] fileData = new byte[(int) file.length()];
+			DataInputStream dis = new DataInputStream(new FileInputStream(file));
+			dis.readFully(fileData);
+			dis.close();
+
+			res = Base64.getEncoder().encodeToString(fileData);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			e.printStackTrace();
 		}
 		return res;
 	}
-	
+
 	public static String saveBase64File(String base64String, String typeString, int fileID) {
 		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
 		String filePathName = getFilePathName() + typeString + Integer.toString(fileID) + ".png";
+		logger.info("saveBase64File -- " + filePathName);
 		saveBinaryFile(decodedDetail, filePathName);
 		return filePathName;
 	}
 
 	public static void saveBase64AsTifFile(String base64String, String pathName, String fileName) {
-        int startIndex = base64String.indexOf("base64")+7;
-        base64String = base64String.substring(startIndex);
-        try {
-            base64String = java.net.URLDecoder.decode(base64String, "UTF-8");
-            base64String = base64String.replace(" ", "+");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        while (base64String.charAt(base64String.length()-1) == '=') {
-            base64String = base64String.substring(0, base64String.length() - 1);
-        }
-        byte[] decodedDetail = Base64.getDecoder().decode(base64String);
-        ensurePathExist(pathName);
-        String filePathName = pathName + fileName;
-        saveBinaryFile(decodedDetail, filePathName);
-    }
+		int startIndex = base64String.indexOf("base64")+7;
+		base64String = base64String.substring(startIndex);
+		try {
+			base64String = java.net.URLDecoder.decode(base64String, "UTF-8");
+			base64String = base64String.replace(" ", "+");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		while (base64String.charAt(base64String.length()-1) == '=') {
+			base64String = base64String.substring(0, base64String.length() - 1);
+		}
+		byte[] decodedDetail = Base64.getDecoder().decode(base64String);
+		ensurePathExist(pathName);
+		String filePathName = pathName + fileName;
+		saveBinaryFile(decodedDetail, filePathName);
+	}
 
 	public static void saveBase64AsPDFFile(String base64String, String pathName, String fileName) {
 		int startIndex = base64String.indexOf("base64")+9;
@@ -171,30 +172,30 @@ public class FileHelper {
 	}
 
 	public static void deleteAllFileInAbsPath(String pathName) {
-        String[] paths;
-        try {
-            // create new file
-            File f = new File(pathName);
+		String[] paths;
+		try {
+			// create new file
+			File f = new File(pathName);
 
-            // create new filter
-            FilenameFilter filter = new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return true;
-                }
-            };
+			// create new filter
+			FilenameFilter filter = new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return true;
+				}
+			};
 
-            paths = f.list(filter);
+			paths = f.list(filter);
 
-            for(String fileName:paths) {
-                File file = new File(pathName+fileName);
-                file.delete();
-            }
+			for(String fileName:paths) {
+				File file = new File(pathName+fileName);
+				file.delete();
+			}
 
-        } catch(Exception e) {
-            // if any error occurs
-            e.printStackTrace();
-            logger.error(e.toString());
-        }
-    }
+		} catch(Exception e) {
+			// if any error occurs
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+	}
 }

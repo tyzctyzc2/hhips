@@ -1,10 +1,21 @@
 package db;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "v_chaptersummary")
 public class SourceChapterSummary {
+    private  Integer chapternotecount;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer idsourcechapter;
+    private Integer sourceid;
+    private String sourcechaptername;
+    private Integer sourcechapterindex;
+
+    public SourceChapterSummary() {
+    }
     public Integer getChapterproblemcount() {
         return chapterproblemcount;
     }
@@ -21,27 +32,6 @@ public class SourceChapterSummary {
 
     public void setChapternotecount(Integer chapternotecount) {
         this.chapternotecount = chapternotecount;
-    }
-
-    private  Integer chapternotecount;
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer idsourcechapter;
-    private Integer sourceid;
-    public Integer getSourceid() {
-        return sourceid;
-    }
-
-    public void setSourceid(Integer sourceid) {
-        this.sourceid = sourceid;
-    }
-
-    private String sourcechaptername;
-    private Integer sourcechapterindex;
-
-
-    public SourceChapterSummary() {
     }
 
     public Integer getIdsourcechapter() {
@@ -67,4 +57,13 @@ public class SourceChapterSummary {
     public void setSourcechapterindex(Integer sourcechapterindex) {
         this.sourcechapterindex = sourcechapterindex;
     }
+
+    public Integer getSourceid() {
+        return sourceid;
+    }
+
+    public void setSourceid(Integer sourceid) {
+        this.sourceid = sourceid;
+    }
+
 }

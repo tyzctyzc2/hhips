@@ -347,7 +347,7 @@ public class AutoCutterController {
             for(String fileName:paths) {
                 logger.info("do cut --->" + pathName + fileName);
                 if (force2Pages)
-                    imageCutter.doAsHalfPage(pathName + fileName);
+                    imageCutter.doAs4Page(pathName + fileName);
                 else
                     imageCutter.doCut(pathName + fileName);
                 logger.info("do cut done --->" + pathName + fileName + " line height = " + Integer.toString(imageCutter.lineHeight));

@@ -45,6 +45,66 @@ public class ImageCutter {
         isDebug = debug;
     }
 
+    private boolean isGood2PageCut() {
+        if (leftPage == null)
+            return false;
+
+        int reasonableWidth = imgOriginal.width() * 2 / 3;
+
+        if (leftPage.width() > reasonableWidth)
+            return  false;
+
+        if (rightPage == null)
+            return false;
+
+        if (rightPage.width() > reasonableWidth)
+            return false;
+
+        return true;
+    }
+
+    public void doAs4Page(String cutFileFullName) {
+        allBlock.clear();
+        fileName = cutFileFullName;
+        filePath = fileName.substring(0, fileName.lastIndexOf("\\")+1);
+
+        if (loadImage() == false) {
+            System.out.println("CANNOT load image!");
+            logger.error("CANNOT load image!");
+            return;
+        }
+        colorAndErode();
+        cut2Page();
+
+        if (isGood2PageCut() == false)
+            forceCut2Pages();
+
+        Mat rightRoot = rightPage;
+
+        processSingleAnswerPageCut(leftPage);
+        processSingleAnswerPageCut(rightRoot);
+    }
+
+    private void processSingleAnswerPageCut(Mat page) {
+        imgOriginal = page;
+        colorAndErode();
+        force2Page();
+        cut2Page();
+
+        if (isGood2PageCut() == false)
+            forceCut2Pages();
+
+        imgOriginal = leftPage;
+        colorAndErode();
+        detectBlock();
+        cutImage();
+
+        imgOriginal = rightPage;
+        colorAndErode();
+        detectBlock();
+        cutImage();
+    }
+
     public void doAsHalfPage(String cutFileFullName) {
         allBlock.clear();
         fileName = cutFileFullName;
@@ -192,6 +252,11 @@ public class ImageCutter {
         }
     }
 
+    private  void force2Page(){
+        twoPageCase = true;
+        pageWidth = imgOriginal.width() / 2;
+    }
+
     private void forceCut2Pages() {
         int width = imgOriginal.width();
         cutInto2Pages(width/2 + 1, width/2 -1);
@@ -220,15 +285,21 @@ public class ImageCutter {
         int minBlock = pageWidth / 2;
         int leftEnd = 0;
         int rightStart = imgOriginal.width();
+        Rect middleRect = null;
         for (int i = 0; i < contoursDia.size(); i++) {
             Rect rec = Imgproc.boundingRect(contoursDia.get(i));
-            //System.out.println(Integer.toString(i) + "==" +  rec.toString());
+            System.out.println(Integer.toString(i) + "==" +  rec.toString());
+            Imgproc.rectangle(tmp2, rec.tl(), rec.br(), new Scalar(0, 0, 200), 2, 4, 0);
+            Imgproc.putText(tmp2, String.valueOf(i),new Point(rec.x, rec.y),2,2, new Scalar(0, 0, 200));
 
-            if ((rec.height < minBlock) || (rec.width<minBlock)) {
+            if ((rec.height < 100) || (rec.width > 100)) {
                 continue;
             }
 
             if (rec.width > pageWidth)
+                continue;
+
+            if (rec.x < minBlock)
                 continue;
 
             if (rec.y < 40)
@@ -244,7 +315,19 @@ public class ImageCutter {
                     leftEnd = rec.x + rec.width;
             }
 
+            if (rec.width < 100 && rec.height > 1000 && Math.abs(rec.x - pageWidth) < 150) {
+                middleRect = rec;
+            }
+
             Imgproc.rectangle(tmp2, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
+        }
+        if (isDebug == true) {
+            Imgcodecs.imwrite(fileName+"_block_find_page.PNG", tmp2);
+        }
+        if (middleRect != null) {
+            int middleX = middleRect.x + middleRect.width / 2;
+            leftEnd = middleX - 1;
+            rightStart = middleX + 1;
         }
         if (leftEnd == 0 || ((rightStart - leftEnd) > (leftEnd/2)) ) {//not find page break, we need try with other way
             calculateLineHeight(contoursDia);
@@ -309,9 +392,7 @@ public class ImageCutter {
             }
             return true;
         }
-        if (isDebug == true) {
-            Imgcodecs.imwrite(fileName+"_block_find_page.PNG", tmp2);
-        }
+
         cutInto2Pages(leftEnd, rightStart);
         return  true;
     }
@@ -429,13 +510,20 @@ public class ImageCutter {
         int minSize = lineHeight / 2;
         for (int i = 0; i < contoursDia.size(); i++) {
             Rect rec = Imgproc.boundingRect(contoursDia.get(i));
+            System.out.println(Integer.toString(i) + "==" +  rec.toString());
             Imgproc.rectangle(foundBlock, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
+            Imgproc.putText(foundBlock, String.valueOf(i),new Point(rec.x, rec.y),2,2, new Scalar(0, 0, 200));
             if ((rec.height > grayImg.height() * 0.9) && (rec.width > grayImg.width() * 0.9)) {
                 //remove very big block
                 continue;
             }
             if ((rec.height < minSize) && (rec.width < minSize)){
                 //remove very small block
+                continue;
+            }
+
+            if (binaryImg.width() - rec.x < 10) {
+                //remove very close right edge block
                 continue;
             }
 
@@ -448,10 +536,6 @@ public class ImageCutter {
                 continue;
             }
 
-            /*if (rec.x < minSize * 2 || rec.y < minSize * 2) {//maybe it is a line
-                continue;
-            }*/
-
             if (rec.height > (imgOriginal.height() * 0.3)) {
                 //block with very less black in it
                 Mat part = new Mat(binaryImgOri, rec);
@@ -462,6 +546,7 @@ public class ImageCutter {
             }
 
             Imgproc.rectangle(foundBlockYes, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
+            Imgproc.putText(foundBlockYes, String.valueOf(i),new Point(rec.x, rec.y),2,2, new Scalar(0, 0, 200));
             unsortedBlock.add(rec);
         }
 
@@ -473,7 +558,7 @@ public class ImageCutter {
         for(int i = 0; i<sortedBlock.size();++i) {
             cacheNewBlock(sortedBlock.get(i));
         }
-        //saveAllPart(new ArrayList<>(allBlock.values()), "after_sort_cache");
+        saveAllPart(new ArrayList<>(allBlock.values()), "after_sort_cache");
     }
 
     private List<Rect> sortBlocks(List<Rect> unsortedBlock) {
@@ -558,13 +643,15 @@ public class ImageCutter {
         Mat part = imgOriginal.clone();
         for(int i = 0; i<allPart.size();++i) {
             Rect cur = allPart.get(i);
+            Imgproc.rectangle(part, cur.tl(), cur.br(), new Scalar(0, 200, 0), 2, 4, 0);
+            Imgproc.putText(part, String.valueOf(i),new Point(cur.x, cur.y),2,2, new Scalar(0, 0, 200));
             //if (isDebug == true) {
-            Mat part2 = imgOriginal.clone();
+            /*Mat part2 = imgOriginal.clone();
             Imgproc.rectangle(part, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
             Imgproc.rectangle(part2, allPart.get(i).tl(), allPart.get(i).br(), new Scalar(0, 255, 0), 2, 4, 0);
             Imgcodecs.imwrite(fileName+getTimeString()+"_block_"+Integer.toString(i)+"_"
                     +Integer.toString(cur.x)+"_"+Integer.toString(cur.y)
-                    +"!"+Integer.toString(cur.width)+"X"+Integer.toString(cur.height)+"!"+".png", part2);
+                    +"!"+Integer.toString(cur.width)+"X"+Integer.toString(cur.height)+"!"+".png", part2);*/
             //}
         }
 
