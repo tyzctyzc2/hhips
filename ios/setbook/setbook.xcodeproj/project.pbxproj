@@ -30,6 +30,7 @@
 		75656EE721670063006CB53E /* NoteMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75656EE521670063006CB53E /* NoteMasterViewController.m */; };
 		7566BC35216831BB0082813A /* MyDataStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 7566BC34216831BB0082813A /* MyDataStatic.m */; };
 		756B23EB21A81C4E00692845 /* BubbleLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B23EA21A81C4E00692845 /* BubbleLabelView.m */; };
+		75D34AEA225F63D500CB2663 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 75D34AE9225F63D500CB2663 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		7566BC34216831BB0082813A /* MyDataStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDataStatic.m; sourceTree = "<group>"; };
 		756B23E921A81C4E00692845 /* BubbleLabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleLabelView.h; sourceTree = "<group>"; };
 		756B23EA21A81C4E00692845 /* BubbleLabelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleLabelView.m; sourceTree = "<group>"; };
+		75D34AE9225F63D500CB2663 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		751C656221619C2A0032DD74 = {
 			isa = PBXGroup;
 			children = (
+				75D34AE9225F63D500CB2663 /* Settings.bundle */,
 				751C656D21619C2A0032DD74 /* setbook */,
 				751C658921619C2C0032DD74 /* setbookTests */,
 				751C659421619C2C0032DD74 /* setbookUITests */,
@@ -342,6 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75D34AEA225F63D500CB2663 /* Settings.bundle in Resources */,
 				751C657E21619C2C0032DD74 /* LaunchScreen.storyboard in Resources */,
 				751C657B21619C2C0032DD74 /* Assets.xcassets in Resources */,
 				751C657921619C2A0032DD74 /* Main.storyboard in Resources */,
