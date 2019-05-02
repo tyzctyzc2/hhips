@@ -1,17 +1,22 @@
 <template>
   <div id="kkk" class="fit">
+    <h1 class="bottomArea">{{ msg }}
+      <button v-on:click="doAutoMerge()">智能合并</button>
+      <button v-on:click="mergePicked()">合并选中</button>
+      <button v-on:click="deletePicked()">删除选中</button>
+      <button v-on:click="keepPicked()">保留选中</button>
+      <button class="right" v-on:click="submit()">Submit</button>
+      <div class="right">&nbsp;&nbsp;</div>
+      <button class="right" v-on:click="update()">Update</button>
+      <div class="right">&nbsp;&nbsp;</div>
+      <div class="right">{{chapter}}</div>
+    </h1>
     <div id="app">
       <input type="checkbox" v-model="answerFlag" name="checkbox" />
       <input type="file" multiple="multiple" :name="uploadFieldName" @change="filesChange($event.target.files); "
               accept="any/*" class="input-file">
       <router-view/>
     </div>
-    <h1>{{ msg }}
-      <button v-on:click="doAutoMerge()">智能合并</button>
-      <button v-on:click="mergePicked()">合并选中</button>
-      <button v-on:click="deletePicked()">删除选中</button>
-      <button v-on:click="keepPicked()">保留选中</button>
-    </h1>
     <div class="sameLine">
       <div v-for="index in allIndex" v-bind:value="index" v-bind:key="index">
         <button v-on:click="startFrom(index, 1)">{{index}}</button>
@@ -40,6 +45,12 @@
     <div class="sameLine">
       <div v-for="index in allIndexE" v-bind:value="index" v-bind:key="index">
         <button v-on:click="startFrom(index, 5)">{{index}}</button>
+      </div>
+    </div>
+    <div>--------------------------------------------------------------</div>
+    <div class="sameLine">
+      <div v-for="index in allIndexF" v-bind:value="index" v-bind:key="index">
+        <button v-on:click="startFrom(index, 6)">{{index}}</button>
       </div>
     </div>
     <table>
@@ -100,6 +111,8 @@
         </td>
       </tr>
     </table>
+    <div>--------------------------------------------------------------</div>
+    <div>--------------------------------------------------------------</div>
   </div>
 </template>
 
@@ -141,19 +154,13 @@ export default {
         'Z01', 'Z02', 'Z03', 'Z04', 'Z05', 'Z06', 'Z07', 'Z08', 'Z09', 'Z10'],
       allIndexC: ['X01', 'X02', 'X03', 'X04', 'X05', 'X06', 'X07', 'X08', 'X09', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16', 'X17'],
       allIndexD: ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17'],
-      allIndexE: ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17']
+      allIndexE: ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17'],
+      allIndexF: ['J01', 'J02', 'J03', 'J04', 'J05', 'J06', 'J07', 'J08', 'J09', 'J10']
     }
   },
   watch: {
     answerFlag: function (val) {
-      localStorage.answerFlag = val
-      console.log(val)
-      if (val === false) {
-        url = 'http://localhost:8080/hhipsair/auto/png'
-      } else {
-        url = 'http://localhost:8080/hhipsair/auto/png2pages'
-      }
-      console.log(url)
+      localStorage.answerFlag = this.answerFlag
     },
     pickedModule: function (val) {
       for (var i = 0; i < this.allProblems.length; i++) {
@@ -390,6 +397,8 @@ export default {
         this.doStartFrom(index, this.allIndexD)
       } else if (from === 5) {
         this.doStartFrom(index, this.allIndexE)
+      } else if (from === 6) {
+        this.doStartFrom(index, this.allIndexF)
       }
     },
     doStartFrom (index, data) {
@@ -444,10 +453,30 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    loadUrlCheckValue () {
+      console.log('loadUrlCheckValue')
+      if (localStorage.answerFlag !== undefined) {
+        if (localStorage.answerFlag === 'true') {
+          console.log('localStorage.answerFlag is true...')
+          this.answerFlag = true
+        } else {
+          console.log('localStorage.answerFlag is NOT true...')
+          this.answerFlag = false
+        }
+        console.log('localStorage.answerFlag')
+        console.log(localStorage.answerFlag)
+        if (this.answerFlag) {
+          url = 'http://localhost:8080/hhipsair/auto/png'
+        } else {
+          url = 'http://localhost:8080/hhipsair/auto/png2pages'
+        }
+      }
     }
   },
   beforeMount: function () {
     this.loadImage()
+    this.loadUrlCheckValue()
   },
   updated: function () {
     console.log('reset position')
@@ -457,14 +486,6 @@ export default {
     }
   },
   mounted: function () {
-    if (localStorage.answerFlag !== undefined) {
-      this.answerFlag = localStorage.answerFlag
-      if (this.answerFlag) {
-        url = 'http://localhost:8080/hhipsair/auto/png'
-      } else {
-        url = 'http://localhost:8080/hhipsair/auto/png2pages'
-      }
-    }
     console.log('mounted called')
     console.log(scrollY)
     if (localStorage.chapter !== undefined) {
@@ -482,7 +503,6 @@ export default {
         this.allProblems[k].module = this.pickedModule
       }
     }
-    console.log(this.allProblems)
   }
 }
 </script>
@@ -492,11 +512,23 @@ export default {
 fit {
   width:100%;
 }
+.bottomArea {
+  position: fixed;
+  bottom: -20px;
+  left: 0px;
+  width: 100%;
+  color: #CCC;
+  background: #333;
+  padding: 0px;
+}
 .sameLine {
   display: inline-flex;
 }
 .fixWidth {
   width: 60px;
+}
+.right {
+  float: right;
 }
 h1, h2 {
   font-weight: normal;

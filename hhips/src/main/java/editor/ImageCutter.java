@@ -513,8 +513,8 @@ public class ImageCutter {
             System.out.println(Integer.toString(i) + "==" +  rec.toString());
             Imgproc.rectangle(foundBlock, rec.tl(), rec.br(), new Scalar(0, 200, 0), 2, 4, 0);
             Imgproc.putText(foundBlock, String.valueOf(i),new Point(rec.x, rec.y),2,2, new Scalar(0, 0, 200));
-            if ((rec.height > grayImg.height() * 0.9) && (rec.width > grayImg.width() * 0.9)) {
-                //remove very big block
+            if (rec.height > grayImg.height() * 0.9) {// && (rec.width > grayImg.width() * 0.9)) {
+                //remove very high block
                 continue;
             }
             if ((rec.height < minSize) && (rec.width < minSize)){
