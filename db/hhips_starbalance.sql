@@ -28,7 +28,7 @@ CREATE TABLE `starbalance` (
   `changebalance` int(11) DEFAULT NULL,
   `changenote` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idstarbalance`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `starbalance` (
 
 LOCK TABLES `starbalance` WRITE;
 /*!40000 ALTER TABLE `starbalance` DISABLE KEYS */;
-INSERT INTO `starbalance` VALUES (1,'2018-12-01 00:00:00',142,'Earn 152-10'),(2,'2018-12-21 00:00:00',-43,'Redeem 柠檬家胶带'),(3,'2018-12-23 00:00:00',4,'优才12讲课前测60'),(4,'2019-01-01 00:00:00',200,'Earn 219-19'),(5,'2019-02-01 00:00:00',96,'Earn 107-11'),(6,'2019-04-01 00:00:00',40,'Earn 55-15'),(7,'2019-04-06 00:00:00',-300,'Redeem 量子攻略');
+INSERT INTO `starbalance` VALUES (1,'2018-12-01 00:00:00',142,'Earn 152-10'),(2,'2018-12-21 00:00:00',-43,'Redeem 柠檬家胶带'),(3,'2018-12-23 00:00:00',4,'优才12讲课前测60'),(4,'2019-01-01 00:00:00',200,'Earn 219-19'),(5,'2019-02-01 00:00:00',96,'Earn 107-11'),(6,'2019-04-01 00:00:00',98,'Earn 133-35'),(7,'2019-04-06 00:00:00',-300,'Redeem 量子攻略'),(8,'2019-05-01 00:00:00',98,'Earn 134-36'),(9,'2019-06-01 00:00:00',85,'Earn 98-13');
 /*!40000 ALTER TABLE `starbalance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-15 19:35:06
+-- Dump completed on 2019-06-17 20:16:34

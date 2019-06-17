@@ -2,6 +2,7 @@ package db;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class DBTag {
     static List<Tag> allTagList = null;
 
@@ -117,6 +119,30 @@ public class DBTag {
         if (all.size() > 0)
             return all.get(0);
         return null;
+    }
+
+    public List<Tag> getChildTag(Integer parentTagId, Integer subjectId) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Tag> all;
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
+            Root<Tag> itemRoot = criteriaQuery.from(Tag.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("parentid"), parentTagId),
+                    criteriaBuilder.equal(itemRoot.get("idsubject"), subjectId));
+            all = session.createQuery(criteriaQuery).getResultList();
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return all;
     }
 
     public List<Tag> getBaseTagMap() {

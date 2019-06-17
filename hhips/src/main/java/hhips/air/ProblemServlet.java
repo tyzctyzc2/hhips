@@ -111,8 +111,13 @@ public class ProblemServlet {
         model.addAttribute("idpaper", paperID);
         model.addAttribute("showAnswer", showAnswer);
         model.addAttribute("noFormat", noFormat);
-
         model.addAttribute("paperDetail", paper.getPaperDetail(Integer.parseInt(paperID)));
+
+        Integer beforePaperId = paper.getBeforePaperId(Integer.parseInt(paperID));
+        model.addAttribute("beforePaper", beforePaperId);
+
+        Integer afterpaperId = paper.getAfterPaperId(Integer.parseInt(paperID));
+        model.addAttribute("afterPaper", afterpaperId);
 
         return "paperproblemlist";
     }

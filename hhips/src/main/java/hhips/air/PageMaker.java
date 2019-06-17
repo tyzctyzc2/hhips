@@ -190,6 +190,13 @@ public class PageMaker {
 		List<List<Tag>> chopedTag = DmmUti.chopped(allTags, 7);
 		model.addAttribute("allTags", chopedTag);
 
+		List<Paper> papers = dbPaper.getAllEditPapers();
+		root.put("papers", papers);
+		root.put("maxpaper", papers.size()-1);
+
+		model.addAttribute("papers", papers);
+		model.addAttribute("maxpaper", papers.size()-1);
+
 		return root;
 	}
 

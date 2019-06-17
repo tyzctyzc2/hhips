@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -118,6 +119,32 @@ public class DBWork {
 			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idproblem"), problemID));
 			all = session.createQuery(criteriaQuery).getResultList();
 
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
+		return all;
+	}
+
+	public List<Work> getOldWork(Integer dayBefore) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			LocalDate now = LocalDate.now();
+			now.minusDays(dayBefore);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.lessThan(itemRoot.get("workdate"), now));
+			all = session.createQuery(criteriaQuery).getResultList();
 			session.getTransaction().commit();
 		}
 		catch ( RuntimeException e ) {

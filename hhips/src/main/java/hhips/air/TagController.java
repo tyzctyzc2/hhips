@@ -4,19 +4,25 @@ import db.DBTag;
 import db.ProblemWithLastWork;
 import db.ProblemWithWork;
 import db.Tag;
+import json.TagTreeJson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uti.StringHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class TagController {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TagController.class);
+
+    @Autowired
+    DBTag dbTag;
 
     @GetMapping("/tag")
     public String processProblemGet(Model model, @RequestParam(value="tagid", required=false, defaultValue="0") int tagid) {
@@ -28,6 +34,35 @@ public class TagController {
         model.addAttribute("myTag", want);
         model.addAttribute("today", StringHelper.GetDateString());
         return "tagproblem";
+    }
+
+    @GetMapping("/childtag")
+    public @ResponseBody List<TagTreeJson> getAllChildTag(Model model, @RequestParam(value="rootid", required=false, defaultValue="1") int rootId) {
+        logger.info("TagController - get child tag " + rootId);
+        int subjectId  = 1;
+        List<Tag> root = dbTag.getChildTag(0, subjectId);
+        List<TagTreeJson> tree = new ArrayList<>();
+        for(int i = 0; i < root.size(); ++i) {
+            TagTreeJson cur = new TagTreeJson(root.get(i));
+            cur = getNestedNode(cur, subjectId);
+            tree.add(cur);
+        }
+        return tree;
+    }
+
+    TagTreeJson getNestedNode(TagTreeJson parentNode, int subjectId) {
+        List<Tag> myChildList = dbTag.getChildTag(parentNode.getId(), subjectId);
+        if (myChildList.size() == 0)
+            return parentNode;
+
+        List<TagTreeJson> allChildren = new ArrayList<>();
+        for(int i = 0; i < myChildList.size(); ++i) {
+            TagTreeJson cur = new TagTreeJson(myChildList.get(i));
+            cur = getNestedNode(cur, subjectId);
+            allChildren.add(cur);
+        }
+        parentNode.setChildren(allChildren);
+        return parentNode;
     }
 
     @PostMapping("/tag/add")

@@ -107,3 +107,15 @@
 .dmmtable tr:hover {
     background-color: #ffff99;
 }
+.floatRight {
+  float: right;
+}
+.bottomArea {
+  position: fixed;
+  bottom: -20px;
+  left: 0px;
+  width: 100%;
+  color: #CCC;
+  background: #333;
+  padding: 0px;
+}

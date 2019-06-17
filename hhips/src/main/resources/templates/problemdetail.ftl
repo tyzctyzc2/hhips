@@ -62,6 +62,18 @@
             <td>
                 <button class="bigFont" type="button" onclick="showTag()">Change Tag</button>
             </td>
+            <td>
+                <#if maxpaper != -1>
+                    <select id="paperselect">
+                        <#list 0..maxpaper as i>
+                            <option value=${papers[i].idpaper?c}>${papers[i].papername}</option>
+                        </#list>
+                    </select>
+                </#if>
+            </td>
+            <td>
+                <button class="bigFont" type="button" onclick="add2Paper(${problemdetail.idproblem?c},5)">Add to Paper</button>
+            </td>
             </tr>
         </table>
         <div id="dialog" title="Tag dialog" class="hide">
@@ -284,6 +296,27 @@
                     modal: true,
                   width: 800,
                   height: 600});
+        }
+
+        function add2Paper(idproblem, problemcisactive) {
+            var paperid = $( "#paperselect" ).val();
+            var url = "./Problem?active="+problemcisactive+"&problemid="+idproblem+"&paperid="+paperid;
+            console.log(url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: "",
+                success: function(msg) {
+                    console.log(msg);
+                    alert(JSON.stringify(msg));
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            })
         }
 
         function changeTag(problemID, tagID) {

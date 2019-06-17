@@ -291,6 +291,34 @@
 					<br/>
 					<br/>
 					<br/>
+        <h1 class="bottomArea">
+            <#list 0..max as i>
+                <a class="jumper notLinkText sameLine" href="#jump_${problems[i].idproblem?c}">
+                    <p class="orange">[${i+1}]</p>
+                    <#if problems[i].workmark??>
+                        <#if problems[i].workmark == 0>
+                            <div class="sameLine right">√</div>
+                        <#else>
+                            <div class="sameLine wrong">×</div>
+                        </#if>
+                    </#if>
+                </a>
+            </#list>
+            <#if after != 0>
+                <a href="./Chapter?chapterid=${after?c}">
+                    <p class="sameLine floatRight">→</p>
+                </a>
+            </#if>
+
+            <div class="sameLine floatRight">&nbsp;&nbsp;</div>
+            <#if before != 0>
+                <a href="./Chapter?chapterid=${before?c}">
+                    <p class="sameLine floatRight">←</p>
+                </a>
+            </#if>
+            <br>
+            <p>---------------------------------</p>
+        </h1>
 	</body>
 	<script>
 	    var problemDone = ${problemDone};

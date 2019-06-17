@@ -4,6 +4,7 @@ import db.DBProblemManagement;
 import db.DBWork;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,8 @@ import uti.StringHelper;
 @Controller
 //@RequestMapping("/hhipsair")
 public class WorkServlet {
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(WorkServlet.class);
+
     @PostMapping("/Work/wrong")
     public @ResponseBody
     String wrongPaperProblem(@RequestBody String stringToParse) {
@@ -34,6 +37,7 @@ public class WorkServlet {
                 res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, false);
         } catch (JSONException e1) {
             // TODO Auto-generated catch block
+            logger.error(e1.toString());
             e1.printStackTrace();
         }
         return res.toString();
@@ -54,6 +58,7 @@ public class WorkServlet {
             dbWork.updateWorkReason(idwork, reason);
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.error(e.toString());
         }
         JSONObject res = new JSONObject();
         res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
@@ -75,6 +80,7 @@ public class WorkServlet {
             dbWork.updateWorkStarReason(idwork, idstarreason);
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.error(e.toString());
         }
         JSONObject res = new JSONObject();
         res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
@@ -94,6 +100,7 @@ public class WorkServlet {
             dbm.ChangeProblemPaperStatus(jsonObject.getInt("idproblem"), jsonObject.getInt("paperproblemid"), 1);
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.error(e.toString());
         }
         JSONObject res = new JSONObject();
         res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
@@ -115,6 +122,7 @@ public class WorkServlet {
             createNewWork(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.error(e.toString());
         }
         JSONObject res = new JSONObject();
         res.append(StringHelper.JSON_RESPONSE_KEY_SUCCESS, true);
@@ -152,6 +160,7 @@ public class WorkServlet {
         } catch (JSONException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
+            logger.error(e1.toString());
         }
         DBWork dbWork = new DBWork();
         JSONObject res = new JSONObject();

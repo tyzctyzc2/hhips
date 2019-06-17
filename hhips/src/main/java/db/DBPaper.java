@@ -17,6 +17,66 @@ public class DBPaper {
     public DBPaper() {
     }
 
+    public Integer getAfterPaperId(Integer paperId) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Paper> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+            Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idpaper"), paperId),
+                    criteriaBuilder.notEqual(itemRoot.get("isactive"), 5));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        if (all.size() > 0)
+            return all.get(0).getIdpaper();
+
+        return 0;
+    }
+
+    public Integer getBeforePaperId(Integer paperId) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Paper> all;
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
+            Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.lessThan(itemRoot.get("idpaper"), paperId),
+                    criteriaBuilder.notEqual(itemRoot.get("isactive"), 5));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        if (all.size() > 0)
+            return all.get(all.size()-1).getIdpaper();
+
+        return 0;
+    }
+
     public Paper getPaperDetail(Integer paperId) {
         Session session = HibernateUtils.openCurrentSession();
 

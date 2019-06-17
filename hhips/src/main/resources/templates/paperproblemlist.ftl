@@ -1,16 +1,15 @@
 <html>
-<head>
-   <meta charset="utf-8"/>
-   <title>${papername}</title>
-   <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
-   <script type="text/javascript" src="./chart/highcharts.js"></script>
-   <script type="text/javascript" src="./chart/piechart4problem.js"></script>
-   	<script type="text/javascript" src="./js/common.js"></script>
-   <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
-
-</head>
-   <body>
-       <#if showAnswer != 0>
+    <head>
+        <meta charset="utf-8"/>
+        <title>${papername}</title>
+        <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="./chart/highcharts.js"></script>
+        <script type="text/javascript" src="./chart/piechart4problem.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <#if showAnswer != 0>
            <div>
             <#include "/header.ftl">
             </div>
@@ -54,40 +53,48 @@
                 <p>(AN)</p>
             </a>
         </div>
-
-      <#if showAnswer != 0>
-         <#if max != -1>
-            <table>
-                <tr>
-                    <td>
-                        <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
-                    </td>
-                </tr>
-            </table>
-            <table class="dmmtable">
-               <#list 0..max as i>
-                  <tr>
-                     <td>
-                        <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
-                        <p>${problems[i].problemindex}&nbsp;&nbsp;</p>
-                        </a>
-                     </td>
-                     <td>
-                                <#if problems[i].problemlevel == 1>
-                                    <p>☆</p>
-                                </#if>
-                                <#if problems[i].problemlevel == 2>
-                                    <p>☆☆</p>
-                                </#if>
-                                <#if problems[i].problemlevel == 3>
-                                    <p>☆☆☆</p>
-                                </#if>
-                                <#if problems[i].problemlevel == 4>
-                                    <p>☆☆☆☆</p>
-                                </#if>
+        <#if showAnswer != 0>
+            <#if max != -1>
+                <table>
+                    <tr>
+                        <td>
+                            <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="dmmtable">
+                    <#list 0..max as i>
+                        <tr>
+                            <td>
+                                <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
+                                    <p>[${i+1}]</p>
+                                </a>
                             </td>
                             <td>
-                                <p>${problems[i].modulename}&nbsp;&nbsp;</p>
+                                <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
+                                    <p>${problems[i].problemindex}&nbsp;&nbsp;</p>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
+                                    <#if problems[i].problemlevel == 1>
+                                        <p>☆</p>
+                                    </#if>
+                                    <#if problems[i].problemlevel == 2>
+                                        <p>☆☆</p>
+                                    </#if>
+                                    <#if problems[i].problemlevel == 3>
+                                        <p>☆☆☆</p>
+                                    </#if>
+                                    <#if problems[i].problemlevel == 4>
+                                        <p>☆☆☆☆</p>
+                                    </#if>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="jumper notLinkText" href="#jump_${problems[i].idproblem?c}">
+                                    <p>${problems[i].modulename}&nbsp;&nbsp;</p>
+                                </a>
                             </td>
                             <td class="picked" onclick="activeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">
                                 <#if problems[i].problemstatus == 1>
@@ -143,23 +150,23 @@
                                             </#if>
                                         <#else>
                                             <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
-                                        </#if>
-                                    </#list>
+                                </#if>
+                            </#list>
+                        </td>
+                        </tr>
+                    </#list>
+                </table>
+            </#if>
+        </#if>
 
-                                </td>
-                     </tr>
-               </#list>
-            </table>
-         </#if>
-      </#if>
-
-      <#if max != -1>
-         <#list 0..max as i>
+        <#if max != -1>
+            <#list 0..max as i>
             <#if active == 0>
                 <table style="font-size:  x-large;">
                    <span id=jump_${problems[i].idproblem?c}></span>
                    <tr>
                       <td>
+                            <div>[${i+1}]</div>
                             <div class="picked" onclick="window.open('./Problem?problemid=${problems[i].idproblem?c}')">
                                 <img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
                             </div>
@@ -179,6 +186,14 @@
                           <td>
                               <br></br>
                           </td>
+                      </tr>
+                      <tr>
+                        <td>
+                            <br></br>
+                        </td>
+                        <td>
+                            <br></br>
+                        </td>
                       </tr>
                       <tr>
                           <td>
@@ -209,6 +224,14 @@
                                <td>
                                    <br></br>
                                </td>
+                           </tr>
+                           <tr>
+                                <td>
+                                    <br></br>
+                                </td>
+                                <td>
+                                    <br></br>
+                                </td>
                            </tr>
                            <tr>
                                <td>
@@ -309,9 +332,48 @@
             </#if>
          </#list>
       </#if>
+    <br>
+    <br>
+    <br>
+    <br>
+    <#if showAnswer != 0>
+        <h1 class="bottomArea">
+            <#list 0..max as i>
+                <a class="jumper notLinkText sameLine" href="#jump_${problems[i].idproblem?c}">
+                    <#if problems[i].problemstatus == 1>
+                        <p class="orange">[${i+1}]</p>
+                    <#else>
+                        <p class="orange">${i+1}</p>
+                    </#if>
+                    <#if problems[i].workdetail??>
+                        <#if problems[i].workmark??>
+                            <#if problems[i].workmark == 0>
+                                <div class="sameLine right">√</div>
+                            <#else>
+                                <div class="sameLine wrong">×</div>
+                            </#if>
+                        </#if>
+                    </#if>
+                </a>
+            </#list>
+            <#if afterPaper != 0>
+                <a href="./Problem?paperid=${afterPaper?c}&showanswer=1">
+                    <p class="sameLine floatRight">→</p>
+                </a>
+            </#if>
 
-   </body>
-   <script>
+            <div class="sameLine floatRight">&nbsp;&nbsp;</div>
+            <#if beforePaper != 0>
+                <a href="./Problem?paperid=${beforePaper?c}&showanswer=1">
+                    <p class="sameLine floatRight">←</p>
+                </a>
+            </#if>
+            <br>
+            <p>---------------------------------</p>
+        </h1>
+    </#if>
+    </body>
+    <script>
         var problemDone = ${problemDone};
         var problemNotStart = ${problemNotStart};
         var problemNotPass = ${problemNotPass};
@@ -515,5 +577,5 @@
              }
          })
       }
-   </script>
+    </script>
 </html>
