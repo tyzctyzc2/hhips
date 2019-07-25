@@ -3,8 +3,10 @@
 	<meta charset="utf-8"/>
 	<title>${sourceName}-${chapterIndex}-${chapterName}-${problemdetail.problemindex}</title>
 	<link href="./jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./default/style.min.css" rel="stylesheet" type="text/css" media="all">
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
     <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./jstree.min.js"></script>
     <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
     <script type="text/javascript" src="./js/common.js"></script>
 </head>
@@ -77,6 +79,21 @@
             </tr>
         </table>
         <div id="dialog" title="Tag dialog" class="hide">
+            <div id="container">
+                <ul>
+                    <li>Root node
+                        <ul>
+                            <li>dej
+                                <ul>
+                                    <li>Child node 1</li>
+                                </ul>
+                            </li>
+                            <li>Child node 2</li>
+                        </ul>
+                    </li>
+                </ul>
+                <br>
+            </div>
             <table style="font-size:  x-large;">
                 <#list allTags as rowtag>
                     <tr>
@@ -163,21 +180,14 @@
                     </select>
                     <select id="indexselect">
                         <option value="L1">L1</option>
-                        <option value="L1L">L1L</option>
                         <option value="L2">L2</option>
-                        <option value="L2L">L2L</option>
                         <option value="L3">L3</option>
-                        <option value="L3L">L3L</option>
                         <option value="L4">L4</option>
-                        <option value="L4L">L4L</option>
                         <option value="L5">L5</option>
-                        <option value="L5L">L5L</option>
                         <option value="L6">L6</option>
-                        <option value="L6L">L6L</option>
                         <option value="L7">L7</option>
-                        <option value="L7L">L7L</option>
                         <option value="L8">L8</option>
-                        <option value="L8L">L8L</option>
+                        <option value="L9">L9</option>
                         <option value="01">01</option>
                         <option value="02">02</option>
                         <option value="03">03</option>
@@ -285,6 +295,31 @@
 	</body>
 	<script>
         window.onload = pageLoaded;
+        $("#container").jstree({
+            "core":{
+                "data":{
+                    "url": "./childtag?rootid=1",
+                    "dataType": "json"
+                }
+            }
+        })
+        .on('loaded.jstree', function() {
+            $("#container").jstree('open_all');
+        });
+        $("#container").on(
+            "select_node.jstree", function(evt, data){
+                console.log(data.node.id);
+                changeTag(${problemdetail.idproblem?c}, data.node.id)
+                //window.open('./tag?tagid='+data.node.id);
+            }
+        );
+        $(window).keypress(function(event) {
+            console.log(event);
+            if (event.which != 115) return true;
+            postProblem();
+            event.preventDefault();
+            return false;
+        });
         function pageLoaded() {
             $('#indexselect option[value='+lastindex+']').prop({selected: true});
             $('#moduleselect option[value='+lastmodule+']').prop({selected: true});

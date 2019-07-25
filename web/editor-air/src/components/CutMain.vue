@@ -321,7 +321,7 @@ export default {
       if (data.length < 2) {
         return
       }
-      axios.post(`http://localhost:8080/hhipsair/auto/merge`, data)
+      axios.post(`http://localhost:808/auto/merge`, data)
         .then(response => {
           console.log(response.data)
           this.loadImage()

@@ -167,16 +167,30 @@ public class AutoCutterController {
     @PostMapping("/auto/merge")
     public @ResponseBody
     String mergeBlock(@RequestBody String blockList) {
-        logger.info("process Merge request ......");
+        logger.info("process Merge request ......" + blockList);
         JSONArray arr = new JSONArray(blockList);
         List<String> allWaitMergeList = new ArrayList<>();
+        boolean overPageFlag = false;
+        String pageName = "";
         for(int i = 0; i < arr.length(); i++){
             String filePathName = (String)arr.get(i);
             String fileName = filePathName.substring(filePathName.lastIndexOf("/") + 1);
+            String curPage = fileName.substring(0, fileName.indexOf("_"));
+            if (pageName.length() == 0) {
+                pageName = curPage;
+            } else {
+                if (pageName.compareTo(curPage) != 0) {
+                    overPageFlag = true;
+                }
+            }
             allWaitMergeList.add(fileName);
         }
         ImageMerger imageMerger = new ImageMerger();
-        imageMerger.doMerge(allWaitMergeList);
+        if (overPageFlag) {
+            imageMerger.doMergeOverPage(allWaitMergeList);
+        } else {
+            imageMerger.doMerge(allWaitMergeList);
+        }
         return "done";
     }
 

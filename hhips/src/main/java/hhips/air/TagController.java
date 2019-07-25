@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import requestModel.MoveTagRequest;
 import uti.StringHelper;
 
 import java.util.ArrayList;
@@ -63,6 +64,14 @@ public class TagController {
         }
         parentNode.setChildren(allChildren);
         return parentNode;
+    }
+
+    @PostMapping("/tag/move")
+    public @ResponseBody
+    String moveTag(@RequestBody MoveTagRequest moveTagRequest) {
+        DBTag dbTag = new DBTag();
+        dbTag.moveTag(moveTagRequest);
+        return  "";
     }
 
     @PostMapping("/tag/add")

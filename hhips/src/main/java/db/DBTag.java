@@ -3,6 +3,7 @@ package db;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
+import requestModel.MoveTagRequest;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class DBTag {
         try {
             Tag t = new Tag();
             t.setTagname(tagName);
+            t.setParentid(0);
+            t.setIdsubject(1);
             session.save(t);
             suc = true;
         }
@@ -94,6 +97,36 @@ public class DBTag {
         }
         allTagList = null;
         return suc;
+    }
+
+    public void moveTag(MoveTagRequest moveTagRequest) {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<Tag> all;
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
+            Root<Tag> itemRoot = criteriaQuery.from(Tag.class);
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idtag"), moveTagRequest.getTagId()));
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            if (all.size() == 0) {
+                return;
+            }
+
+            Tag tag = all.get(0);
+            tag.setParentid(moveTagRequest.getNewParentTagId());
+            session.save(tag);
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.getTransaction().commit();
+            session.close();
+        }
     }
 
     public Tag getTag(int tagID) {

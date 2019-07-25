@@ -93,6 +93,63 @@ public class ImageMerger {
         }
     }
 
+    public void doMergeOverPage(List<String> allWaitMerge) {
+        if (allWaitMerge.size() < 2)
+            return;
+
+        Map<Point, Mat> allMat = new HashMap<>();
+        int minX = 0;
+        int minY = 0;
+        int maxX = 0;
+        int maxY = 0;
+        int imgType = 0;
+        String myPage = "";
+        for(int i = 0; i < allWaitMerge.size(); ++i) {
+            String curFileName = allWaitMerge.get(i);
+            myPage = curFileName.substring(4,6);
+            logger.info(curFileName);
+            Mat thisImg;
+            thisImg = imageCodecs.imread(FileHelper.getAbsolutePath() +
+                    AutoCutterController.CUTTER_PATH_NAME + curFileName);
+            logger.info("sizex=" + String.valueOf(thisImg.width()) + "sizey=" + String.valueOf(thisImg.height()));
+
+            logger.info("posX=" + String.valueOf(minX) + "posY=" + String.valueOf(maxY));
+            allMat.put(new Point(minX, maxY), thisImg);
+            imgType = thisImg.type();
+
+            File file = new File( FileHelper.getAbsolutePath() + AutoCutterController.CUTTER_PATH_NAME + curFileName);
+            file.delete();
+
+            maxY = maxY + thisImg.height();
+            if (thisImg.width() >maxX) {
+                maxX = thisImg.width();
+            }
+        }
+
+        logger.info("minX=" + String.valueOf(minX) + "  minY=" + String.valueOf(minY) + " maxX=" + String.valueOf(maxX) + "    maxY=" + String.valueOf(maxY));
+
+        Mat fullImg = new Mat(new Size(maxX - minX + 1, maxY - minY + 1), imgType);
+        fullImg.setTo(new Scalar(255,255,255));
+        logger.info("sizeX=" + String.valueOf(maxX - minX + 1) + "  sizeY=" + String.valueOf(maxY - minY + 1));
+        for (Point myPoint : allMat.keySet()) {
+            Mat thisImg = allMat.get(myPoint);
+            logger.info("this posx=" + String.valueOf((int)myPoint.x - minX) + "    this posy=" + String.valueOf((int)myPoint.y - minY));
+            logger.info("this sizex=" + String.valueOf(thisImg.width()) + " this sizey=" + String.valueOf(thisImg.height()));
+            Mat myTarget = fullImg.submat((int)myPoint.y - minY, (int)myPoint.y - minY+thisImg.height(),
+                    (int)myPoint.x - minX, (int)myPoint.x - minX + thisImg.width());
+            thisImg.copyTo(myTarget);
+        }
+
+        String nameIndex = allWaitMerge.get(0);
+        nameIndex = nameIndex.substring(nameIndex.indexOf("_")+1, nameIndex.indexOf("_x"));
+
+        String newName = "part" + myPage + "_" + nameIndex + "_x" + String.valueOf(minX) + "_y" + String.valueOf(minY) + ".png";
+        Imgcodecs.imwrite(FileHelper.getAbsolutePath() + AutoCutterController.CUTTER_PATH_NAME + newName, fullImg);
+
+        Imgcodecs.imwrite(ImageMerger.VUE__IMAGE_PATH + newName, fullImg);
+
+    }
+
     public void doMerge(List<String> allWaitMerge) {
         if (allWaitMerge.size() < 2)
             return;
@@ -129,6 +186,8 @@ public class ImageMerger {
 
             if (myMaxY > maxY)
                 maxY = myMaxY;
+
+            logger.info("myMinX=" + String.valueOf(myMinX) + "myMinY=" + String.valueOf(myMinY));
 
             allMat.put(new Point(myMinX, myMinY), thisImg);
             imgType = thisImg.type();

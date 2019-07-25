@@ -14,17 +14,6 @@
 	    <#include "/header.ftl">
 	    <h1>标签分类</h1>
         <table style="font-size:  x-large;">
-            <#list allTags as rowtag>
-                <tr>
-                <#list rowtag as tag>
-                    <td class="edgeRound picked">
-                        <a href="./tag?tagid=${tag.idtag}" style="text-decoration: none">${tag.tagname}</a>
-                    </td>
-                </#list>
-                </tr>
-            </#list>
-        </table>
-        <table style="font-size:  x-large;">
             <tr>
                 <td>
                     <input class="bigFont" type="text" id="newTagName" />
@@ -54,8 +43,49 @@
                 "data":{
                     "url": "./childtag?rootid=1",
                     "dataType": "json"
+                },
+                "check_callback" :  function (op, node, par, pos, more) {
+                    //console.log("check_callback", node);
+                    //console.log("check_callback", par);
+                    if ((op === "move_node" || op === "copy_node") && node.type && node.type == "root") {
+                        return false;
+                    }
+                    if ((op === "move_node" || op === "copy_node") && more && more.core ) {
+                        if ((node != null) && (par != null) && (par.text != null)) {
+                            console.log("will move...", node);
+                            console.log("will move...", par);
+                            if (confirm('Are you sure move ' + node.text + ' to ' + par.text)) {
+                                var pData = {};
+                                pData.tagId = node.id;
+                                pData.newParentTagId = par.id;
+
+                                $.ajax({
+                                    type: "POST", // 上传文件要用POST
+                                    url: "./tag/move",
+                                    dataType : "json",
+                                    processData: false,  // 注意：不要 process data
+                                    contentType: "application/json",  // 注意：不设置 contentType
+                                    data: JSON.stringify(pData),
+                                    success: function(msg) {
+                                        console.log('tag changed');
+                                        console.log(msg);
+                                        window.location.reload();
+                                    },
+                                    error: function(msg) {
+                                        console.log(msg);
+                                        window.location.reload()
+                                    }
+                                })
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
                 }
-            }
+            },
+            "plugins" : [ "dnd" ]
         })
         .on('loaded.jstree', function() {
             $("#container").jstree('open_all');

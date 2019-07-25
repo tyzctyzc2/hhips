@@ -222,21 +222,14 @@
                     </select>
                     <select id="indexselect">
                         <option value="L1">L1</option>
-                        <option value="L1L">L1L</option>
                         <option value="L2">L2</option>
-                        <option value="L2L">L2L</option>
                         <option value="L3">L3</option>
-                        <option value="L3L">L3L</option>
                         <option value="L4">L4</option>
-                        <option value="L4L">L4L</option>
                         <option value="L5">L5</option>
-                        <option value="L5L">L5L</option>
                         <option value="L6">L6</option>
-                        <option value="L6L">L6L</option>
                         <option value="L7">L7</option>
-                        <option value="L7L">L7L</option>
                         <option value="L8">L8</option>
-                        <option value="L8L">L8L</option>
+                        <option value="L9">L9</option>
                         <option value="Z01">Z01</option>
                         <option value="Z02">Z02</option>
                         <option value="Z03">Z03</option>
@@ -291,34 +284,36 @@
 					<br/>
 					<br/>
 					<br/>
-        <h1 class="bottomArea">
-            <#list 0..max as i>
-                <a class="jumper notLinkText sameLine" href="#jump_${problems[i].idproblem?c}">
-                    <p class="orange">[${i+1}]</p>
-                    <#if problems[i].workmark??>
-                        <#if problems[i].workmark == 0>
-                            <div class="sameLine right">√</div>
-                        <#else>
-                            <div class="sameLine wrong">×</div>
+        <#if max != -1>
+            <h1 class="bottomArea">
+                <#list 0..max as i>
+                    <a class="jumper notLinkText sameLine" href="#jump_${problems[i].idproblem?c}">
+                        <p class="orange">[${i+1}]</p>
+                        <#if problems[i].workmark??>
+                            <#if problems[i].workmark == 0>
+                                <div class="sameLine right">√</div>
+                            <#else>
+                                <div class="sameLine wrong">×</div>
+                            </#if>
                         </#if>
-                    </#if>
-                </a>
-            </#list>
-            <#if after != 0>
-                <a href="./Chapter?chapterid=${after?c}">
-                    <p class="sameLine floatRight">→</p>
-                </a>
-            </#if>
+                    </a>
+                </#list>
+                <#if after != 0>
+                    <a href="./Chapter?chapterid=${after?c}">
+                        <p class="sameLine floatRight">→</p>
+                    </a>
+                </#if>
 
-            <div class="sameLine floatRight">&nbsp;&nbsp;</div>
-            <#if before != 0>
-                <a href="./Chapter?chapterid=${before?c}">
-                    <p class="sameLine floatRight">←</p>
-                </a>
-            </#if>
-            <br>
-            <p>---------------------------------</p>
-        </h1>
+                <div class="sameLine floatRight">&nbsp;&nbsp;</div>
+                <#if before != 0>
+                    <a href="./Chapter?chapterid=${before?c}">
+                        <p class="sameLine floatRight">←</p>
+                    </a>
+                </#if>
+                <br>
+                <p>---------------------------------</p>
+            </h1>
+        </#if>
 	</body>
 	<script>
 	    var problemDone = ${problemDone};
@@ -328,6 +323,15 @@
         var timeTotal = ${totalTime};
 
 		window.onload = pageLoaded;
+
+		$(window).keypress(function(event) {
+            console.log(event);
+            if (event.which != 115) return true;
+            postProblem();
+            event.preventDefault();
+            return false;
+        });
+
 		function pageLoaded() {
 			$('#indexselect option[value='+lastindex+']').next().prop({selected: true});
 			$('#moduleselect option[value='+lastmodule+']').prop({selected: true});
