@@ -43,6 +43,7 @@
       <mapping class="db.PaperSummary" />
       <mapping class="model.AppAction" />
       <mapping class="report.StarBalance" />
+      <mapping class="db.WorkCorrect" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

@@ -134,6 +134,7 @@
 						<tr class="edge">
 							<td class="edge">
 								<p>${works[i].workdate?string("yyyyMMdd")}</p>
+								<button type="button" onclick=rotateWork("${works[i].workdetail}")>Rotate</button>
 							</td>
 							<td class="edge">
                                 <p>${works[i].usedtime?c}</p>
@@ -156,7 +157,7 @@
 							    <#if works[i].workdetail?contains('t')>
 							        <img id="myImage" class="center-fit_small" src=.\${works[i].workdetail} />
                                 <#else>
-                                    <img id="myImage" class="center-fit" src=.\${works[i].workdetail} />
+                                    <img id="myImage" class="center-fit imgFullPage" src=.\${works[i].workdetail} />
 							    </#if>
 
 							</td>
@@ -256,16 +257,26 @@
                         <option value="T12">T12</option>
                         <option value="T13">T13</option>
                         <option value="T14">T14</option>
-                        <option value="C01">C01</opCion>
-                        <option value="C02">C02</opCion>
-                        <option value="C03">C03</opCion>
-                        <option value="C04">C04</opCion>
-                        <option value="C05">C05</opCion>
-                        <option value="C06">C06</opCion>
-                        <option value="C07">C07</opCion>
-                        <option value="C08">C08</opCion>
-                        <option value="C09">C09</opCion>
-                        <option value="C10">C10</opCion>
+                        <option value="C01">C01</option>
+                        <option value="C02">C02</option>
+                        <option value="C03">C03</option>
+                        <option value="C04">C04</option>
+                        <option value="C05">C05</option>
+                        <option value="C06">C06</option>
+                        <option value="C07">C07</option>
+                        <option value="C08">C08</option>
+                        <option value="C09">C09</option>
+                        <option value="C10">C10</option>
+                        <option value="X01">X01</option>
+                        <option value="X02">X02</option>
+                        <option value="X03">X03</option>
+                        <option value="X04">X04</option>
+                        <option value="X05">X05</option>
+                        <option value="X06">X06</option>
+                        <option value="X07">X07</option>
+                        <option value="X08">X08</option>
+                        <option value="X09">X09</option>
+                        <option value="X10">X10</option>
                     </select>
                     <button type="button" onclick="postProblem()">Update</button>
                 </td>
@@ -331,6 +342,29 @@
                     modal: true,
                   width: 800,
                   height: 600});
+        }
+
+        function rotateWork(filename) {
+            console.log(filename)
+            filename = filename.replace("\\", "_")
+            console.log(filename)
+            var url = "./image/rotate?imagename="+filename
+                console.log(url);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType : "json",
+                    processData: false,  // 注意：不要 process data
+                    contentType: false,  // 注意：不设置 contentType
+                    data: "",
+                    success: function(msg) {
+                        console.log(msg);
+                        alert("完成，Ctrl+F5更新")
+                    },
+                    error: function(msg) {
+                        console.log(msg);
+                    }
+                })
         }
 
         function add2Paper(idproblem, problemcisactive) {

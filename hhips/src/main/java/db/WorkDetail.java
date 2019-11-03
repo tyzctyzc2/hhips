@@ -9,6 +9,7 @@ public class WorkDetail {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer idwork;
     private Integer idproblem;
+    private Date starttime;
     public Integer getIdproblem() {
         return idproblem;
     }
@@ -159,5 +160,13 @@ public class WorkDetail {
 
     public void setReason(Integer reason) {
         this.reason = reason;
+    }
+
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
     }
 }

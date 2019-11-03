@@ -126,7 +126,14 @@
                                     <#else>
                                         <td><p class="orange">待批</p></td>
                            </#if>
-                           <td><p class="right">${problems[i].workdate}</p></td>
+                           <td class="sameLineB oneLineText">
+                                <p class="right">${problems[i].workdate}</p>
+                                <#if problems[i].starttime??>
+                                    <button class="wrong oneLineText" type="button" onclick="stopCorrect(${problems[i].idwork?c})">完成改错</button>
+                                <#else>
+                                    <button class="right oneLineText" type="button" onclick="doCorrect(${problems[i].idwork?c})">开始改错</button>
+                                </#if>
+                           </td>
                         <#else>
                            <td>
                               <button type="button" onclick="removeProblem(${problems[i].idproblem?c}, ${problems[i].paperproblemid?c})">Remove</button>
@@ -555,27 +562,59 @@
              }
          })
       }
-      function markWrong(idwork, paperproblemid, idproblem) {
-         var pData = {};
-         pData.idwork=idwork;
-         pData.workmark=1;
-         pData.paperproblemid=paperproblemid;
-         pData.idproblem=idproblem;
-         var url = "./Work";
-         $.ajax({
-             type: "POST", // 上传文件要用POST
-             url: url,
-             dataType : "json",
-            processData: false,  // 注意：不要 process data
-            contentType: false,  // 注意：不设置 contentType
-             data: JSON.stringify(pData),
-            success: function(msg) {
+        function doCorrect(idWork) {
+            var url = "./correct/start?workid=" + idWork;
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+        }
+        function stopCorrect(idWork) {
+            var url = "./correct/stop?workid=" + idWork;
+            $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                success: function(msg) {
+                    window.location.reload();
+                },
+                error: function(msg) {
+                    window.location.reload()
+                }
+            })
+        }
+        function markWrong(idwork, paperproblemid, idproblem) {
+             var pData = {};
+             pData.idwork=idwork;
+             pData.workmark=1;
+             pData.paperproblemid=paperproblemid;
+             pData.idproblem=idproblem;
+             var url = "./Work";
+             $.ajax({
+                type: "POST", // 上传文件要用POST
+                url: url,
+                dataType : "json",
+                processData: false,  // 注意：不要 process data
+                contentType: false,  // 注意：不设置 contentType
+                data: JSON.stringify(pData),
+                success: function(msg) {
                 window.location.reload();
-            },
-            error: function(msg) {
+                },
+                error: function(msg) {
                 window.location.reload()
-             }
-         })
-      }
+                }
+             })
+        }
     </script>
 </html>

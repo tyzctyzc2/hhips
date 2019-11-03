@@ -257,6 +257,35 @@ public class DBWork {
 		return pID;
 	}
 
+	public boolean updateWorkUsedTime(int idWork, int addSecond) {
+
+		Session session = HibernateUtils.openCurrentSession();
+		session.beginTransaction();
+		List<Work> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Work> criteriaQuery = criteriaBuilder.createQuery(Work.class);
+			Root<Work> itemRoot = criteriaQuery.from(Work.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("idwork"), idWork));
+			all=session.createQuery(criteriaQuery).getResultList();
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+		if (all.size() == 0)
+			return false;
+
+		Work w = all.get(0);
+		w.setUsedtime(w.getUsedtime() + addSecond);
+		updateWork(w);
+		return true;
+	}
+
 	public boolean updateWorkMark(int idWork, int mark) {
 
 		Session session = HibernateUtils.openCurrentSession();

@@ -44,6 +44,9 @@
 .sameLine {
     display: inline-flex;
 }
+.sameLineB {
+    display: flex;
+}
 .activeButton {
 	background-color: darkkhaki;
 	height:100px;
@@ -118,4 +121,9 @@
   color: #CCC;
   background: #333;
   padding: 0px;
+}
+.imgFullPage {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
 }

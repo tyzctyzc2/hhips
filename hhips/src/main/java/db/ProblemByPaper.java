@@ -27,6 +27,7 @@ public class ProblemByPaper  {
 	}
 
 	Date workdate;
+	private Date starttime;
 
 	public Integer getWorkmark() {
 		return workmark;
@@ -228,4 +229,12 @@ public class ProblemByPaper  {
 	public void setProblemanswerdetail(String problemanswerdetail) {
 		this.problemanswerdetail = problemanswerdetail;
 	}
+
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
+    }
 }
