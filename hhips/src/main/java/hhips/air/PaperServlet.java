@@ -1,15 +1,13 @@
 package hhips.air;
 
 import db.*;
-import jdk.nashorn.internal.parser.JSONParser;
+import dbmodel.PaperSummary;
+import dbmodel.ProblemByPaper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

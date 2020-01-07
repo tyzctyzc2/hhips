@@ -18,32 +18,33 @@
       <property name="hibernate.current_session_context_class">thread</property>
       
       <!-- List of XML mapping files -->
-      <mapping class="db.Source" />
-      <mapping class="db.SourceChapter" />
-      <mapping class="db.SourceChapterSummary" />
+      <mapping class="dbmodel.Source" />
+      <mapping class="dbmodel.SourceChapter" />
+      <mapping class="dbmodel.SourceChapterSummary" />
       <mapping class="db.Chapter" />
-      <mapping class="db.ProblemWithLastWork" />
-      <mapping class="db.Module" />
-      <mapping class="db.Paper" />
-       <mapping class="db.ProblemByPaper" />
-      <mapping class="db.Work" />
-      <mapping class="db.Problem" />
-      <mapping class="db.Paperproblem" />
-      <mapping class="db.PaperWork" />
-      <mapping class="db.WorkDetail" />
-      <mapping class="db.Reason" />
-      <mapping class="db.StarReason" />
+      <mapping class="dbmodel.ProblemWithLastWork" />
+      <mapping class="dbmodel.Module" />
+      <mapping class="dbmodel.Paper" />
+      <mapping class="dbmodel.ProblemByPaper" />
+      <mapping class="dbmodel.Work" />
+      <mapping class="dbmodel.Problem" />
+      <mapping class="dbmodel.Paperproblem" />
+      <mapping class="dbmodel.PaperWork" />
+      <mapping class="dbmodel.WorkDetail" />
+      <mapping class="dbmodel.Reason" />
+      <mapping class="dbmodel.StarReason" />
       <mapping class="report.DaySummary" />
-      <mapping class="db.Tag" />
+      <mapping class="dbmodel.Tag" />
       <mapping class="db.TagByProblem" />
       <mapping class="db.TagProblemTable" />
       <mapping class="life.TimeCounterLookup" />
       <mapping class="life.TimeCounterDetail" />
-      <mapping class="db.ChapterNote" />
-      <mapping class="db.PaperSummary" />
+      <mapping class="dbmodel.ChapterNote" />
+      <mapping class="dbmodel.PaperSummary" />
       <mapping class="model.AppAction" />
       <mapping class="report.StarBalance" />
-      <mapping class="db.WorkCorrect" />
+      <mapping class="dbmodel.WorkCorrect" />
+      <mapping class="dbmodel.Stage" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

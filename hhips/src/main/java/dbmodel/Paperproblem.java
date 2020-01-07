@@ -1,7 +1,8 @@
-package db;
+package dbmodel;
 // default package
 // Generated May 27, 2018 11:48:26 AM by Hibernate Tools 5.3.0.Beta2
 
+import db.HibernateUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

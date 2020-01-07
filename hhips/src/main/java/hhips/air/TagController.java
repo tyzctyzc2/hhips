@@ -1,9 +1,8 @@
 package hhips.air;
 
 import db.DBTag;
-import db.ProblemWithLastWork;
-import db.ProblemWithWork;
-import db.Tag;
+import dbmodel.ProblemWithLastWork;
+import dbmodel.Tag;
 import json.TagTreeJson;
 import org.json.JSONException;
 import org.json.JSONObject;

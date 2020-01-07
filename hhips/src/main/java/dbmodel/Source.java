@@ -1,4 +1,4 @@
-package db;
+package dbmodel;
 // default package
 // Generated May 27, 2018 11:48:26 AM by Hibernate Tools 5.3.0.Beta2
 
@@ -20,6 +20,9 @@ public class Source implements java.io.Serializable {
 
     private String sourcename;
     private Integer sourcetype;
+
+    @Column(name="idstage")
+    private Integer idStage;
 
     public Source() {
     }
@@ -51,5 +54,13 @@ public class Source implements java.io.Serializable {
 
     public void setSourcetype(Integer sourcetype) {
         this.sourcetype = sourcetype;
+    }
+
+    public Integer getIdStage() {
+        return idStage;
+    }
+
+    public void setIdStage(Integer idStage) {
+        this.idStage = idStage;
     }
 }

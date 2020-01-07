@@ -1,14 +1,13 @@
 package db;
 
+import dbmodel.ProblemByPaper;
+import dbmodel.ProblemWithLastWork;
+import dbmodel.ProblemWithWork;
 import javafx.util.Pair;
 import org.json.*;
 
-import db.HibernateUtils;
-import db.Problem;
-import db.Problem.ProblemColumnName;
-import db.ProblemByPaper;
-import db.ProblemWithLastWork;
-import db.ProblemWithWork;
+import dbmodel.Problem;
+import dbmodel.Problem.ProblemColumnName;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

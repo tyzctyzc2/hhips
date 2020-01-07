@@ -1,4 +1,6 @@
-package db;
+package dbmodel;
+
+import dbmodel.Problem;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

@@ -1,5 +1,7 @@
 package db;
 
+import dbmodel.Reason;
+import dbmodel.StarReason;
 import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaBuilder;

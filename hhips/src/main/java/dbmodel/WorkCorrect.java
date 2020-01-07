@@ -1,4 +1,4 @@
-package db;
+package dbmodel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

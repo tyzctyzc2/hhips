@@ -1,9 +1,9 @@
 package db;
 
+import dbmodel.ChapterNote;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import uti.FileHelper;
 

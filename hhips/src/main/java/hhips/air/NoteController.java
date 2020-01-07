@@ -1,18 +1,15 @@
 package hhips.air;
 
 import db.*;
+import dbmodel.ChapterNote;
 import javafx.util.Pair;
-import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import uti.StringHelper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class NoteController extends MyBaseController {
@@ -50,7 +47,7 @@ public class NoteController extends MyBaseController {
     }
 
     @ResponseBody @PostMapping(path = "/note/new", consumes = "application/json")
-    public ChapterNote  createNewNote(@RequestBody ChapterNote newNote) {
+    public ChapterNote createNewNote(@RequestBody ChapterNote newNote) {
         logger.info("NoteController - post new chapter notes request");
         ChapterNote chapterNote = noteDB.createNewNote(newNote);
         return chapterNote;

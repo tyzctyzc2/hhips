@@ -19,6 +19,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import uti.FileHelper;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 
 @SpringBootApplication(scanBasePackages={"report","hhips.air","db", "model", "editor","repository"})
@@ -27,7 +28,7 @@ import java.io.IOException;
 @PropertySource(value="classpath:application.properties")
 @Configuration
 //@AutoConfigurationPackage
-//@EnableJpaRepositories("repository")
+//@EnableJpaRepositories
 public class AirApplication extends SpringBootServletInitializer {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(AirApplication.class);
 

@@ -1,9 +1,8 @@
 package hhips.air;
 
 import db.Chapter;
-import db.DBProblem;
 import db.DBProblemManagement;
-import db.SourceChapterSummary;
+import dbmodel.SourceChapterSummary;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;

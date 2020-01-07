@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WorkCorrectRepository extends CrudRepository<WorkCorrect, Integer> {
+public interface StageRepository extends CrudRepository<WorkCorrect, Integer> {
 }

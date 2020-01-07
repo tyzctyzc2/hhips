@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import db.*;
+import dbmodel.*;
 import javafx.util.Pair;
 import org.springframework.ui.Model;
 import uti.DmmUti;
@@ -324,12 +325,12 @@ public class PageMaker {
 		return root;
 	}
 	
-	public static Map<String, Object> prepareSourceList(Model model) {
+	public static Map<String, Object> prepareSourceList(Model model, Integer idStage) {
 		DBProblemManagement mySourceDB = new DBProblemManagement();
 		
 		Map<String, Object> root = new HashMap<String, Object>();
 		
-		List<db.Source> allWork = mySourceDB.getAllSource();
+		List<Source> allWork = mySourceDB.getStageSource(idStage);
 		root.put("sourcelength", allWork.size()-1);
 		root.put("sources", allWork);
 

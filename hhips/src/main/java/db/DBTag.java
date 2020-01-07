@@ -1,5 +1,7 @@
 package db;
 
+import dbmodel.ProblemWithLastWork;
+import dbmodel.Tag;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
@@ -7,9 +9,7 @@ import requestModel.MoveTagRequest;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DBTag {

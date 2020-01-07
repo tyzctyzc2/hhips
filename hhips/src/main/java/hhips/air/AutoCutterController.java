@@ -1,8 +1,7 @@
 package hhips.air;
 
 import db.DBProblem;
-import db.Problem;
-import db.ProblemWithWork;
+import dbmodel.Problem;
 import editor.*;
 import nu.pattern.OpenCV;
 import org.json.JSONArray;

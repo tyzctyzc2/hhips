@@ -2,13 +2,12 @@
 <head>
 	<meta charset="utf-8"/>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
     <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 	<title>题源</title>
 </head>
 	<body>
 		<#include "/header.ftl">
-		
-		
 		<#if sourcelength != -1>
 			<table class="dmmtable" style="font-size:  x-large;">
 					<#list 0..sourcelength as i>

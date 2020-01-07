@@ -1,6 +1,6 @@
 package report;
 
-import db.SourceChapterSummary;
+import dbmodel.SourceChapterSummary;
 
 public class SourceChapterReport extends SourceChapterSummary {
     private Integer problemDoneCount;

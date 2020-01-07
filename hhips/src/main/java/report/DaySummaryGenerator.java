@@ -1,8 +1,7 @@
 package report;
 
 import db.HibernateUtils;
-import db.ProblemByPaper;
-import db.WorkDetail;
+import dbmodel.WorkDetail;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

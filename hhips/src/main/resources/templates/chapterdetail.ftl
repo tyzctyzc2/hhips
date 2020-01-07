@@ -5,6 +5,7 @@
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./chart/highcharts.js"></script>
 	<script type="text/javascript" src="./chart/piechart4problem.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>

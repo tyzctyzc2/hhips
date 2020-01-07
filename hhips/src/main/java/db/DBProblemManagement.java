@@ -1,6 +1,5 @@
 package db;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import dbmodel.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.Chapter.ChapterColumnName;
-import db.Work.WorkColumnName;
+import dbmodel.Work.WorkColumnName;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +49,32 @@ public class DBProblemManagement {
 		}
 		
 		return all.get(0).getSourcename();
+	}
+
+	public List<Source> getStageSource(Integer idStage) {
+		Session session = HibernateUtils.openCurrentSession();
+
+		session.beginTransaction();
+		List<Source> all;
+		try {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Source> criteriaQuery = criteriaBuilder.createQuery(Source.class);
+			Root<Source> itemRoot = criteriaQuery.from(Source.class);
+			criteriaQuery.select(itemRoot).where(criteriaBuilder.greaterThan(itemRoot.get("idsource"), 0),
+					criteriaBuilder.equal(itemRoot.get("idStage"), idStage));
+			all = session.createQuery(criteriaQuery).getResultList();
+
+			session.getTransaction().commit();
+		}
+		catch ( RuntimeException e ) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			session.close();
+		}
+
+		return all;
 	}
 	
 	public List<Source> getAllSource() {

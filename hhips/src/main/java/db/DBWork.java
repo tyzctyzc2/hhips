@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,13 +13,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import dbmodel.Work;
+import dbmodel.WorkDetail;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import db.Work.WorkColumnName;
+import dbmodel.Work.WorkColumnName;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import uti.FileHelper;

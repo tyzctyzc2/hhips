@@ -1,4 +1,4 @@
-package db;
+package dbmodel;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;

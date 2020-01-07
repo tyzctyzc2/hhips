@@ -2,7 +2,7 @@ package json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import db.Tag;
+import dbmodel.Tag;
 
 import java.util.List;
 

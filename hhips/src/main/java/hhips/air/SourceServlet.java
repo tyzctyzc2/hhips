@@ -1,6 +1,9 @@
 package hhips.air;
 
 import db.*;
+import dbmodel.ProblemWithLastWork;
+import dbmodel.Source;
+import dbmodel.SourceChapterSummary;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +25,11 @@ public class SourceServlet {
     DBProblem dbProblem;
 
     @GetMapping("/Source")
-    public String getSourceList(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
+    public String getSourceList(Model model, @RequestParam(value="stage", required=true, defaultValue="1") Integer idStage) {
         System.out.println("SourceServlet - get all source list");
         model.addAttribute("today", StringHelper.GetDateString());
 
-        model.addAttribute("name", name);
-        PageMaker.prepareSourceList(model);
+        PageMaker.prepareSourceList(model, idStage);
         return "source";
     }
     @GetMapping("/source/list")

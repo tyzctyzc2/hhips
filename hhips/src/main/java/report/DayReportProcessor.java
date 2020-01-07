@@ -1,7 +1,7 @@
 package report;
 
 import db.HibernateUtils;
-import db.WorkDetail;
+import dbmodel.WorkDetail;
 import org.hibernate.Session;
 import org.springframework.ui.Model;
 

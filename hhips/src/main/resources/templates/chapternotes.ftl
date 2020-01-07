@@ -3,6 +3,7 @@
 	<meta charset="utf-8"/>
 	<title>笔记 - ${chaptername}</title>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
 	<link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
@@ -35,13 +36,19 @@
 		    </tr>
 		</#list>
 		</table>
-		<button class="largeFont" type="button" onclick="postNote()">New Note</button>
+		<input type="file" multiple="multiple" :name="uploadFieldName" @change="filesChange($event.target.files); "
+                      accept="any/*" class="input-file">
+		<button class="largeFont" type="button" onclick="postPDF()">上传PDF文件</button>
+		<button class="largeFont" type="button" onclick="postNote()">提交当前图</button>
 		<div class="preview_box" id="newNoteView"></div>
 	</body>
 	<script>
 	    var idsourcechapter = ${chapterid}
 	    var imgProblemString;
 	    function postNote() {
+	        if (imgProblemString == undefined) {
+	            return;
+	        }
             var pData = {};
             pData.chapternotedetail = imgProblemString.substr(22);
             pData.idsourcechapter = idsourcechapter;
@@ -64,6 +71,10 @@
                 window.location.reload()
             }
             })
+        }
+
+        function postPDF() {
+
         }
 
 	    (function($) {

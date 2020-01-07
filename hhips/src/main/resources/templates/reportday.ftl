@@ -6,6 +6,7 @@
         <link href="./css/myStyle.css" rel="stylesheet" type="text/css" media="all">
         <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="./jqueryui/jquery-ui.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
 
         <script type="text/javascript" src="./chart/highcharts.js"></script>
         <script type="text/javascript" src="./chart/series-label.js"></script>

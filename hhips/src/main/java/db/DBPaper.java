@@ -1,15 +1,16 @@
 package db;
 
+import dbmodel.Paper;
+import dbmodel.PaperSummary;
+import dbmodel.Paperproblem;
+import dbmodel.ProblemByPaper;
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import uti.FileHelper;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -235,8 +236,8 @@ public class DBPaper {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Paper> criteriaQuery = criteriaBuilder.createQuery(Paper.class);
             Root<Paper> itemRoot = criteriaQuery.from(Paper.class);
-            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 5));
-            all = session.createQuery(criteriaQuery).getResultList();
+            criteriaQuery.select(itemRoot).where(criteriaBuilder.equal(itemRoot.get("isactive"), 5)).orderBy(criteriaBuilder.desc(itemRoot.get("idpaper")));
+            all = session.createQuery(criteriaQuery).setMaxResults(200).getResultList();
 
             session.getTransaction().commit();
         }

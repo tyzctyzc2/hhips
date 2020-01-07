@@ -1,15 +1,32 @@
-package db;
+package dbmodel;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 @Table(name = "v_workdetaillist")
 public class WorkDetail {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idwork;
     private Integer idproblem;
     private Date starttime;
+    private Integer problemlevel;
+    private String modulename;
+    private Date startdate;
+    private Date workdate;
+    private Integer usedtime;
+    private String workdetail;
+    private Integer workmark;
+    private Integer reason;
+    private String papername;
+    private String problemindex;
+    private String starreasonname;
+    private Integer idstarreason;
+    private Integer problemchapterid;
+    private Integer idpaper;
+    private String reasonname;
+
     public Integer getIdproblem() {
         return idproblem;
     }
@@ -34,8 +51,6 @@ public class WorkDetail {
         this.papername = papername;
     }
 
-    private String papername;
-
     public String getModulename() {
         return modulename;
     }
@@ -52,15 +67,6 @@ public class WorkDetail {
         this.problemlevel = problemlevel;
     }
 
-    private  Integer problemlevel;
-    private  String modulename;
-    private Date startdate;
-    private Date workdate;
-    private Integer usedtime;
-    private String workdetail;
-    private Integer workmark;
-    private Integer reason;
-
     public String getProblemindex() {
         return problemindex;
     }
@@ -68,8 +74,6 @@ public class WorkDetail {
     public void setProblemindex(String problemindex) {
         this.problemindex = problemindex;
     }
-
-    String problemindex;
 
     public String getStarreasonname() {
         return starreasonname;
@@ -79,8 +83,6 @@ public class WorkDetail {
         this.starreasonname = starreasonname;
     }
 
-    private String starreasonname;
-
     public Integer getIdstarreason() {
         return idstarreason;
     }
@@ -88,8 +90,6 @@ public class WorkDetail {
     public void setIdstarreason(Integer idstarreason) {
         this.idstarreason = idstarreason;
     }
-
-    private Integer idstarreason;
 
     public Integer getProblemchapterid() {
         return problemchapterid;
@@ -99,8 +99,6 @@ public class WorkDetail {
         this.problemchapterid = problemchapterid;
     }
 
-    private Integer problemchapterid;
-
     public Integer getIdpaper() {
         return idpaper;
     }
@@ -108,11 +106,6 @@ public class WorkDetail {
     public void setIdpaper(Integer idpaper) {
         this.idpaper = idpaper;
     }
-
-    private  Integer idpaper;
-    public WorkDetail() {
-    }
-
 
     public Integer getIdwork() {
         return this.idwork;
@@ -168,5 +161,13 @@ public class WorkDetail {
 
     public void setStarttime(Date starttime) {
         this.starttime = starttime;
+    }
+
+    public String getReasonname() {
+        return reasonname;
+    }
+
+    public void setReasonname(String reasonname) {
+        this.reasonname = reasonname;
     }
 }

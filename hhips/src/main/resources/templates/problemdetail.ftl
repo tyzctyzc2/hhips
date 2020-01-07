@@ -153,6 +153,11 @@
                             <#else>
                                 <td class="edge"> </td>
                             </#if>
+                            <#if works[i].reasonname??>
+                                <td class="edge"><p class="wrong">🌟${works[i].reasonname}</p></td>
+                            <#else>
+                                <td class="edge"> </td>
+                            </#if>
 							<td class="edge">
 							    <#if works[i].workdetail?contains('t')>
 							        <img id="myImage" class="center-fit_small" src=.\${works[i].workdetail} />

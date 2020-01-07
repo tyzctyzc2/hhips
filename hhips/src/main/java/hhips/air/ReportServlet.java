@@ -3,7 +3,7 @@ package hhips.air;
 import db.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import report.*;
-import db.WorkDetail;
+import dbmodel.WorkDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

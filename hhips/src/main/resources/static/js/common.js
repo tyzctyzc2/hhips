@@ -46,3 +46,7 @@ function changePaperStatus(idpaper, isactive) {
         }
     })
 }
+
+function goStageSource() {
+    window.location.href = "./Source?stage=" + localStorage.stage;
+}
