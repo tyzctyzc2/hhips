@@ -231,6 +231,12 @@
                         <option value="L7">L7</option>
                         <option value="L8">L8</option>
                         <option value="L9">L9</option>
+                        <option value="L10">L10</option>
+                        <option value="L11">L11</option>
+                        <option value="L12">L12</option>
+                        <option value="L13">L13</option>
+                        <option value="L14">L14</option>
+                        <option value="L15">L15</option>
                         <option value="Z01">Z01</option>
                         <option value="Z02">Z02</option>
                         <option value="Z03">Z03</option>
@@ -273,6 +279,21 @@
                         <option value="C08">C08</opCion>
                         <option value="C09">C09</opCion>
                         <option value="C10">C10</opCion>
+                        <option value="C11">C11</option>
+                        <option value="C12">C12</option>
+                        <option value="C13">C13</option>
+                        <option value="C14">C14</option>
+                        <option value="C15">C15</option>
+                        <option value="C16">C16</option>
+                        <option value="C17">C17</option>
+                        <option value="C18">C18</option>
+                        <option value="C19">C19</option>
+                        <option value="C20">C20</option>
+                        <option value="C21">C21</option>
+                        <option value="C22">C22</option>
+                        <option value="C23">C23</option>
+                        <option value="C24">C24</option>
+                        <option value="C25">C25</option>
                     </select>
                     <button type="button" onclick="postProblem()">Create</button>
                 </td>

@@ -218,6 +218,7 @@
                        <span id=jump_${problems[i].idproblem?c}></span>
                        <tr>
                           <td>
+                                <div>[${i+1}]</div>
                                 <div class="picked" onclick="window.open('./Problem?problemid=${problems[i].idproblem?c}')">
                                     <img id="myImage" class="center-fit" src=.\${problems[i].problemdetail} />
                                 </div>

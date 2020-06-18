@@ -14,6 +14,8 @@ import java.util.List;
 
 @Service
 public class DBStage {
+    private StageRepository stageRepository;
+
     public List<Stage> getAllStage() {
         Session session = HibernateUtils.openCurrentSession();
 

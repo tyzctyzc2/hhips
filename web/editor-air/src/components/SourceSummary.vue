@@ -96,7 +96,7 @@ export default {
   methods: {
     getSummary () {
       console.log(this.allProblems)
-      axios.get(`http://localhost:8080/hhipsair/source/summary?id=` + this.$route.query.sourceid, this.allProblems)
+      axios.get(`./source/summary?id=` + this.$route.query.sourceid, this.allProblems)
         .then(response => {
           console.log(response.data)
           this.allChapters = response.data

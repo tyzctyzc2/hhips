@@ -50,3 +50,7 @@ function changePaperStatus(idpaper, isactive) {
 function goStageSource() {
     window.location.href = "./Source?stage=" + localStorage.stage;
 }
+
+function goStageFilter() {
+    window.location.href = "./filter?stage=" + localStorage.stage;
+}
