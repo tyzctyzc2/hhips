@@ -15,6 +15,10 @@
                 <h1>战绩</h1>
         </td>
         <td>
+            <a href="./english" style="text-decoration: none">
+                <h1>英语</h1>
+        </td>
+        <td>
             <a href="." style="text-decoration: none">
                 <h1>首页</h1>
         </td>

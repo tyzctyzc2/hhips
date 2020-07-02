@@ -45,6 +45,10 @@
       <mapping class="report.StarBalance" />
       <mapping class="dbmodel.WorkCorrect" />
       <mapping class="dbmodel.Stage" />
+      <mapping class="dbmodel.EnglishWordView" />
+      <mapping class="dbmodel.EnglishWord" />
+      <mapping class="dbmodel.EnglishWordPart" />
+      <mapping class="dbmodel.EnglishPart" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 
