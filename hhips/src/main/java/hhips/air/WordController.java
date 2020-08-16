@@ -56,6 +56,7 @@ public class WordController {
         return "engpartdetail";
     }
 
+    //check if giving word exist or not
     @GetMapping("/english/word")
     public @ResponseBody
     WordSearchResponse getWordHistory(Model model, @RequestParam(value="search", required=true, defaultValue="") String search) {
@@ -174,6 +175,7 @@ public class WordController {
         return "";
     }
 
+    //generate create new word page
     @GetMapping("/english/word/new")
     public String getWordCreatePage(Model model) {
         logger.info("WordController - get create word page ");
@@ -186,9 +188,24 @@ public class WordController {
         return "engwordcreate";
     }
 
+    //create a new word
     @PostMapping("/english/word/create")
     public @ResponseBody String createNewChapter(@RequestBody WordCreateRequest wordCreateRequest) {
         logger.info("WordController - create new word " + wordCreateRequest.getExplanation());
+
+        //check if exist first
+        List<EnglishWordView> foundWord = dbEnglish.getWordHistory(wordCreateRequest.getWord());
+        if (foundWord.size() > 0) {
+            return "Already added in " + foundWord.get(0).getPartname();
+        }
+
+        int partId = dbEnglish.getActivePartId();
+        logger.info(String.valueOf(partId));
+        if (partId < 1) {
+            return "not found target";
+        }
+
+        wordCreateRequest.setPartId(partId);
         dbEnglish.createAllWord(wordCreateRequest);
         return "done";
     }

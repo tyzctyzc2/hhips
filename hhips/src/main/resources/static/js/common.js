@@ -54,3 +54,14 @@ function goStageSource() {
 function goStageFilter() {
     window.location.href = "./filter?stage=" + localStorage.stage;
 }
+
+function hideToast() {
+    console.log("time is up.......");
+    $('#toast').attr('class', 'myToast');
+}
+
+function toastFunction(newMsg) {
+    $("#toast").text(newMsg);
+    $('#toast').attr('class', 'myToastShow');
+    setTimeout(hideToast, 2000);
+}

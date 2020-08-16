@@ -94,9 +94,21 @@
                                 <#list works[i] as work>
                                     <#if work.workmark??>
                                         <#if work.workmark == 0>
-                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                            <#if (work.usedtime == 0)>
+                                                <p style="height: 20px; float:left; width:20px;background-color:green">${work.usedtime?c}</p>
+                                            <#elseif (work.usedtime > 10)>
+                                                <p style="height: 20px; float:left; width:100px;background-color:green">${work.usedtime?c}</p>
+                                            <#else>
+                                                <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:green">${work.usedtime?c}</p>
+                                            </#if>
                                         <#else>
-                                            <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                            <#if (work.usedtime == 0)>
+                                                <p style="height: 20px; float:left; width:20px;background-color:red">${work.usedtime?c}</p>
+                                            <#elseif (work.usedtime > 10)>
+                                                <p style="height: 20px; float:left; width:100px;background-color:red">${work.usedtime?c}</p>
+                                            <#else>
+                                                <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:red">${work.usedtime?c}</p>
+                                            </#if>
                                         </#if>
                                     <#else>
                                         <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
@@ -469,7 +481,11 @@
 			    data: "",
 				success: function(msg) {
 				    console.log(msg);
-			    	alert(JSON.stringify(msg));
+				    if (msg.FAILED != undefined) {
+				        toastFunction("失败，不能重复添加！");
+				    } else {
+				        toastFunction("成功，已加入当前卷！");
+				    }
 				},
 				error: function(msg) {
 			    	console.log(msg);

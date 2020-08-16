@@ -49,6 +49,7 @@
       <mapping class="dbmodel.EnglishWord" />
       <mapping class="dbmodel.EnglishWordPart" />
       <mapping class="dbmodel.EnglishPart" />
+      <mapping class="dbmodel.EnglishSummary" />
 
       <!--mapping resource = "Source.hbm.xml"/-->
 

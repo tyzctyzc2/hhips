@@ -24,3 +24,6 @@
         </td>
     </tr>
 </table>
+<div class="myToast" id="toast">
+    Toast test
+</div>

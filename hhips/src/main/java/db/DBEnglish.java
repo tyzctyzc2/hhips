@@ -1,9 +1,6 @@
 package db;
 
-import dbmodel.EnglishPart;
-import dbmodel.EnglishWord;
-import dbmodel.EnglishWordPart;
-import dbmodel.EnglishWordView;
+import dbmodel.*;
 import json.WordCreateRequest;
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,39 @@ public class DBEnglish {
         englishWordPart.setIdword(wordId);
         createWordPart(englishWordPart);
         return true;
+    }
+    public Integer getActivePartId() {
+        Session session = HibernateUtils.openCurrentSession();
+
+        session.beginTransaction();
+        List<EnglishSummary> all = new ArrayList<>();
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<EnglishSummary> criteriaQuery = criteriaBuilder.createQuery(EnglishSummary.class);
+            Root<EnglishSummary> itemRoot = criteriaQuery.from(EnglishSummary.class);
+            criteriaQuery.select(itemRoot);
+            all = session.createQuery(criteriaQuery).getResultList();
+
+            session.getTransaction().commit();
+        }
+        catch ( RuntimeException e ) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        if (all.size() > 0) {
+            EnglishSummary lastOne = all.get(0);
+            if (lastOne.getCount() < 20) {
+                return lastOne.getIdpart();
+            } else {
+                return lastOne.getIdpart()+1;
+            }
+        }
+        return 0;
     }
     private Integer createWordPart(EnglishWordPart englishWordPart) {
         Session session = HibernateUtils.openCurrentSession();

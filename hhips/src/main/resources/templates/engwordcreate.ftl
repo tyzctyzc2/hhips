@@ -7,11 +7,6 @@
 	<link href="../../css/myStyle.css" rel="stylesheet" type="text/css" media="all">
 </head>
 	<body>
-        <select id="partselect">
-            <#list 0..partmax as i>
-                <option value=${partlist[i].idpart}>${partlist[i].partname}</option>
-            </#list>
-        </select>
         <div>
 		    <input class="bigFont" type="text" id="word" />
 		    <button class="bigFont" type="button" onclick="search()">Search</button>
@@ -46,7 +41,6 @@
             var pData = {};
             pData.explanation = $( "#explanation" ).val();
             pData.word = $( "#word" ).val();
-            pData.partid = $( "#partselect" ).val();
 
             console.log(JSON.stringify(pData));
 
@@ -59,6 +53,7 @@
                 data: JSON.stringify(pData),
                 success: function(msg) {
                     console.log(msg);
+                    toastFunction(msg);
                     $( "#word" ).val('');
                     $( "#explanation" ).val('');
                 },
