@@ -31,7 +31,9 @@
                 </td>
             </tr>
         </table>
-		<button type="button" onclick="addWhole2Paper(${chapterid})">Add all to Paper</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid})">添加全部题目到卷子</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid})">添加没做过的题目到卷子</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid})">添加做错的题目到卷子</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
 				<#list 0..maxpaper as i>
@@ -114,7 +116,6 @@
                                         <p style="height: 20px; float:left; width:${work.usedtime?c}0px;background-color:orange">${work.usedtime?c}</p>
                                     </#if>
                                 </#list>
-
                             </td>
                         </tr>
                 </#list>
@@ -157,25 +158,35 @@
 						</td>
 					</tr>	
 				</table>
-				<table>					
-					<tr>
-						<td>
-							<#if problems[i].idwork??>
-								<p>${problems[i].workdate?string("yyyy-MM-dd")} --- ${problems[i].usedtime?c}</p>
-								<#if problems[i].workmark??>
-									<#if problems[i].workmark == 0>
-										<p class="right">-------Pass-------</p>
-									<#else>
-										<p class="wrong">------Not Pass----</p>
-									</#if>
-								</#if>
-							<#else>
-								<p>no work recorder</p>
-							</#if>
-						</td>
-					</tr>
-				</table>
-				<table>					
+				<table class="dmmtable">
+				    <#if (problems[i].problemtotalworktime > 0)>
+				        <tr>
+				            <td>
+                                <p> 共做 ${problems[i].problemtotalworktime?c} 次&nbsp;&nbsp;</p>
+                            </td>
+                        </tr>
+                    </#if>
+				    <#list works[i] as work>
+                        <tr>
+                            <td>
+                                <p>${work.workdate?string("yyyy-MM-dd")}</p>
+                            </td>
+                            <td>
+                                <p>${work.usedtime?c}</p>
+                            </td>
+                            <td>
+                                <#if work.workmark??>
+                                    <#if work.workmark == 0>
+                                        <p class="right">-------Pass-------</p>
+                                    <#else>
+                                        <p class="wrong">------Failed------</p>
+                                    </#if>
+                                </#if>
+                            </td>
+                        </tr>
+                    </#list>
+                </table>
+				<table>
 					<tr>
 						<td>
 							<img id="answer" class="center-fit" src=.\${problems[i].problemanswerdetail} />
@@ -220,6 +231,8 @@
 					<div class="preview_box" id="answerview"></div>
 				</td>
 			</tr>
+		</table>
+		<div>
 			<tr>
                 <td>
                     <select id="moduleselect">
@@ -264,6 +277,16 @@
                         <option value="L28">L28</option>
                         <option value="L29">L29</option>
                         <option value="L30">L30</option>
+                        <option value="L31">L31</option>
+                        <option value="L32">L32</option>
+                        <option value="L33">L33</option>
+                        <option value="L34">L34</option>
+                        <option value="L35">L35</option>
+                        <option value="L36">L36</option>
+                        <option value="L37">L37</option>
+                        <option value="L38">L38</option>
+                        <option value="L39">L39</option>
+                        <option value="L40">L40</option>
                         <option value="L1L">L1L</option>
                         <option value="L2L">L2L</option>
                         <option value="L3L">L3L</option>
@@ -351,10 +374,12 @@
                         <option value="C24">C24</option>
                         <option value="C25">C25</option>
                     </select>
+                    <label>题号:</label>
+                    <input type="text" id="indextext" />
                     <button type="button" onclick="postProblem()">Create</button>
                 </td>
             </tr>
-		</table>
+		</div>
 					<label id="problemlabel" class="active bigFont" for="img_input" onclick="toggleImage(1)">problem</label>
 					<label id="answerabel" class="bigFont" for="img_input" onclick="toggleImage(2)">answer</label>
 					<label id="problemlabelb" class="bigFont" for="img_input" onclick="toggleImage(3)">problemb</label>
@@ -362,11 +387,20 @@
 					<br/>
 					<br/>
 					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
         <#if max != -1>
-            <h1 class="bottomArea">
+            <div class="bottomArea">
                 <#list 0..max as i>
                     <a class="jumper notLinkText sameLine" href="#jump_${problems[i].idproblem?c}">
-                        <p class="orange">[${i+1}]</p>
+                        <p class="orange">[${i+1}(${problems[i].problemindex})]</p>
                         <#if problems[i].workmark??>
                             <#if problems[i].workmark == 0>
                                 <div class="sameLine right">√</div>
@@ -390,7 +424,7 @@
                 </#if>
                 <br>
                 <p>---------------------------------</p>
-            </h1>
+            </div>
         </#if>
 	</body>
 	<script>
@@ -544,6 +578,10 @@
 			pData.problemindex=$( "#indexselect" ).val();
 			pData.problemmodule=$( "#moduleselect" ).val();
 			pData.problemanswerstring=$( "#answerstring" ).val();
+			var problemIndex = $( "#indextext" ).val();
+			if ($( "#indextext" ).val().length > 0) {
+			    pData.problemindex = $( "#indextext" ).val();
+			}
 			
 			//console.log(JSON.stringify(pData));
 			console.log('==========');

@@ -215,6 +215,16 @@
                         <option value="L28">L28</option>
                         <option value="L29">L29</option>
                         <option value="L30">L30</option>
+                        <option value="L31">L31</option>
+                        <option value="L32">L32</option>
+                        <option value="L33">L33</option>
+                        <option value="L34">L34</option>
+                        <option value="L35">L35</option>
+                        <option value="L36">L36</option>
+                        <option value="L37">L37</option>
+                        <option value="L38">L38</option>
+                        <option value="L39">L39</option>
+                        <option value="L40">L40</option>
                         <option value="L1L">L1L</option>
                         <option value="L2L">L2L</option>
                         <option value="L3L">L3L</option>
@@ -348,6 +358,8 @@
                         <option value="X09">X09</option>
                         <option value="X10">X10</option>
                     </select>
+                    <label>题号:</label>
+                    <input type="text" id="indextext" />
                     <button type="button" onclick="postProblem()">Update</button>
                 </td>
             </tr>
@@ -516,6 +528,9 @@
             pData.problemmodule=$( "#moduleselect" ).val();
             pData.problemanswerstring=$( "#answerstring" ).val();
             pData.idproblem = idproblem;
+            if ($( "#indextext" ).val().length > 0) {
+                pData.problemindex = $( "#indextext" ).val();
+            }
 
             console.log(JSON.stringify(pData));
             console.log('==========');
