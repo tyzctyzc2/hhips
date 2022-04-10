@@ -127,7 +127,7 @@
 					<span id=jump_${problems[i].idproblem?c}></span>
 					<tr>
 						<td>
-							<p>${problems[i].problemindex?c}</p>
+							<p>${problems[i].problemindex}</p>
 						</td>
 						<td>
 							<p>${problems[i].modulename}</p>
