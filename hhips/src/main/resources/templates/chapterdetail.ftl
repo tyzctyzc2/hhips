@@ -31,9 +31,9 @@
                 </td>
             </tr>
         </table>
-		<button type="button" onclick="addWhole2Paper(${chapterid})">添加全部题目到卷子</button>
-		<button type="button" onclick="addWhole2Paper(${chapterid})">添加没做过的题目到卷子</button>
-		<button type="button" onclick="addWhole2Paper(${chapterid})">添加做错的题目到卷子</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid?c})">添加全部题目到卷子</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid?c})">添加没做过的题目到卷子</button>
+		<button type="button" onclick="addWhole2Paper(${chapterid?c})">添加做错的题目到卷子</button>
 		<#if maxpaper != -1>
 			<select id="paperselect">
 				<#list 0..maxpaper as i>
@@ -127,7 +127,7 @@
 					<span id=jump_${problems[i].idproblem?c}></span>
 					<tr>
 						<td>
-							<p>${problems[i].problemindex}</p>
+							<p>${problems[i].problemindex?c}</p>
 						</td>
 						<td>
 							<p>${problems[i].modulename}</p>
@@ -564,7 +564,7 @@
 		var imgAnswerString;
 		var imgProblemStringb;
 		var imgProblemStringc;
-		var chapterid = ${chapterid};
+		var chapterid = ${chapterid?c};
 		function postProblem() {
 			var pData = {};
 			pData.problemlevel = $( "#levelselect" ).val();

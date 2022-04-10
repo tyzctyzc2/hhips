@@ -731,15 +731,15 @@
         }
 
         <#if after != 0>
-        $(document).keypress(function(e) {
-            if (e.keyCode == 13) {
+        $(document).keydown(function(e) {
+            if (e.keyCode == 39) {
                 window.location.href = "./Problem?problemid=${after?c}"
             }
         });
         </#if>
         <#if before != 0>
-        $(document).keypress(function(e) {
-            if (e.keyCode == 48) {
+        $(document).keydown(function(e) {
+            if (e.keyCode == 37) {
                 window.location.href = "./Problem?problemid=${before?c}"
             }
         });

@@ -388,7 +388,7 @@
         var problemTotal = ${problemTotal};
         var timeTotal = ${totalTime};
 
-        var idpaper = ${idpaper};
+        var idpaper = ${idpaper?c};
         function removeProblem(idproblem, paperproblemid) {
             var pData = {};
             pData.idproblem=idproblem;
